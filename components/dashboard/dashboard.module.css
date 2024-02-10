@@ -1,0 +1,31 @@
+.dashboard_intro {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-block: 1rem;
+}
+
+.dashboard_intro>div {
+    width: 240px;
+    height: 90px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard_intro>div>:first-child {
+    font-size: 1.5rem;
+    height: 55px;
+    padding: 10px;
+    border-radius: 10px 10px 0 0 ;
+    background: #337c49;
+}
+.dashboard_intro>div>:last-child {
+    height: 35px;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 0 0 10px 10px ;
+    background: #2d6b3e;
+}

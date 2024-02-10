@@ -3,7 +3,6 @@ import React from "react";
 
 export default function Login() {
   return (
-    <>
       <form action="" className="flex flex-col gap-3 w-96">
         <div className="flex flex-col">
           <label htmlFor="email">Email</label>
@@ -40,6 +39,5 @@ export default function Login() {
           </p>
         </div>
       </form>
-    </>
   );
 }

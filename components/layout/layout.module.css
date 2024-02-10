@@ -1,5 +1,4 @@
 .layout {
-    position: relative;
     display: grid;
     grid-template-areas:
         'sidebar header header header header header'
@@ -10,9 +9,10 @@
 }
 
 .layout>* {
-    border: 1px solid black;
     border-radius: 10px;
     padding: 10px;
+    border: 2px solid #00000016;
+    background: #00000013;
 }
 
 .layout header {
