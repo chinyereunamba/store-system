@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css?family=|Poppins:700|Poppins:400');
+
 :root {
   --text: #050315;
   --background: #fbfbfe;
@@ -82,6 +84,8 @@ small {
 }
 
 body {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
   background: var(--background);
   color: var(--text);
 }

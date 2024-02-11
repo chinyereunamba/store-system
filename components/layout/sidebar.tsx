@@ -18,7 +18,7 @@ export default function Sidebar() {
   };
   return (
     <div
-      className={`${style.sidebar} flex flex-col justify-between max-h-screen`}
+      className={`${style.sidebar} flex flex-col justify-between max-h-screen h-[96vh]`}
     >
       <div>
         <div className="flex justify-between items-center p-2 mb-4">

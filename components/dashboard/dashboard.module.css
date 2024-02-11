@@ -1,18 +1,45 @@
-.dashboard_intro {
-    display: flex;
-    align-items: center;
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1.5fr;
     gap: 15px;
 }
 
+.dashboard_intro {
+    grid-column: 1/3;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+}
+
+.stats,
+.best_sales,
+.performa,
 .dashboard_intro>div {
-    width: 240px;
-    height: 95px;
+    background: #00000013;
+    border: 2px solid #00000016;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.stats {
+    grid-column: 3/5;
+}
+
+.best_sales {
+    grid-column: 1/4;
+}
+
+.performa{
+    grid-column: 4/5;
+}
+
+.dashboard_intro>div {
+    max-width: 290px;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    border-radius: 10px;
-    padding: 10px;
-    border: 2px solid #00000016;
-    background: #00000013;
+    justify-content: space-between;
 }
 
 .dashboard_intro>div>:first-child {
@@ -23,4 +50,39 @@
     display: flex;
     align-items: center;
     font-size: 1rem;
+}
+
+.dashboard_intro .card_header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card_header .caret{
+    display: flex;
+    align-items: center;
+    gap: .2rem;
+    font-size: .85rem;
+    font-weight: 700;
+    border: 2px solid #00000016;
+    padding: 8px;
+    border-radius: 20px;
+}
+
+.stats .range{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: .9rem;
+    color: #767880;
+    font-weight: 700;
+}
+
+.range span{
+    cursor: pointer;
+    transition: 0.3s all;
+}
+
+.range span:hover{
+    color: var(--accent);
 }

@@ -6,6 +6,7 @@
         'sidebar footer footer footer footer footer';
     padding: 15px;
     gap: 15px;
+    /* position: relative; */
 }
 
 .layout>* {
@@ -28,6 +29,7 @@
 .layout main {
     grid-area: main;
     min-height: calc(100vh - 11.5rem);
+    /* left: 300px; */
     width: calc(100vw - 305px);
     background: transparent;
     padding: 0;
@@ -49,6 +51,15 @@
     padding: 10px;
     /* border: 1px solid black; */
     border-radius: 10px;
+}
+
+.sidebar .active{
+    background: var(--primary);
+}
+
+.active a{
+    color: var(--secondary);
+    font-weight: 700;
 }
 
 .sidebar .sidebar_items li a {
