@@ -3,33 +3,85 @@
 @tailwind utilities;
 
 :root {
-  --background: #1c2943;
-  --text: #fff
+  --text: #050315;
+  --background: #fbfbfe;
+  --primary: #2f27ce;
+  --secondary: #dedcff;
+  --accent: #433bff;
 }
 
-/* @media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: light) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --text: #050315;
+    --background: #fbfbfe;
+    --primary: #2f27ce;
+    --secondary: #dedcff;
+    --accent: #433bff;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #ebe9fc;
+    --background: #010104;
+    --primary: #3a31d8;
+    --secondary: #020024;
+    --accent: #0600c2;
   }
 } */
-
 * {
   box-sizing: border-box;
   list-style: none;
   text-decoration: none;
 }
 
-h1 {}
 
-h2 {}
-
-h3 {
-  font-size: 1.4rem;
+h1,
+h2,
+h3,
+h4,
+h5 {
+  /* font-family: 'Hind Vadodara'; */
+  font-weight: 700;
 }
 
-body{
+html {
+  font-size: 100%;
+}
+
+/* 16px */
+
+h1 {
+  font-size: 3.053rem;
+  /* 48.8px */
+}
+
+h2 {
+  font-size: 2.442rem;
+  /* 39.04px */
+}
+
+h3 {
+  font-size: 1.954rem;
+  /* 31.2px */
+}
+
+h4 {
+  font-size: 1.563rem;
+  /* 24.96px */
+}
+
+h5 {
+  font-size: 1.250rem;
+  /* 20px */
+}
+
+small {
+  font-size: 0.800rem;
+  /* 12.8px */
+}
+
+body {
   background: var(--background);
   color: var(--text);
 }

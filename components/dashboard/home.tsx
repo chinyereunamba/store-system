@@ -1,5 +1,6 @@
 import React from "react";
 import style from './dashboard.module.css'
+import BestSales from "./bestSales";
 
 export default function Dashboard() {
   return (
@@ -22,6 +23,7 @@ export default function Dashboard() {
           <span>Products</span>
         </div>
       </div>
+      <BestSales />
     </section>
   );
 }

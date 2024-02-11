@@ -1,21 +1,30 @@
 import React from "react";
-import { FaSearch } from "react-icons/fa";
+import { BsGear, BsSearch, BsBell, BsPersonCircle } from "react-icons/bs";
+import style from './layout.module.css'
 
 export default function Header() {
   return (
     <header className="flex items-center justify-between">
       <div className="title">
-        <h3>Dashboard</h3>
+        <h4>Dashboard</h4>
       </div>
-      <div className="search flex items-center">
-        <input type="text" placeholder="Search Products" />
+      <div className={`${style.search} flex items-center"`}>
+        <input type="text" placeholder="Search products..." />
         <span>
-          <FaSearch />
+          <BsSearch />
         </span>
       </div>
-      <div className="profile flex gap-4 items-center">
-        <div className="user">Chinyere</div>
-        <div className="settings">Settings</div>
+      <div className={`${style.profile}  flex gap-4 items-center`}>
+        <div className="user flex gap-2 items-center">
+          <BsPersonCircle className="" />
+          Chinyere
+        </div>
+        <span className={style.settings}>
+          <BsBell />
+        </span>
+        <span className={style.settings}>
+          <BsGear />
+        </span>
       </div>
     </header>
   );
