@@ -1,7 +1,7 @@
 .dashboard {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1.5fr;
+    grid-template-rows: 1fr 1fr;
     gap: 15px;
 }
 
@@ -71,8 +71,8 @@
 }
 
 .increase {
-    color: green;
-    border-color: green;
+    color: #1d9d1d;
+    border-color: #1d9d1d;
     background: #62da6275;
 }
 
@@ -98,4 +98,51 @@
 
 .range span:hover {
     color: var(--accent);
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table td,
+.table th {
+    text-align: left;
+    width: 75%;
+}
+
+.table th:last-child,
+.table td:last-child {
+    width: 100%;
+}
+
+.table th {
+    color: gray;
+    font-size: 15px;
+    font-weight: 400;
+}
+
+.table tr {
+    display: flex;
+    align-items: center;
+}
+
+.table td {
+    padding-block: 1rem;
+    font-size: 16px;
+}
+
+.table tbody tr {
+    padding-block: .5rem 0;
+}
+
+.table span {
+    font-size: .85rem;
+    font-weight: 700;
+    border: 2px solid;
+    padding: 5px 8px;
+    border-radius: 20px;
+    color: #1d9d1d;
+    border-color: #1d9d1d;
+    background: #62da6275;
 }
