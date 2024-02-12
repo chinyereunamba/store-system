@@ -25,7 +25,7 @@ class Brand(models.Model):
 class Supplier(models.Model):
     name = models.CharField(max_length=100)
     contact_person = models.CharField(max_length=100, blank=True)
-    email = models.EmailField(blank=True)
+    email = models.EmailField(blank=True, null=True)
     phone_number = models.CharField(max_length=20, blank=True)
     address = models.TextField(blank=True)
 
@@ -102,4 +102,3 @@ class SalesItem(models.Model):
 
     class Meta:
         verbose_name = "Sales Item"
-

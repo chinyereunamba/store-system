@@ -41,6 +41,12 @@ INSTALLED_APPS = [
     "base",
 ]
 
+THIRD_PARTY_LIBRARIES = [
+    'rest_framework'
+]
+
+INSTALLED_APPS += THIRD_PARTY_LIBRARIES
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
