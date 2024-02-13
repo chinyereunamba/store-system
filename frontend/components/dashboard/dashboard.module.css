@@ -65,7 +65,7 @@
     gap: .2rem;
     font-size: .85rem;
     font-weight: 700;
-    border: 2px solid;
+    /* border: 2px solid; */
     padding: 5px 8px;
     border-radius: 20px;
 }
@@ -139,10 +139,19 @@
 .table span {
     font-size: .85rem;
     font-weight: 700;
-    border: 2px solid;
+    /* border: 1px solid; */
     padding: 5px 8px;
     border-radius: 20px;
+}
+
+.table span.in_stock {
     color: #1d9d1d;
     border-color: #1d9d1d;
     background: #62da6275;
+}
+
+.table span.out_of_stock {
+    color: #f14747;
+    border-color: #f14747;
+    background: #f97a7a75;
 }
