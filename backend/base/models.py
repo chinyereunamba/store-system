@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.utils.translation import gettext_lazy as _
 
 
 class Category(models.Model):
@@ -37,7 +38,7 @@ class Product(models.Model):
     product_name = models.CharField(max_length=255)
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    stock_quantity = models.PositiveIntegerField(default=0)
+    stock_quantity = models.PositiveIntegerField(default=0, blank=True, null=True)
     date_created = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -49,53 +50,39 @@ class Product(models.Model):
         self.save()
 
 
-class PurchaseOrder(models.Model):
-    order_number = models.AutoField(primary_key=True)
-    date_ordered = models.DateField(auto_now_add=True)
+class PurchaseRecord(models.Model):
+    products = models.ManyToManyField(
+        Product, through="PurchaseItem", blank=True, null=True
+    )
+    total_amount = models.DecimalField(
+        verbose_name=(_("Total Amount Spent")), max_digits=10, decimal_places=2
+    )
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    purchase_date = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.order_number)
+        return f"{self.purchase_date} - {self.supplier.name}"
 
 
 class PurchaseItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    purchase_order = models.ForeignKey(PurchaseOrder, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
+    purchase_order = models.ForeignKey(PurchaseRecord, on_delete=models.CASCADE)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"{self.quantity} of {self.product.product_name} in order {self.purchase_order.order_number}"
+        return f"{self.quantity} of {self.product.product_name} in order {self.purchase_order.purchase_date}"
 
     class Meta:
         verbose_name = "Purchase Item"
 
 
-class PurchaseRecord(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    purchase_order = models.ForeignKey(PurchaseOrder, on_delete=models.CASCADE)
-    purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
-    purchase_date = models.DateField(auto_now_add=True)
-
-    def __str__(self):
-        return f"{self.product.product_name} - {self.purchase_order.order_number}"
-
-
-class SalesTransaction(models.Model):
-    transaction_number = models.AutoField(primary_key=True)
-    date = models.DateField(auto_now_add=True)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2)
-
-    def __str__(self):
-        return str(self.transaction_number)
-
-
 class SalesItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    sales_transaction = models.ForeignKey(SalesTransaction, on_delete=models.CASCADE)
     quantity_sold = models.PositiveIntegerField()
-    unit_price = models.DecimalField(max_digits=10, decimal_places=2)
+    unit_price = models.DecimalField(
+        verbose_name=(_("Sold at")), max_digits=10, decimal_places=2
+    )
 
     def __str__(self):
         return f"{self.quantity_sold} of {self.product.product_name} in transaction {self.sales_transaction.transaction_number}"

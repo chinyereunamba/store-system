@@ -13,11 +13,6 @@ class PurchaseItemAPIView(ModelViewSet):
     serializer_class = PurchaseItemSerializer
 
 
-class PurchaseOrderAPIView(ModelViewSet):
-    queryset = PurchaseOrder.objects.all()
-    serializer_class = PurchaseOrderSerializer
-
-
 class PurchaseRecordAPIView(ModelViewSet):
     queryset = PurchaseRecord.objects.all()
     serializer_class = PurchaseRecordSerializer
@@ -26,11 +21,6 @@ class PurchaseRecordAPIView(ModelViewSet):
 class SalesItemAPIView(ModelViewSet):
     queryset = SalesItem.objects.all()
     serializer_class = SalesItemSerializer
-
-
-class SalesTransactionAPIView(ModelViewSet):
-    queryset = SalesTransaction.objects.all()
-    serializer_class = SalesTransactionSerializer
 
 
 class BrandAPIView(ModelViewSet):
