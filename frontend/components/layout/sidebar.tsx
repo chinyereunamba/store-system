@@ -33,7 +33,8 @@ export default function Sidebar() {
           <NavLink to="/" name="Dashboard" icon={<BsHouseDoor />} />
           <NavLink to="/analytics" name="Analytics" icon={<SlPieChart />} />
           <NavLink to="/products" name="Products" icon={<BsBagCheck />} />
-          <NavLink to="/orders" name="Orders" icon={<BsCart />} />
+          <NavLink to="/sales" name="Sales" icon={<BsCart />} />
+          <NavLink to="/orders" name="Purchases" icon={<BsCart />} />
           <NavLink to="/reports" name="Reports" icon={<HiOutlineDocumentChartBar />} />
 
         </ul>

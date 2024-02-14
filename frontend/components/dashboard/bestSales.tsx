@@ -1,6 +1,7 @@
 import React from "react";
 import style from "./dashboard.module.css";
 import BlockTitle from "../utils/blockTitle";
+import classes from '../utils/table.module.css'
 
 type ProductProps = {
   name: string;
@@ -8,6 +9,8 @@ type ProductProps = {
   price: number;
   status: "In stock" | "Out of stock";
 };
+
+export type {ProductProps}
 export default function BestSales() {
   const products: ProductProps[] = [
     { name: "Test product 1", stock: "3pcs", price: 5700, status: "In stock" },
@@ -24,7 +27,7 @@ export default function BestSales() {
     <section className={style.best_sales}>
       <BlockTitle title="Best Selling products" />
       <div className="mt-5">
-        <table className={`${style.table}`}>
+        <table className={`${classes.table}`}>
           <thead className="border-b border-b-[gray] ">
             <tr className="pb-2">
               <th>Product name</th>
@@ -43,8 +46,8 @@ export default function BestSales() {
                   <span
                     className={`text-sm self-start font-bold ${
                       product.status == "In stock"
-                        ? style.in_stock
-                        : style.out_of_stock
+                        ? classes.in_stock
+                        : classes.out_of_stock
                     }`}
                   >
                     {product.status}

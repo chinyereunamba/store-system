@@ -1,0 +1,29 @@
+.product_table th.checkbox {
+    width: 2rem;
+}
+
+.products {
+    background: #00000013;
+    border: 2px solid #00000016;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.trash,
+.pencil {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.trash svg,
+.pencil svg {
+    font-size: 1rem;
+}
+
+.trash {
+    color: #f14747;
+}
+
+.pencil {
+    color: #c9aa3b;
+}
