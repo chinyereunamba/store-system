@@ -1,4 +1,3 @@
-from typing import Any
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -10,7 +9,7 @@ from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class MyAccountManager(BaseUserManager):
-    def create(self, email, username, password=None, *args, **kwargs):
+    def create_user(self, email, username, password=None, **extra_fields):
         if not email:
             raise ValueError("User must have an email address")
         if not username:
@@ -18,23 +17,24 @@ class MyAccountManager(BaseUserManager):
 
         email = self.normalize_email(email=email).lower()
 
-        user = self.model(email=email, username=username, *args, **kwargs)
+        user = self.model(email=email, username=username, **extra_fields)
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, password=None, *args, **kwargs):
-        user = self.create(
-            email=email, username=username, password=password, *args, **kwargs
+    def create_superuser(self, email, username, password=None, **extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+
+        user = self.create_user(
+            email=email, username=username, password=password, **extra_fields
         )
-        user.is_superuser = True
-        user.save(using=self._db)
 
         return user
 
 
-class Account(AbstractBaseUser):
+class Account(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
         verbose_name=_("Email address"),
         unique=True,
@@ -69,8 +69,8 @@ class Account(AbstractBaseUser):
     def __str__(self) -> str:
         return self.email
 
-    def has_module_perms(self, app_label):
-        return True
-
     def has_perm(self, obj=None):
         return self.is_staff
+
+    def has_module_perms(self, app_label):
+        return True
