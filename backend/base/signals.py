@@ -1,11 +1,10 @@
 # signals.py
 
-from django.db.models.signals import post_save, pre_save
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import SalesItem
 from django.utils.crypto import get_random_string
 
-import string
 
 @receiver(post_save, sender=SalesItem)
 def update_stock_quantity(sender, instance, created, **kwargs):

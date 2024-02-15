@@ -1,6 +1,4 @@
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 
 
@@ -52,7 +50,7 @@ class Product(models.Model):
 
 class PurchaseRecord(models.Model):
     products = models.ManyToManyField(
-        Product, through="PurchaseItem", blank=True, null=True
+        Product, through="PurchaseItem"
     )
     total_amount = models.DecimalField(
         verbose_name=(_("Total Amount Spent")), max_digits=10, decimal_places=2
