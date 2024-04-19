@@ -1,33 +1,23 @@
 "use client";
-import Link from "next/link";
 import { BsHouseDoor, BsBagCheck, BsCart } from "react-icons/bs";
 import { LuLogOut } from "react-icons/lu";
 import { HiOutlineDocumentChartBar } from "react-icons/hi2";
 import { SlPieChart } from "react-icons/sl";
 import React from "react";
 import style from "./layout.module.css";
-import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import NavLink from "./navLink";
+import Link from "next/link";
 
 export default function Sidebar() {
-  const router = useRouter();
-  const logout = async () => {
-    signOut();
-    router.push("/login");
-  };
   return (
     <div
-      className={`${style.sidebar} flex flex-col justify-between max-h-screen h-[96vh]`}
+      className={`${style.sidebar} flex flex-col justify-between h-[96vh] w-full style.show`}
     >
       <div>
-        <div className="flex justify-between items-center p-2 mb-4">
+        <div
+          className={`flex justify-between items-center p-2 mb-4 min-h-12 ${style.sidebar_header}`}
+        >
           <h4>Anol</h4>
-          <div className={style.burger}>
-            <div className="div"></div>
-            <div className="div"></div>
-            <div className="div"></div>
-          </div>
         </div>
         <ul className={style.sidebar_items}>
           <NavLink to="/" name="Dashboard" icon={<BsHouseDoor />} />
@@ -44,9 +34,11 @@ export default function Sidebar() {
       </div>
 
       <ul className={style.sidebar_items}>
-        <li className="flex items-center gap-2 cursor-pointer" onClick={logout}>
-          <LuLogOut /> Logout
-        </li>
+        <Link href={"/logout"}>
+          <li className="flex items-center gap-2 cursor-pointer">
+            <LuLogOut /> <span className={style.sidebar_list}>Logout</span>
+          </li>
+        </Link>
       </ul>
     </div>
   );

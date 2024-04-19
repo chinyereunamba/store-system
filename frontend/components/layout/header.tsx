@@ -1,8 +1,11 @@
+"use client";
 import React from "react";
 import { BsGear, BsSearch, BsBell, BsPersonCircle } from "react-icons/bs";
-import style from './layout.module.css'
+import style from "./layout.module.css";
+import { useSession } from "next-auth/react";
 
 export default function Header() {
+  const { data: session } = useSession();
   return (
     <header className="flex items-center justify-between">
       <div className="title">
@@ -17,7 +20,7 @@ export default function Header() {
       <div className={`${style.profile}  flex gap-4 items-center`}>
         <div className="user flex gap-2 items-center">
           <BsPersonCircle className="" />
-          Chinyere
+          {session?.user?.user?.username}
         </div>
         <span className={style.settings}>
           <BsBell />

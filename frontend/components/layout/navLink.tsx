@@ -13,7 +13,7 @@ export default function NavLink({ to, name, icon }: NavLinkProps) {
   return (
     <li className={pathname == to ? style.active : ""}>
       <Link href={to}>
-        {icon} {name}
+        {icon} <span className={style.sidebar_list}>{name}</span>
       </Link>
     </li>
   );

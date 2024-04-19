@@ -16,6 +16,28 @@
     background: #00000013;
 }
 
+.move {
+    padding: 0px;
+    height: 25px;
+    width: 7px;
+    position: absolute;
+
+    left: 270px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.4s;
+}
+
+.move:hover {
+    background: #5a586e !important;
+}
+
+.move.close{
+    left: 20px;
+}
+
 .layout header {
     grid-area: header;
     width: calc(100vw - 305px);
@@ -24,6 +46,11 @@
 .layout .sidebar {
     grid-area: sidebar;
     width: 250px
+}
+
+#move:checked ~ .layout .sidebar {
+    left: -270px;
+    display: none;
 }
 
 .layout main {
@@ -53,11 +80,11 @@
     border-radius: 10px;
 }
 
-.sidebar .active{
+.sidebar .active {
     background: var(--primary);
 }
 
-.active a{
+.active a {
     color: var(--secondary);
     font-weight: 700;
 }
@@ -79,6 +106,18 @@
     cursor: pointer;
 }
 
+.sidebar.hide .sidebar_header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidebar.hide .sidebar_items {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .burger>div {
     background: #000;
     width: 1.4rem;
@@ -86,27 +125,27 @@
     border-radius: 15px;
 }
 
-.search{
+.search {
     max-width: 600px;
     width: 100%;
     position: relative;
 }
 
-.search input{
+.search input {
     width: 100%;
     padding-block: 10px;
     padding-inline: 35px 10px;
     border-radius: 10px;
 }
 
-.search span{
+.search span {
     position: absolute;
     left: 10px;
     top: 50%;
     transform: translateY(-50%);
 }
 
-.search span svg{
+.search span svg {
     font-size: 1.1rem;
 }
 
@@ -115,7 +154,7 @@
     gap: 1.5rem;
 }
 
-.profile span{
+.profile span {
     padding: 10px;
     background: #fff;
     border-radius: 10px;
@@ -126,3 +165,45 @@
     font-size: 1.1rem;
 }
 
+.layout .sidebar.hide {
+    width: 80px;
+}
+
+.sidebar.hide .sidebar_list,
+.sidebar.hide h4 {
+    display: none;
+}
+
+.sidebar.hide .sidebar_items li svg {
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* 
+@media screen and (max-width: 1024px) {
+
+    .layout header {
+        width: calc(100vw - 135px);
+    }
+
+    .layout main {
+        left: 300px; 
+        width: calc(100vw - 135px);
+    }
+
+    .sidebar .sidebar_list,
+    .sidebar.hide .sidebar_list,
+    .sidebar.hide h4,
+    .sidebar h4 {
+        display: none;
+    }
+
+    .sidebar .sidebar_items li svg,
+    .sidebar.hide .sidebar_items li svg {
+        font-size: 1.3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+} */
