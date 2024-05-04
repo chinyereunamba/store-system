@@ -1,23 +1,28 @@
-"use client";
+"use client"
 import React, { useState } from "react";
 import style from "./layout.module.css";
+import { FaBars, FaTimes } from "react-icons/fa";
 
 function Move() {
-  const [close, setClose] = useState<boolean | null>(false);
-  const click = close ? style.close : style.open;
-    return (
-      <span>
-          <input
-            className={`${style.move} ${click}`}
-            id="move"
-            type="checkbox"
-            onClick={() => setClose(!close)}
-            />
-            <label htmlFor="move">
-                
-            </label>
-      </span>
-      
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <div
+        className={style.move}>
+      <input
+        id={style.move}
+        type="checkbox"
+        checked={isOpen}
+        onChange={handleToggle}
+      />
+      <label htmlFor={style.move}>
+        {isOpen ? <FaTimes /> : <FaBars />}
+      </label>
+    </div>
   );
 }
 

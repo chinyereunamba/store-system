@@ -10,8 +10,8 @@ import Link from "next/link";
 
 export default function Sidebar() {
   return (
-    <div
-      className={`${style.sidebar} flex flex-col justify-between h-[96vh] w-full style.show`}
+    <section
+      className={`${style.sidebar} flex flex-col justify-between  w-full style.show`}
     >
       <div>
         <div
@@ -40,6 +40,6 @@ export default function Sidebar() {
           </li>
         </Link>
       </ul>
-    </div>
+    </section>
   );
 }

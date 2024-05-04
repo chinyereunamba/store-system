@@ -12,7 +12,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <Header />
       <main className={style.main}>{children}</main>
       <Move />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }
