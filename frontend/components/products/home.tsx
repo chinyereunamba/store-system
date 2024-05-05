@@ -75,38 +75,45 @@ export default async function ProductsPage() {
 
   return (
     <section className={classes.products}>
-      <div className="flex justify-between gap-2 py-4 mb-3">
+      <div className="flex justify-between gap-2 py-2 mb-4">
         <div>
-          <span>Brand</span>
-          <span>Brand</span>
+          <h4>Products</h4>
         </div>
         <div>
-          <span className="flex items-center bg-background p-3 rounded-xl gap-1 cursor-pointer">
-            <BsPlus className="text-2xl font-bold" /> Add Product
+          <span className="bg-primary text-background p-3 rounded cursor-pointer">
+            Add Products
           </span>
         </div>
       </div>
-      <table className={style.table}>
-        <thead className="border-b border-b-[gray] ">
-          <tr className={`pb-2 ${style.product_table}`}>
-            {/* <th className={style.checkbox}>
+      <table className={`${style.table} ${style.product_table}`}>
+        <thead className={`border-b border-b-[gray] `}>
+          <tr className={`pb-2`}>
+            <th className={style.checkbox}>
               <input type="checkbox" />
-            </th> */}
+            </th>
+            <th className={style.index}>S/n</th>
             <th>Product name</th>
-            <th className="flex gap-2 items-center">Brand</th>
-            <th className="flex gap-2 items-center">Category</th>
-            <th>Stock</th>
+            <th className={style.brand}>Brand</th>
+            <th className={style.category}>Category</th>
+            <th className={style.stock}>Stock</th>
             <th>Unit price</th>
-            <th>Status</th>
+            <th className={style.status}>Status</th>
             <th>Edit</th>
           </tr>
         </thead>
         <tbody>
           {products?.map((product, index) => (
             <tr key={index}>
+              <td className={style.checkbox}>
+                <input type="checkbox" name="" id="" />
+              </td>
+              <td className={style.index}>{index + 1}</td>
               <td>{product.product_name}</td>
               <td>{product.brand}</td>
               <td>{product.category}</td>
+              <td className={style.stock}>Hello</td>
+              <td>Hello</td>
+              <td className={style.status}>Hello</td>
               {/* <td>{product.stock}</td>
               <td>₦ {product.price.toLocaleString()}</td> */}
               {/* <td>
@@ -133,6 +140,9 @@ export default async function ProductsPage() {
           ))}
         </tbody>
       </table>
+      <div className="my-5 flex justify-center">
+        Page 1
+      </div>
     </section>
   );
 }

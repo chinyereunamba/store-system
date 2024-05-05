@@ -6,7 +6,7 @@
 .table td,
 .table th {
     text-align: left;
-    width: 75%;
+    width: 100%;
 }
 
 .table th:last-child,
@@ -29,6 +29,52 @@
     padding-block: 1rem;
     font-size: 16px;
 }
+
+.product_table tr {
+    padding: 10px;
+}
+
+.product_table th {
+    font-weight: 700;
+    font-size: 1.05rem;
+}
+
+.product_table tr:nth-child(even) {
+    background: var(--primary);
+    color: #fff;
+}
+
+.product_table td {
+    padding-block: .5rem;
+}
+
+.product_table th:nth-child(2),
+.product_table td:nth-child(2) {
+    width: 100%;
+}
+
+.product_table th,
+.product_table td {
+    width: 70%;
+}
+
+.product_table th.index,
+.product_table td.index,
+.product_table th.stock,
+.product_table td.stock {
+    width: 30%;
+}
+
+.product_table th.checkbox,
+.product_table td.checkbox{
+    width: 20%;
+}
+
+.product_table th.status,
+.product_table td.status {
+    width: 40%;
+}
+
 
 .table tbody tr {
     padding-block: .5rem 0;

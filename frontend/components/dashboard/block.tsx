@@ -28,7 +28,7 @@ export default function Block({
     caret = <BsCaretDownFill />;
   }
   return (
-    <div className="product">
+    <div className={style.card}>
       <div className={style.card_header}>
         <span className="text-accent text-xl p-3 rounded-full bg-secondary">
           {defaultIcon}
