@@ -1,5 +1,4 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-
 const getCurrentEpochTime = (): number => {
   return Math.floor(new Date().getTime() / 1000);
 };
@@ -48,17 +47,15 @@ const authOptions = {
     async redirect({ url, baseUrl }: any) {
       return baseUrl;
     },
-    async session({ token, session }: any) {
+    async session({ token, session }:any) {
       session.user = token;
       return session;
     },
-    async jwt({ token, user, account }: any) {
+    async jwt({ token, user, account }:any) {
       if (user && account) {
-        let backendResponse =
-          account.provider === "credentials" ? user : account.meta;
-        token["user"] = backendResponse.user;
-        token["access"] = backendResponse.access;
-        token["refresh"] = backendResponse.refresh;
+        token["account"] = user.user;
+        token["access"] = user.access;
+        token["refresh"] = user.refresh;
         token["ref"] = getCurrentEpochTime() + BACKEND_ACCESS_TOKEN_LIFETIME;
         return token;
       }
@@ -71,14 +68,14 @@ const authOptions = {
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ refresh: token["refresh_token"] }),
+              body: JSON.stringify({ refresh: token["refresh"] }),
             }
           );
 
           if (response.ok) {
             const data = await response.json();
-            token["access_token"] = data.access;
-            token["refresh_token"] = data.refresh;
+            token["access"] = data.access;
+            token["refresh"] = data.refresh;
             token["ref"] =
               getCurrentEpochTime() + BACKEND_ACCESS_TOKEN_LIFETIME;
           } else {
