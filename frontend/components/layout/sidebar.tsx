@@ -21,8 +21,8 @@ export default function Sidebar() {
         </div>
         <ul className={style.sidebar_items}>
           <NavLink to="/" name="Dashboard" icon={<BsHouseDoor />} />
-          <NavLink to="/analytics" name="Analytics" icon={<SlPieChart />} />
           <NavLink to="/products" name="Products" icon={<BsBagCheck />} />
+          <NavLink to="/analytics" name="Analytics" icon={<SlPieChart />} />
           <NavLink to="/sales" name="Sales" icon={<BsCart />} />
           <NavLink to="/purchases" name="Purchases" icon={<BsCart />} />
           <NavLink

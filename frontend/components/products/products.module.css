@@ -16,3 +16,15 @@
 .pencil {
     color: #c9aa3b;
 }
+.product_form > div{
+    margin-block: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.product_form input, .product_form select, .product_form button{
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+}

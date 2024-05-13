@@ -40,7 +40,7 @@
 }
 
 .product_table tr:nth-child(even) {
-    background: var(--primary);
+    background: #6076e6;
     color: #fff;
 }
 

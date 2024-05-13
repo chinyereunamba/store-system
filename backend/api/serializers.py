@@ -13,7 +13,7 @@ from base.models import (
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        exclude = ['id', 'stock_quantity']
+        fields = "__all__"
 
 
 class PurchaseItemSerializer(serializers.ModelSerializer):
