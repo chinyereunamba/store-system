@@ -6,4 +6,5 @@ __pycache__
 .vscode/
 TODO.txt
 *.sqlite3
+staticfiles/
 webmap.txt
