@@ -7,7 +7,6 @@ from rest_framework.permissions import AllowAny
 class ProductAPIView(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes  = [AllowAny]
 
 
 class PurchaseItemAPIView(ModelViewSet):
@@ -32,7 +31,6 @@ class BrandAPIView(ModelViewSet):
 
 class CategoryAPIView(ModelViewSet):
     queryset = Category.objects.all()
-    permission_classes = [AllowAny]
     serializer_class = CategorySerializer
 
 
