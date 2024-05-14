@@ -4,7 +4,6 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
-from .views import Home
 
 from dj_rest_auth.views import PasswordResetConfirmView, PasswordResetView, PasswordChangeView
 from dj_rest_auth.registration.views import VerifyEmailView, ResendEmailVerificationView
