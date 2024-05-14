@@ -41,6 +41,5 @@ urlpatterns = [
         name="password_change",
     ),
 
-    path("user/email/", Home.as_view())
 
 ]
