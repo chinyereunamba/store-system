@@ -1,4 +1,3 @@
-import { useUserContext } from "@/store/context";
 import { useSession } from "next-auth/react";
 
 type FetchAPIProps = {
@@ -8,7 +7,7 @@ type FetchAPIProps = {
   token?: string;
 };
 
-async function fetchAPI({ url, body, method, token }: FetchAPIProps) {
+async function fetchAPI({ url, body, method, token }: FetchAPIProps):Promise<[]> {
   const response = await fetch(url, {
     method: method,
     headers: {
@@ -18,28 +17,28 @@ async function fetchAPI({ url, body, method, token }: FetchAPIProps) {
     body: JSON.stringify(body),
   });
 
-  const data = await response.json();
+  const data:[] = await response.json();
   return data;
 }
 
 export default fetchAPI;
 
 async function fetchProduct() {
-  const { user } = useUserContext();
   const res = await fetchAPI({
     url: "http://127.0.0.1:8000/api/v1/products",
     method: "GET",
-    token: user?.access_token,
   });
   return res;
 }
 
-const fetchBrands = async () =>
+const fetchBrands = async () => {
+  const { data: session } = useSession()
   fetchAPI({
     url: "http://127.0.0.1:8000/api/v1/brands",
     method: "GET",
+    token: session?.user?.access
   });
-
+}
 export { fetchProduct, fetchBrands };
 
 // Example usage

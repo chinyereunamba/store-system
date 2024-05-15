@@ -1,5 +1,5 @@
 "use client";
-import Dashboard from "@/components/dashboard/home";
+import Dashboard from "@/components/dashboard/Home";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import LoginPage from "../(layout2)/login/page";

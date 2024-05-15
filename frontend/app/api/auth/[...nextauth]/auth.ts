@@ -4,7 +4,7 @@ const getCurrentEpochTime = (): number => {
 };
 
 const BACKEND_ACCESS_TOKEN_LIFETIME = 60 * 60; // 60 minutes
-const BACKEND_REFRESH_TOKEN_LIFETIME = 1 * 24 * 60 * 60; // 1 day
+const BACKEND_REFRESH_TOKEN_LIFETIME = 7 * 24 * 60 * 60; // 1 day
 
 const authOptions = {
   providers: [

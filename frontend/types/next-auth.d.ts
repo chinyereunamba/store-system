@@ -7,12 +7,18 @@ declare module "next-auth" {
      */
     interface Session {
         user: {
-            user: {
+            account: {
                 email: string | null;
                 is_superuser: string | null;
                 pk: number | null;
                 username: string | null;
             }
+            access: string;
+            refresh: string;
+            ref: number;
+            iat: number;
+            exp: number;
+            jti: string
         } & DefaultSession["user"]
     }
 }

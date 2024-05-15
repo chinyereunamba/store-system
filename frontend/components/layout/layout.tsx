@@ -1,18 +1,26 @@
-import React from "react";
-import Sidebar from "./sidebar";
-import Header from "./header";
-import style from "./layout.module.css";
-import Footer from "./footer";
-import Move from "./move";
+"use client"
+import React, {useState} from "react"
+import Sidebar from "./Sidebar"
+import Header from "./Header"
+import Footer from "./Footer"
+import style from "./layout.module.css"
+
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return (
-    <div className={style.layout}>
-      <Sidebar />
-      <Header />
-      <main className={style.main}>{children}</main>
-      <Move />
-      {/* <Footer /> */}
-    </div>
-  );
+    const [isSidebarClosed, setIsSidebarClosed] = useState(false)
+    const toggleSidebar = () => {
+        setIsSidebarClosed(!isSidebarClosed)
+    }
+    return (
+        <section
+            className={` ${isSidebarClosed ? style.collapsed : ""} ${
+                style.layout
+            }`}
+        >
+            <Sidebar isClosed={isSidebarClosed} toggleSidebar={toggleSidebar} />
+            <Header />
+            <main className={style.main}>{children}</main>
+            <Footer />
+        </section>
+    )
 }

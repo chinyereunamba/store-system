@@ -1,6 +1,6 @@
 import "../globals.css";
 import { Inter, Poppins } from "next/font/google";
-import Layout from "@/components/layout/layout";
+import Layout from "@/components/layout/Layout";
 import Provider from "./providers";
 import { getServerSession } from "next-auth";
 

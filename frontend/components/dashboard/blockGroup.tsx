@@ -3,7 +3,7 @@ import { BsFillHandbagFill, BsFillEyeFill } from "react-icons/bs";
 import { GiPowderBag } from "react-icons/gi";
 import { FaChartPie } from "react-icons/fa6";
 import style from "./dashboard.module.css";
-import Block, { BlockProps } from "./block";
+import Block, { BlockProps } from "./Block";
 
 
 export default function IntroBlocks() {
