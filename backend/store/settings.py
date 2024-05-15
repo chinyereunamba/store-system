@@ -101,15 +101,15 @@ WSGI_APPLICATION = "store.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-if DEBUG:
+if DEBUG == False:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'koyebdb',
-            'USER': 'koyeb-adm',
-            'PASSWORD': config('DB_PASSWORD'),
-            'HOST': config("DB_HOST"),
-            'OPTIONS': {'sslmode': 'require'},
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "koyebdb",
+            "USER": "koyeb-adm",
+            "PASSWORD": config("DB_PASSWORD"),
+            "HOST": config("DB_HOST"),
+            "OPTIONS": {"sslmode": "require"},
         }
     }
 else:
@@ -197,6 +197,8 @@ SIMPLE_JWT = {
     "ALGORITHM": "HS512",
 }
 
+DOMAIN = "https://www.anol.vercel.app"
+SITE_NAME = "Anol Electrical Services"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
@@ -207,6 +209,8 @@ DEFAULT_FROM_EMAIL = config("EMAIL_HOST_USER")
 EMAIL_PORT = 587  # or your SMTP port
 EMAIL_USE_TLS = True  # or False if not using TLS
 
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+LOGIN_URL = "http://localhost:8000/api/user/login/"
 
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
