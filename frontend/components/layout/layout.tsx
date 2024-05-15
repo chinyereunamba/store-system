@@ -1,23 +1,18 @@
 "use client"
-import React, {useState} from "react"
+import React from "react"
 import Sidebar from "./Sidebar"
 import Header from "./Header"
 import Footer from "./Footer"
 import style from "./layout.module.css"
-
+import { useSidebarContext } from "@/store/sidebarContext"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-    const [isSidebarClosed, setIsSidebarClosed] = useState(false)
-    const toggleSidebar = () => {
-        setIsSidebarClosed(!isSidebarClosed)
-    }
+    const { expanded, setExpanded } = useSidebarContext()
     return (
         <section
-            className={` ${isSidebarClosed ? style.collapsed : ""} ${
-                style.layout
-            }`}
+            className={` ${!expanded ? style.collapsed : ""} ${style.layout}`}
         >
-            <Sidebar isClosed={isSidebarClosed} toggleSidebar={toggleSidebar} />
+            <Sidebar />
             <Header />
             <main className={style.main}>{children}</main>
             <Footer />

@@ -7,17 +7,20 @@ import {
     PiCaretDoubleLeftDuotone,
     PiCaretDoubleRightDuotone,
 } from "react-icons/pi"
-import React, { useState } from "react"
+import React from "react"
 import style from "./layout.module.css"
 import NavLink from "./NavLink"
-type Props = { isClosed: boolean; toggleSidebar: () => void }
-export default function Sidebar({ isClosed, toggleSidebar }: Props) {
+import { useSidebarContext } from "@/store/sidebarContext"
+
+
+export default function Sidebar() {
+    const {expanded, setExpanded} = useSidebarContext()
     return (
         <section
             className={`${
                 style.sidebar
             } flex flex-col transition-all justify-between w-full ${
-                isClosed && style.close
+                !expanded && style.close
             } `}
         >
             <div>
@@ -26,20 +29,20 @@ export default function Sidebar({ isClosed, toggleSidebar }: Props) {
                 >
                     <h4
                         className={`transition-all ${
-                            isClosed ? "w-0" : "w-auto"
+                            !expanded ? "w-0" : "w-auto"
                         }`}
                     >
                         Anol
                     </h4>
-                    {isClosed ? (
+                    {!expanded ? (
                         <PiCaretDoubleRightDuotone
-                            onClick={toggleSidebar}
+                            onClick={() => setExpanded(!expanded)}
                             size={27}
                             cursor={"pointer"}
                         />
                     ) : (
                         <PiCaretDoubleLeftDuotone
-                            onClick={toggleSidebar}
+                            onClick={() => setExpanded(!expanded)}
                             size={27}
                             cursor={"pointer"}
                         />

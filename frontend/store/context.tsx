@@ -2,6 +2,7 @@
 "use client";
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import SidebarContextProvider from "./sidebarContext";
 
 // Defining types
 type UserContextProviderProps = {
@@ -9,40 +10,20 @@ type UserContextProviderProps = {
 };
 
 type CustomSession = {
-  user: {
-    pk: number;
+  account: {
     email: string;
-    first_name: string;
-    last_name: string;
-    is_admin: boolean;
-    is_active: boolean;
-    phone_number: string | null;
-    address: string;
+    is_superuser: boolean;
+    pk: number;
+    username: string;
   };
-  access_token: string;
-  refresh_token: string;
-  ref: number;
-  is_admin: boolean;
-  iat?: number;
-  exp?: number;
-  jti?: string;
-};
-
-type UseSessionData = {
-  data: CustomSession | null;
-  update: any;
-  status: "authenticated" | "unauthenticated" | "loading";
+  access: string;
+  refresh: string;
 };
 
 type User = {
-  user: CustomSession["user"];
-  access_token: string;
-  refresh_token: string;
-  ref: number;
-  is_admin: boolean;
-  iat?: number;
-  exp?: number;
-  jti?: string;
+  user: CustomSession["account"];
+  access: string;
+  refresh: string;
 };
 
 type UserContext = {
@@ -56,26 +37,21 @@ const UserContext = createContext<UserContext | null>(null);
 // Defining the provider component
 export function UserContextProvider({ children }: UserContextProviderProps) {
   const [user, setUser] = useState<User>();
-  const { data: session } = useSession() as UseSessionData;
+  const { data: session } = useSession();
 
   useEffect(() => {
-    if (session) {
+    if (session?.user) {
       setUser({
-        user: session.user as any, // Assuming session.user is the structure you need
-        access_token: session.user?.access,
-        refresh_token: session.user?.refresh,
-        ref: session.ref,
-        is_admin: session.is_admin,
-        iat: session.iat,
-        exp: session.exp,
-        jti: session.jti,
+        user: session.user?.account as any, // Assuming session.user is the structure you need
+        access: session.user?.access,
+        refresh: session.user?.refresh,
       });
     }
   }, [session]);
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      {children}
+      <SidebarContextProvider>{children}</SidebarContextProvider>
     </UserContext.Provider>
   );
 }

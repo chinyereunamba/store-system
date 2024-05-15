@@ -1,33 +1,22 @@
 "use client";
+import fetchAPI from "@/components/utils/functions";
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 type Product = {
   id: number;
-  name: string;
-  product_id: string;
-  description: string;
-  price: number;
-  quantity: number;
-  weight: number;
-  brand: {
-    id: number;
-    brand: string;
-    date_created: string;
-  };
-  category: {
-    id: number;
-    category: string;
-    date_created: string;
-  };
-  image: string;
-  product_images: string[];
-  color: string;
-  size: string;
+  product_name: string;
+  stock_quantity: number;
+  date_created: string;
+  brand: number;
+  category: number;
 };
 
+export type {Product}
+
 type ProductContext = {
-  products: Product[] | undefined;
-  setProducts: React.Dispatch<React.SetStateAction<Product[] | undefined>>;
+  products: Product[] | null;
+  setProducts: React.Dispatch<React.SetStateAction<Product[] | null>>;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -41,39 +30,25 @@ type ProductContextProviderProps = {
 export default function ProductContextProvider({
   children,
 }: ProductContextProviderProps) {
-  const [products, setProducts] = useState<Product[] | undefined>(undefined);
+  const [products, setProducts] = useState<Product[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const {data: session} = useSession()
+
+  const getProducts = () => {
+    setIsLoading(true)
+    const product: Product[] = fetchAPI({
+      method: "GET",
+      token: session?.user?.access,
+      url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/products/`,
+    }) as any;
+    setProducts(product)
+    setIsLoading(false);
+  };
 
   useEffect(() => {
     // Fetch products when the component mounts
     getProducts();
-  }, []);
-
-  async function getProducts() {
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}v1/products`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setProducts(data);
-    } catch (error) {
-      console.error("Error fetching products:", error);
-    } finally {
-      // Set loading state to false after the API request completes
-      setIsLoading(false);
-    }
-  }
+  }, [products]);
 
   return (
     <ProductContext.Provider
