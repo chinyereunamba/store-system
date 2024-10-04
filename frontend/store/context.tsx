@@ -2,7 +2,7 @@
 "use client";
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import SidebarContextProvider from "./sidebarContext";
+// import SidebarContextProvider from "./sidebarContext";
 
 // Defining types
 type UserContextProviderProps = {
@@ -51,7 +51,8 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
 
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      <SidebarContextProvider>{children}</SidebarContextProvider>
+      {children}
+      {/* <SidebarContextProvider>{children}</SidebarContextProvider> */}
     </UserContext.Provider>
   );
 }

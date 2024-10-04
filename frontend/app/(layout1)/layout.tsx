@@ -1,6 +1,5 @@
 import "../globals.css";
 import { Inter, Poppins } from "next/font/google";
-import Layout from "@/components/layout/Layout";
 import Provider from "./providers";
 import { getServerSession } from "next-auth";
 
@@ -22,7 +21,7 @@ export default function RootLayout({
     <Provider session={session}>
       <html lang="en">
         <body className={inter.className}>
-          <Layout>{children}</Layout>
+          {children}
         </body>
       </html>
     </Provider>
