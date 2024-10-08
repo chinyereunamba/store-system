@@ -1,6 +1,6 @@
 "use client";
-import { UserContextProvider } from "@/store/context";
-import ProductContextProvider from "@/store/productContext";
+// import { UserContextProvider } from "@/store/context";
+// import ProductContextProvider from "@/store/productContext";
 import { SessionProvider } from "next-auth/react";
 import React from "react";
 
@@ -13,9 +13,7 @@ export default function Provider({
 }) {
   return (
     <SessionProvider session={session}>
-      <ProductContextProvider>
-        <UserContextProvider>{children}</UserContextProvider>
-      </ProductContextProvider>
+      {children}
     </SessionProvider>
   );
 }

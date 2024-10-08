@@ -40,6 +40,7 @@ const authOptions = {
     signIn: "/login",
     signOut: "/logout",
   },
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async signIn({ user, email, credentials }: any) {
       return true;

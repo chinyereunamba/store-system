@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <Provider session={session}>
       <html lang="en">
-        <body className={inter.className}>
+        <body>
           {children}
         </body>
       </html>
