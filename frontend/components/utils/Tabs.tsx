@@ -3,7 +3,7 @@ import React from "react";
 
 type Tab = {
   name: string;
-  content?: React.JSX.Element | string;
+  content?: React.JSX.Element | null;
 };
 
 type TabProps = {
@@ -12,13 +12,21 @@ type TabProps = {
 
 export function DashboardTabs({ tabs }: TabProps) {
   return (
-    <Tabs defaultValue="account" className="w-fit">
-      <TabsList className="grid w-full grid-cols-4 text-base">
+    <Tabs defaultValue="overview" className="h-full">
+      <TabsList className="grid w-[500px] grid-cols-4 text-base">
         {tabs.map((tab, index) => (
-          <TabsTrigger key={index} value={tab.name.toLowerCase()}>{tab.name}</TabsTrigger>
+          <TabsTrigger key={index} value={tab.name.toLowerCase()}>
+            {tab.name}
+          </TabsTrigger>
         ))}
       </TabsList>
-      <TabsContent value="account"></TabsContent>
+      {tabs.map((tab, index) => (
+        <TabsContent key={index} value={tab.name.toLowerCase()}>
+          {tab.content}
+        </TabsContent>
+      ))}
     </Tabs>
   );
 }
+
+

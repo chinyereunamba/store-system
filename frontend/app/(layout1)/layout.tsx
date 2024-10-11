@@ -2,6 +2,8 @@ import "../globals.css";
 import { Inter, Poppins } from "next/font/google";
 import Provider from "./providers";
 import { getServerSession } from "next-auth";
+import Dashboard from "@/components/dashboard/Home";
+import Nav from "@/components/layout/Nav";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
@@ -21,7 +23,8 @@ export default function RootLayout({
     <Provider session={session}>
       <html lang="en">
         <body>
-          {children}
+          <Nav />
+          <Dashboard>{children}</Dashboard>
         </body>
       </html>
     </Provider>

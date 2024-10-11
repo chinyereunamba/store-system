@@ -3,7 +3,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Search() {
   return (
-    <div className="w-96 flex gap-2">
+    <div className="w-96 flex gap-2 shadow-none">
       <Command className="rounded-lg border">
         <CommandInput placeholder="Search..." />
       </Command>
