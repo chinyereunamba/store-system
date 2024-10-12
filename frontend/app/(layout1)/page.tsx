@@ -4,6 +4,7 @@ import { DashCard } from "@/components/utils/DashboardCard";
 import Sales from "@/components/products/sales";
 import usePage from "@/store/pageContext";
 import { useEffect } from "react";
+import { DashChart } from "@/components/utils/DashChart";
 
 export default function Home() {
   const { setCurrentPage } = usePage()
@@ -26,8 +27,9 @@ export default function Home() {
                     <DashCard />
                   </div>
                   <div className="grid grid-cols-3 h-[calc(100vh-400px)] gap-6 ">
-                    <div className="max-md:col-span-3 col-span-2 border h-full rounded-xl">
-                      {/* <DashChart /> */}
+                    <div className="relative max-md:col-span-3 col-span-2 p-4 border h-full rounded-xl">
+                      <h3>Overview</h3>
+                      <DashChart />
                     </div>
                     <div className="max-md:col-span-3 col-span-1 border rounded-xl">
                       <Sales />

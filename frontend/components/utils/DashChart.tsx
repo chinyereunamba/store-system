@@ -28,7 +28,7 @@ const chartConfig = {
 
 export function DashChart() {
   return (
-    <ChartContainer config={chartConfig} className="min-h-[200px] max-h-[600px] w-full">
+    <ChartContainer config={chartConfig} className="max-w-[95%] max-h-[500px] w-full absolute bottom-2">
       <BarChart accessibilityLayer data={chartData} width={500} height={300}>
         <CartesianGrid vertical={false} />
         <XAxis
