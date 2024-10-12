@@ -1,16 +1,24 @@
-"use client"
+"use client";
 import { DashboardTabs } from "@/components/utils/Tabs";
 import { DashCard } from "@/components/utils/DashboardCard";
 import Sales from "@/components/products/sales";
 import usePage from "@/store/pageContext";
 import { useEffect } from "react";
 import { DashChart } from "@/components/utils/DashChart";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function Home() {
-  const { setCurrentPage } = usePage()
+  const { setCurrentPage } = usePage();
+  const {data: session} = useSession()
   useEffect(() => {
-    setCurrentPage('Dashboard')
-  }, [])
+    setCurrentPage("Dashboard");
+  }, []);
+
+  if (!session) {
+    redirect('/login')
+  }
+
   return (
     <main>
       <div>
