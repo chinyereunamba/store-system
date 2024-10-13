@@ -11,9 +11,21 @@ from base.models import (
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    brand_name = serializers.StringRelatedField(source="brand", read_only=True)
+    category_name = serializers.StringRelatedField(source="category", read_only=True)
+
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = [
+            "id", 
+            "product_name", 
+            "stock_quantity", 
+            "date_created", 
+            "brand",        
+            "category",     
+            "brand_name",   
+            "category_name" 
+        ]
 
 
 class PurchaseItemSerializer(serializers.ModelSerializer):

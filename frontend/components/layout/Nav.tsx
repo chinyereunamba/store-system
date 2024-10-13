@@ -45,8 +45,8 @@ const components: { title: string; href: string; description: string }[] = [
 
 function Nav() {
   return (
-    <nav className="p-3 flex justify-between items-center">
-      <NavMenu/>
+    <nav className="p-3 rounded-ss-md border flex justify-between items-center">
+      <NavMenu />
       <Search />
     </nav>
   );

@@ -1,44 +1,42 @@
 "use client";
 import AuthForm from "@/components/forms/AuthForm";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import React, { FormEvent, useState } from "react";
-import { signIn } from "next-auth/react";
 
-function LoginPage() {
+function RegisterPage() {
+  const submitHandler = (e: FormEvent) => {
+    e.preventDefault();
+  };
   const [loginInfo, setLoginInfo] = useState({
     email: "",
     password: "",
   });
-  const submitHandler = (e: FormEvent) => {
-    e.preventDefault();
-
-    const email = loginInfo.email;
-    const password = loginInfo.password;
-
-    try {
-      signIn("credentials", { redirect: true, email, password })
-      return redirect("/");
-    } catch (e) {
-      console.error(e);
-    }
-  };
   return (
     <main className="flex flex-col items-center justify-center h-screen">
       <>
         <div className="text-center mb-4">
-          <h1>Login</h1>
-          <p>Sign into your account</p>
+          <h1>Register</h1>
+          <p>Sign up with us</p>
         </div>
         <AuthForm
           submitHandler={submitHandler}
-          btnName="Login"
+          btnName="Sign up"
           inputList={[
             {
               type: "email",
               placeholder: "johndoe@mail.com",
               name: "email",
               label: "Email",
+              value: loginInfo.email,
+              changeHandler(e) {
+                setLoginInfo({ ...loginInfo, email: e.currentTarget.value });
+              },
+            },
+            {
+              type: "text",
+              placeholder: "johndoe",
+              name: "username",
+              label: "Username",
               value: loginInfo.email,
               changeHandler(e) {
                 setLoginInfo({ ...loginInfo, email: e.currentTarget.value });
@@ -54,14 +52,24 @@ function LoginPage() {
                 setLoginInfo({ ...loginInfo, password: e.currentTarget.value });
               },
             },
+            {
+              type: "password",
+              placeholder: "***********",
+              name: "rePassword",
+              label: "Retype password",
+              value: loginInfo.password,
+              changeHandler(e) {
+                setLoginInfo({ ...loginInfo, password: e.currentTarget.value });
+              },
+            },
           ]}
         />
         <small className="text-left  my-2">
-          Don't have an account? <Link href={"/register"}>Sign up</Link>
+          Already have an account? <Link href={"/login"}>Login</Link>
         </small>
       </>
     </main>
   );
 }
 
-export default LoginPage;
+export default RegisterPage;

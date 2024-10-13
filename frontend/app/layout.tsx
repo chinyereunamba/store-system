@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 import SessionProvider from "./providers";
 
 const geistSans = localFont({

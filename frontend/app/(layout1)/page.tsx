@@ -2,56 +2,57 @@
 import { DashboardTabs } from "@/components/utils/Tabs";
 import { DashCard } from "@/components/utils/DashboardCard";
 import Sales from "@/components/products/sales";
-import usePage from "@/store/pageContext";
-import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { DatePickerWithRange } from "@/components/utils/DateRange";
 import { DashChart } from "@/components/utils/DashChart";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 
 export default function Home() {
-  const { setCurrentPage } = usePage();
-  const {data: session} = useSession()
-  useEffect(() => {
-    setCurrentPage("Dashboard");
-  }, []);
+  const { data: session } = useSession();
 
   if (!session) {
-    redirect('/login')
+    redirect("/login");
   }
 
   return (
     <main>
-      <div>
-        <DashboardTabs
-          tabs={[
-            {
-              name: "Overview",
-              content: (
-                <section className="flex flex-col gap-6 mt-5">
-                  <div className="flex gap-6 flex-wrap">
-                    <DashCard />
-                    <DashCard />
-                    <DashCard />
-                    <DashCard />
-                  </div>
-                  <div className="grid grid-cols-3 h-[calc(100vh-400px)] gap-6 ">
-                    <div className="relative max-md:col-span-3 col-span-2 p-4 border h-full rounded-xl">
-                      <h3>Overview</h3>
-                      <DashChart />
-                    </div>
-                    <div className="max-md:col-span-3 col-span-1 border rounded-xl">
-                      <Sales />
-                    </div>
-                  </div>
-                </section>
-              ),
-            },
-            { name: "Analytics" },
-            { name: "Reports" },
-            { name: "Notifications" },
-          ]}
-        />
+      <div className="flex justify-between items-center mb-2">
+        <h1 className="text-3xl font-semibold">Dashboard</h1>
+        <div className="flex items-center gap-4">
+          <DatePickerWithRange />
+          <Button>Download</Button>
+        </div>
       </div>
+      <DashboardTabs
+        tabs={[
+          {
+            name: "Overview",
+            content: (
+              <section className="flex flex-col gap-6 mt-5">
+                <div className="flex gap-6 flex-wrap">
+                  <DashCard />
+                  <DashCard />
+                  <DashCard />
+                  <DashCard />
+                </div>
+                <div className="grid grid-cols-3 h-[calc(100vh-420px)] gap-6 ">
+                  <div className="relative max-md:col-span-3 col-span-2 p-4 border h-full rounded-xl">
+                    <h3>Overview</h3>
+                    <DashChart />
+                  </div>
+                  <div className="max-md:col-span-3 col-span-1 border rounded-xl">
+                    <Sales />
+                  </div>
+                </div>
+              </section>
+            ),
+          },
+          { name: "Analytics" },
+          { name: "Reports" },
+          { name: "Notifications" },
+        ]}
+      />
     </main>
   );
 }

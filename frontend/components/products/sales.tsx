@@ -6,7 +6,7 @@ export default function Sales() {
     <section className={`p-4`}>
       <h3>Recent Sales</h3>
       <p className="my-2">You made 255 sales this month</p>
-      <ScrollArea className="mt-6 h-[480px]">
+      <ScrollArea className="mt-6 h-[460px]">
         <Sale />
         <Sale />
         <Sale />

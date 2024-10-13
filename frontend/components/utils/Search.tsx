@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CustomButton } from "./Button";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import {signOut} from 'next-auth/react'
 
 export default function Search() {
   const router = useRouter();
@@ -17,7 +18,7 @@ export default function Search() {
         <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
-      <Button onClick={() => router.push("/logout")}>Logout</Button>
+      <Button onClick={() => signOut()}>Logout</Button>
     </div>
   );
 }
