@@ -1,20 +1,30 @@
+"use client";
+import useProduct from "@/store/productContext";
 
-import ProductComponent from "@/components/dashboard/ProductPage";
-import { Product } from "./columns";
-import { axiosInstance } from "@/lib/utils";
+import React, { useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { DataTable } from "@/app/(layout1)/products/data-table";
+import { columns } from "@/app/(layout1)/products/columns";
+import { Product } from "@/store/productContext";
+import { AddUpdateBox } from "@/components/products/AddProduct";
 
-async function getData(): Promise<Product[]> {
-  const data = axiosInstance.get("/v1/products/").then(res => {
-    if (res.status == 200) {
-      return res.data
-    }else{
-      throw new Error('There was an error out there')
-    }
-  })
-  return data
-}
+const ProductPage = () => {
+  const { products, fetchProducts } = useProduct();
 
-export default async function ProductPage() {
-  const data = await getData();
-  return <ProductComponent data={data} />;
-}
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+  return (
+    <main>
+      <div className="flex justify-between items-center mb-2">
+        <h1 className="text-3xl font-semibold">Products</h1>
+        <div className="flex items-center gap-4">
+          <AddUpdateBox type="add" onConfirm={() => {}} trigger="Add Product" />
+        </div>
+      </div>
+      <DataTable columns={columns} data={products} />
+    </main>
+  );
+};
+
+export default ProductPage;

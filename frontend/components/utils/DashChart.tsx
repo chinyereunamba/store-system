@@ -31,14 +31,14 @@ export function DashChart() {
     <ChartContainer config={chartConfig} className="max-w-[95%] max-h-[500px] w-full absolute bottom-2">
       <BarChart accessibilityLayer data={chartData} width={500} height={300}>
         <CartesianGrid vertical={false} />
-        <XAxis
+        {/* <XAxis
           dataKey="month"
           tickLine={false}
           tickMargin={10}
           axisLine={false}
           tickFormatter={(value) => value.slice(0, 3)}
         />
-        <YAxis />
+        <YAxis /> */}
         <ChartTooltip
           cursor={false}
           content={<ChartTooltipContent indicator="dashed" />}

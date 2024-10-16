@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,18 +11,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ConfirmationBox } from "@/components/utils/Confirmation";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Product = {
-  id: number;
-  product_name: string;
-  brand_name: string;
-  category_name: string;
-  stock_quantity: number;
-};
+import { type Product } from "@/store/productContext";
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -98,6 +91,11 @@ export const columns: ColumnDef<Product>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const product = row.original;
+      const handleDelete = () => {
+        // Implement your delete API call here
+        console.log(`Deleting product with ID: ${product.id}`);
+        // Optionally refresh the table data after deletion
+      };
 
       return (
         <DropdownMenu>
@@ -117,8 +115,13 @@ export const columns: ColumnDef<Product>[] = [
               Copy payment ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+
+            <DropdownMenuItem
+              className="cursor-pointer text-destructive hover:text-destructive hover:bg-destructive"
+            >
+              <ConfirmationBox trigger="Delete" onConfirm={handleDelete} />
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

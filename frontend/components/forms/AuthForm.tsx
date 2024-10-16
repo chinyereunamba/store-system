@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 
-type InputProps = {
+export type InputProps = {
   type: HTMLInputTypeAttribute;
   placeholder: string;
   name: string;

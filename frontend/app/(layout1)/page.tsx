@@ -7,6 +7,7 @@ import { DatePickerWithRange } from "@/components/utils/DateRange";
 import { DashChart } from "@/components/utils/DashChart";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { ConfirmationBox } from "@/components/utils/Confirmation";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -48,7 +49,15 @@ export default function Home() {
               </section>
             ),
           },
-          { name: "Analytics" },
+          {
+            name: "Analytics",
+            content: (
+              <ConfirmationBox
+                trigger="Open"
+                onConfirm={() => console.log("Opened")}
+              />
+            ),
+          },
           { name: "Reports" },
           { name: "Notifications" },
         ]}

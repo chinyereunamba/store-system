@@ -1,72 +1,83 @@
-"use client";
-import fetchAPI from "@/components/utils/functions";
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { axiosInstance } from "@/lib/utils";
+import { create } from "zustand";
 
-type Product = {
-  id: number;
+export type Product = {
+  id?: number;
   product_name: string;
-  stock_quantity: number;
-  date_created: string;
-  brand: number;
-  category: number;
+  brand_name: string;
+  category_name: string;
+  stock_quantity: number |string;
+  date_created?: string;
 };
 
-export type {Product}
-
-type ProductContext = {
-  products: Product[] | null;
-  setProducts: React.Dispatch<React.SetStateAction<Product[] | null>>;
-  isLoading: boolean;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+type ProductsProps = {
+  loading: boolean;
+  error: null | string;
+  products: Product[];
+  setProducts: (products: Product[]) => void;
+  addProducts: (productData: Product) => void;                      // C
+  fetchProducts: () => void;                                        // R
+  updateProduct: (productId: number, updateData: Product) => void;  // U
+  deleteProduct: (productId: number) => void;                       // D
 };
 
-export const ProductContext = createContext<ProductContext | null>(null);
+const useProductStore = create<ProductsProps>((set) => ({
+  products: [],
+  loading: false,
+  error: null,
+  setProducts: (products) => set({ products }),
+  fetchProducts: async () => {
+    set({ loading: true, error: null });
+    try {
+      const products = await axiosInstance.get("/v1/products/");
+      set({ products: products.data, loading: false });
+    } catch (e) {
+      set({ error: "Failed to fetch products" });
+    } finally {
+      set({ loading: false });
+    }
+  },
+  addProducts: async (productData) => {
+    set({ loading: true, error: null });
+    try {
+      const response = await axiosInstance.post("/v1/products/", productData);
+      set((state) => ({
+        products: [response.data, ...state.products],
+        loading: false,
+      }));
+    } catch (error) {
+      set({ error: "Failed to add product", loading: false });
+    }
+  },
+  updateProduct: async (productId, updateData) => {
+    set({ loading: true, error: null });
+    try {
+      const response = await axiosInstance.put(
+        `/v1/products/${productId}`,
+        updateData
+      );
+      set((state) => ({
+        products: state.products.map((product) =>
+          product.id === productId ? response.data : product
+        ),
+        loading: false,
+      }));
+    } catch (error) {
+      set({ error: "Failed to update product" });
+    }
+  },
+  deleteProduct: async (productId) => {
+    set({ loading: true, error: null });
+    try {
+      const product = await axiosInstance.delete(`/v1/products/${productId}`);
+      set((state) => ({
+        products: state.products.filter((product) => product.id !== productId),
+        loading: false,
+      }));
+    } catch (e) {
+      set({ error: "Failed to delete product", loading: false });
+    }
+  },
+}));
 
-type ProductContextProviderProps = {
-  children: React.ReactNode;
-};
-
-export default function ProductContextProvider({
-  children,
-}: ProductContextProviderProps) {
-  const [products, setProducts] = useState<Product[] | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const {data: session} = useSession()
-
-  const getProducts = () => {
-    setIsLoading(true)
-    const product: Product[] = fetchAPI({
-      method: "GET",
-      token: session?.user?.access,
-      url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/v1/products/`,
-    }) as any;
-    setProducts(product)
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    // Fetch products when the component mounts
-    getProducts();
-  }, [products]);
-
-  return (
-    <ProductContext.Provider
-      value={{ products, setProducts, isLoading, setIsLoading }}
-    >
-      {children}
-    </ProductContext.Provider>
-  );
-}
-
-export function useProductContext() {
-  const context = useContext(ProductContext);
-
-  if (!context) {
-    throw new Error(
-      "useProductContext must be used within a ProductContextProvider"
-    );
-  }
-
-  return context;
-}
+export default useProductStore;

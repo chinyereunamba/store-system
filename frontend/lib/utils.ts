@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_BACKEND_URL,
+  baseURL: 'http://localhost:8000/api',
   timeout: 5000,
   headers: {
     "Content-Type": "application/json",
