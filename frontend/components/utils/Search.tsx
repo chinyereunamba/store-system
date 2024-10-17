@@ -4,10 +4,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CustomButton } from "./Button";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-import {signOut} from 'next-auth/react'
+import { signOut, useSession } from "next-auth/react";
 
 export default function Search() {
   const router = useRouter();
+  const { data: session } = useSession();
+  const initial = String(session?.user?.account?.username)[0].toLocaleUpperCase();
   return (
     <div className="w-96 flex gap-2 shadow-none">
       <Command className="rounded-lg border">
@@ -16,7 +18,7 @@ export default function Search() {
 
       <Avatar>
         <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-        <AvatarFallback>CN</AvatarFallback>
+        <AvatarFallback>{initial}</AvatarFallback>
       </Avatar>
       <Button onClick={() => signOut()}>Logout</Button>
     </div>

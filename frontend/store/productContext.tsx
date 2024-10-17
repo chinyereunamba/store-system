@@ -15,10 +15,10 @@ type ProductsProps = {
   error: null | string;
   products: Product[];
   setProducts: (products: Product[]) => void;
-  addProducts: (productData: Product) => void;                      // C
-  fetchProducts: () => void;                                        // R
-  updateProduct: (productId: number, updateData: Product) => void;  // U
-  deleteProduct: (productId: number) => void;                       // D
+  addProducts: (productData: Product) => void; // C
+  fetchProducts: () => void; // R
+  updateProduct: (productId: number, updateData: Partial<Product>) => void; // U
+  deleteProduct: (productId: number) => void; // D
 };
 
 const useProductStore = create<ProductsProps>((set) => ({
@@ -60,6 +60,7 @@ const useProductStore = create<ProductsProps>((set) => ({
         products: state.products.map((product) =>
           product.id === productId ? response.data : product
         ),
+        
         loading: false,
       }));
     } catch (error) {
@@ -81,3 +82,4 @@ const useProductStore = create<ProductsProps>((set) => ({
 }));
 
 export default useProductStore;
+    

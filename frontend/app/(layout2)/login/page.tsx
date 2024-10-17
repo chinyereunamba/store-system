@@ -57,7 +57,7 @@ function LoginPage() {
           ]}
         />
         <small className="text-left  my-2">
-          Don't have an account? <Link href={"/register"}>Sign up</Link>
+          Don&apos;t have an account? <Link href={"/register"}>Sign up</Link>
         </small>
       </>
     </main>

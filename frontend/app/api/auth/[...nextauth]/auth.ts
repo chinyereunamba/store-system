@@ -4,7 +4,7 @@ const getCurrentEpochTime = (): number => {
 };
 
 const BACKEND_ACCESS_TOKEN_LIFETIME = 60 * 60; // 60 minutes
-const BACKEND_REFRESH_TOKEN_LIFETIME = 7 * 24 * 60 * 60; // 1 day
+// const BACKEND_REFRESH_TOKEN_LIFETIME = 7 * 24 * 60 * 60; // 1 day
 
 const authOptions = {
   providers: [
@@ -18,7 +18,7 @@ const authOptions = {
         },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials, req) {
+      async authorize(credentials,) {
         const res = await fetch(`${process.env.NEXT_BACKEND_URL}/user/login/`, {
           method: "POST",
           body: JSON.stringify(credentials),

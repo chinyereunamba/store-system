@@ -1,5 +1,5 @@
 "use client";
-import React, { FormEvent, HTMLInputTypeAttribute, useState } from "react";
+import React, { ChangeEvent, FormEvent, HTMLInputTypeAttribute, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
@@ -11,7 +11,7 @@ export type InputProps = {
   name: string;
   value: string;
   label?: string;
-  changeHandler: (e: any) => void;
+  changeHandler: (e:any) => void;
 };
 
 type AuthFormProps = {

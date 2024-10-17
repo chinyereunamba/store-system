@@ -14,11 +14,11 @@ import useProductStore, { Product } from "@/store/productContext";
 
 type EditUpdateBoxProps = {
   trigger: string;
-  type: "add" | "update";
-  onConfirm: () => void;
+  type?: "add" | "update";
+  onConfirm?: () => void;
 };
 
-export function AddUpdateBox({ trigger, type, onConfirm }: EditUpdateBoxProps) {
+export function AddUpdateBox({ trigger }: EditUpdateBoxProps) {
   const [product, setProduct] = useState<Product>({
     product_name: "",
     category_name: "",
@@ -52,6 +52,7 @@ export function AddUpdateBox({ trigger, type, onConfirm }: EditUpdateBoxProps) {
           handleSubmit={submit}
           inputList={[
             {
+              label: "Product Name",
               type: "text",
               placeholder: "5w Bulb",
               name: "productName",
@@ -63,6 +64,7 @@ export function AddUpdateBox({ trigger, type, onConfirm }: EditUpdateBoxProps) {
                 }),
             },
             {
+              label: "Quantity",
               type: "number",
               name: "stockQuantity",
               value: product.stock_quantity,
@@ -73,6 +75,7 @@ export function AddUpdateBox({ trigger, type, onConfirm }: EditUpdateBoxProps) {
                 }),
             },
             {
+              label: "Category",
               type: "text",
               placeholder: "Bulbs",
               name: "categoryName",
@@ -84,6 +87,7 @@ export function AddUpdateBox({ trigger, type, onConfirm }: EditUpdateBoxProps) {
                 }),
             },
             {
+              label: "Brand",
               type: "text",
               placeholder: "Itel",
               name: "brandName",
@@ -94,9 +98,6 @@ export function AddUpdateBox({ trigger, type, onConfirm }: EditUpdateBoxProps) {
           ]}
         />
         <DialogFooter>
-          <Button type="submit" variant="default" onClick={onConfirm}>
-            Save product
-          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

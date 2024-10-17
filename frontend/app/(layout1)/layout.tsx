@@ -2,6 +2,7 @@ import "../globals.css";
 
 import Dashboard from "@/components/dashboard/Home";
 import Nav from "@/components/layout/Nav";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
   title: "Anol",
@@ -17,6 +18,8 @@ export default function RootLayout({
     <>
       <Nav />
       <Dashboard>{children}</Dashboard>
+      <Toaster />
     </>
   );
 }
+ 

@@ -8,12 +8,13 @@ type Tab = {
 
 type TabProps = {
   tabs: Tab[];
+  addClass?: string
 };
 
-export function DashboardTabs({ tabs }: TabProps) {
+export function DashboardTabs({ tabs, addClass }: TabProps) {
   return (
     <Tabs defaultValue="overview" className="h-full">
-      <TabsList className="grid w-[500px] grid-cols-4 text-base">
+      <TabsList className={`grid max-w-[500px] w-fit ${addClass} text-base`}>
         {tabs.map((tab, index) => (
           <TabsTrigger key={index} value={tab.name.toLowerCase()}>
             {tab.name}
@@ -30,3 +31,4 @@ export function DashboardTabs({ tabs }: TabProps) {
 }
 
 
+ 

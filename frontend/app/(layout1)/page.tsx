@@ -26,6 +26,7 @@ export default function Home() {
         </div>
       </div>
       <DashboardTabs
+        addClass="grid-cols-4"
         tabs={[
           {
             name: "Overview",
