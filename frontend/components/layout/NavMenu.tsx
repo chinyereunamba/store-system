@@ -50,31 +50,26 @@ const components: { title: string; href: string; description: string }[] = [
   },
 ];
 
+const links: { title: string; link: string }[] = [
+  { title: "Overview", link: "/" },
+  { title: "Products", link: "/products" },
+  { title: "Sales", link: "/sales" },
+  { title: "Settings", link: "/settings" },
+];
+
 export function NavMenu() {
   return (
     <NavigationMenu>
       <NavigationMenuList>
-        <NavigationMenuItem>
-          <Link href="/" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Overview
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link href="/products" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Products
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link href="/settings" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Settings
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
+        {links.map((link, index) => (
+          <NavigationMenuItem key={index+1}>
+            <Link href={link.link} legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                {link.title}
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+        ))}
       </NavigationMenuList>
     </NavigationMenu>
   );

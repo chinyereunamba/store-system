@@ -23,6 +23,7 @@ export default function Home() {
         <div className="flex items-center gap-4">
           <DatePickerWithRange />
           <Button>Download</Button>
+          <Button variant={"outline"}>Record new sales</Button>
         </div>
       </div>
       <DashboardTabs
