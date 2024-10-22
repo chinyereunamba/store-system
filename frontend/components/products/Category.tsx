@@ -9,9 +9,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import ProductForm from "../forms/ProductForm";
 import useCategoryStore, { Category } from "@/store/categoryContext";
 import { useToast } from "@/hooks/use-toast";
+import { Input } from "../ui/input";
 
 type categoryProps = {
   trigger: string;
@@ -29,15 +29,16 @@ export function CategoryBox({ trigger, onConfirm }: categoryProps) {
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
-    setErrorMessage(""); // Clear previous error
+    setErrorMessage("");
 
     try {
-      await addCategory({ category });
+      addCategory({ category });
       toast({
         title: "Category",
-        description: `${category} add successfully`,
+        description: `"${category}" add successfully`,
       });
       setOpen(false);
+      setCategory("")
     } catch (error: any) {
       if (error.response?.data?.category) {
         setErrorMessage(error.response.data.category[0]);
@@ -57,20 +58,22 @@ export function CategoryBox({ trigger, onConfirm }: categoryProps) {
           <DialogTitle>Category</DialogTitle>
         </DialogHeader>
         <DialogDescription>Add Category to database</DialogDescription>
-        <ProductForm
-          handleSubmit={submit}
-          error={errorMessage}
-          inputList={[
-            {
-              type: "text",
-              placeholder: "Category",
-              name: "category",
-              value: category,
-              onChange: (e) => setCategory(e.currentTarget.value),
-            },
-          ]}
-        />
-        <DialogFooter></DialogFooter>
+        <form onSubmit={submit}>
+          <div className="flex flex-col gap-2">
+            <Input
+              type="text"
+              placeholder="Category"
+              name="category"
+              value={category}
+              required
+              onChange={(e) => setCategory(e.currentTarget.value)}
+            />
+            <small>{errorMessage}</small>
+            <DialogFooter>
+              <Button type="submit">Save</Button>
+            </DialogFooter>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

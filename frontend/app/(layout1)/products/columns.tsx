@@ -2,26 +2,21 @@
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-// import { DialogTrigger } from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { ConfirmationBox } from "@/components/utils/Confirmation";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, Edit, Eye, MoreHorizontal, Trash } from "lucide-react";
 import useProductStore, { type Product } from "@/store/productContext";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import SelectComponent from "@/components/utils/SelectComponent";
+import useBrandStore from "@/store/brandContext";
+import useCategoryStore from "@/store/categoryContext";
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -98,76 +93,33 @@ export const columns: ColumnDef<Product>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const product = row.original;
-      const handleDelete = (id:number) => {
-        // Implement your delete API call here
-        console.log(`Deleting product with ID: ${product.id}`);
-        // Optionally refresh the table data after deletion
-      };
-      const { products, updateProduct, deleteProduct } = useProductStore();
-      const [editingProduct, setEditingProduct] = useState<Product | null>(
-        null
-      );
+      const [open, setOpen] = useState(false);
+      const { updateProduct, deleteProduct } = useProductStore();
+      const [editingProduct, setEditingProduct] = useState<Product>(product);
+      const { brands } = useBrandStore();
+      const { categories } = useCategoryStore();
 
-      const handleEdit = (product: Product) => {
-        setEditingProduct(product);
+      const handleDelete = () => {
+        deleteProduct(product.id as number);
+        setOpen(false);
       };
 
-      const handleUpdate = () => {
-        // if (editingProduct) {
-        //   updateProduct(editingProduct.id, editingProduct);
-        //   setEditingProduct(null);
-        //   toast.success("Product updated successfully");
-        // }
-      };
-
-      // const handleDelete = (id: string) => {
-      //   deleteProduct(id);
-      //   toast.success("Product deleted successfully");
-      // };
-
-      const handleViewDetails = (product: Product) => {
-        // toast(`Product Details: ${JSON.stringify(product)}`, {
-        //   duration: 5000,
-        // });
+      const handleEdit = () => {
+        updateProduct(product.id as number, editingProduct);
+        // setEditingProduct(null);
       };
 
       return (
-        // <DropdownMenu>
-        //   <DropdownMenuTrigger asChild>
-        //     <Button variant="ghost" className="h-8 w-8 p-0">
-        //       <span className="sr-only">Open menu</span>
-        //       <MoreHorizontal className="h-4 w-4" />
-        //     </Button>
-        //   </DropdownMenuTrigger>
-        //   <DropdownMenuContent align="end">
-        //     <DropdownMenuLabel>Actions</DropdownMenuLabel>
-        //     <DropdownMenuItem
-        //       onClick={() =>
-        //         navigator.clipboard.writeText(product.product_name)
-        //       }
-        //     >
-        //       Copy payment ID
-        //     </DropdownMenuItem>
-        //     <DropdownMenuSeparator />
-        //     <DropdownMenuItem>Edit</DropdownMenuItem>
-
-        //     <DropdownMenuItem
-        //       className="cursor-pointer text-destructive hover:text-destructive hover:bg-destructive"
-        //     >
-        //       <ConfirmationBox trigger="Delete" onConfirm={handleDelete} />
-        //     </DropdownMenuItem>
-        //   </DropdownMenuContent>
-        // </DropdownMenu>
         <div className="flex space-x-2">
-          <Popover>
-            <PopoverTrigger asChild>
+          <Dialog>
+            <DialogTrigger asChild>
               <Button variant="outline" size="icon">
                 <Edit className="h-4 w-4" />
               </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-80">
+            </DialogTrigger>
+            <DialogContent className="max-w-[500px] w-full">
               <div className="grid gap-4">
-                <h3 className="font-medium">Edit Product</h3>
+                <DialogTitle>Edit Product</DialogTitle>
                 <Input
                   placeholder="Name"
                   value={editingProduct?.product_name || ""}
@@ -178,27 +130,32 @@ export const columns: ColumnDef<Product>[] = [
                     })
                   }
                 />
-                <Input
-                  placeholder="Category"
-                  value={editingProduct?.category_name || ""}
-                  onChange={(e) =>
-                    setEditingProduct({
-                      ...editingProduct!,
-                      category_name: e.target.value,
-                    })
+                <SelectComponent
+                  placeholder="Select Brand"
+                  value={String(editingProduct!.brand)} // If brand is nullable, handle null or undefined
+                  onChange={
+                    (e) => setEditingProduct({ ...product, brand: e }) // Convert value to number if IDs are numbers
                   }
+                  options={brands.map((item) => ({
+                    label: item.brand,
+                    value: String(item.id) || "",
+                  }))}
                 />
-                {/* <Input
-                  placeholder="Price"
-                  type="number"
-                  value={editingProduct?.price || ""}
+                {/* Category Select Component */}
+                <SelectComponent
+                  placeholder="Select Category"
+                  value={String(editingProduct!.category)}
                   onChange={(e) =>
                     setEditingProduct({
-                      ...editingProduct!,
-                      price: parseFloat(e.target.value),
+                      ...product,
+                      category: e,
                     })
                   }
-                /> */}
+                  options={categories.map((item) => ({
+                    label: item.category,
+                    value: String(item.id) || "",
+                  }))}
+                />
                 <Input
                   placeholder="Stock"
                   type="number"
@@ -210,39 +167,37 @@ export const columns: ColumnDef<Product>[] = [
                     })
                   }
                 />
-                <Button onClick={handleUpdate}>Update</Button>
+                <Button onClick={handleEdit}>Update</Button>
               </div>
-            </PopoverContent>
-          </Popover>
-          <Popover>
-            <PopoverTrigger asChild>
+            </DialogContent>
+          </Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
               <Button variant="outline" size="icon">
                 <Trash className="h-4 w-4" />
               </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-80">
+            </DialogTrigger>
+            <DialogContent className="max-w-[500px]">
               <div className="grid gap-4">
-                <h3 className="font-medium">Confirm Deletion</h3>
-                <p>Are you sure you want to delete this product?</p>
-                <Button
-                  onClick={() => handleDelete(3)}
-                  variant="destructive"
-                >
-                  Delete
-                </Button>
+                <DialogTitle>Confirm Deletion</DialogTitle>
+                <DialogDescription>Product deletion</DialogDescription>
+                <p>
+                  Are you sure you want to delete{" "}
+                  <strong>{product.product_name}</strong>?
+                </p>
+                <div className="flex gap-4">
+                  <Button variant="default" onClick={() => setOpen(false)}>
+                    No
+                  </Button>
+                  <Button onClick={() => handleDelete()} variant="destructive">
+                    Yes
+                  </Button>
+                </div>
               </div>
-            </PopoverContent>
-          </Popover>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => handleViewDetails(product)}
-          >
-            <Eye className="h-4 w-4" />
-          </Button>
+            </DialogContent>
+          </Dialog>
         </div>
       );
     },
   },
 ];
-       

@@ -5,22 +5,26 @@ import React, { useEffect } from "react";
 // import { Button } from "@/components/ui/button";
 import { DataTable } from "@/app/(layout1)/products/data-table";
 import { columns } from "@/app/(layout1)/products/columns";
-import {brandColumn} from '@/app/(layout1)/products/brand-columns'
-// import { Product } from "@/store/productContext";
+import { brandColumn } from "@/app/(layout1)/products/brand-columns";
+import { categoryColumn } from "./category-columns";
+
 import { AddUpdateBox } from "@/components/products/AddProduct";
 import { BrandBox } from "@/components/products/Brand";
 import { CategoryBox } from "@/components/products/Category";
 import { DashboardTabs } from "@/components/utils/Tabs";
 import useBrandStore from "@/store/brandContext";
+import useCategoryStore from "@/store/categoryContext";
 
 const ProductPage = () => {
   const { products, fetchProducts } = useProduct();
-  const {brands, fetchBrand} = useBrandStore()
+  const { brands, fetchBrand } = useBrandStore();
+  const { categories, fetchCategory } = useCategoryStore();
 
   useEffect(() => {
     fetchProducts();
-    fetchBrand()
-  }, [fetchProducts, fetchBrand]);
+    fetchBrand();
+    fetchCategory();
+  }, [fetchProducts, fetchBrand, fetchCategory]);
   return (
     <main>
       <div className="flex justify-between items-center mb-2">
@@ -44,7 +48,7 @@ const ProductPage = () => {
           },
           {
             name: "Category",
-            content: <DataTable columns={columns} data={products} />,
+            content: <DataTable columns={categoryColumn} data={categories} />,
           },
         ]}
       />
@@ -53,4 +57,3 @@ const ProductPage = () => {
 };
 
 export default ProductPage;
-  

@@ -21,11 +21,6 @@ export default function ProductForm({
     <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
       {inputList.map((field, index) => (
         <div key={index} className="flex flex-col">
-          {field.label && (
-            <Label className="mb-2" htmlFor={field.name}>
-              {field.label}
-            </Label>
-          )}
           <Input {...field} />
         </div>
       ))}
@@ -34,4 +29,3 @@ export default function ProductForm({
     </form>
   );
 }
-  

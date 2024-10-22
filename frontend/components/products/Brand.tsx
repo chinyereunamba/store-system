@@ -12,6 +12,7 @@ import {
 import ProductForm from "../forms/ProductForm";
 import useBrandStore, { Brand } from "@/store/brandContext";
 import { useToast } from "@/hooks/use-toast";
+import { Input } from "../ui/input";
 
 type BrandProps = {
   trigger: string;
@@ -32,12 +33,13 @@ export function BrandBox({ trigger, onConfirm }: BrandProps) {
     setErrorMessage(""); // Clear previous error
 
     try {
-      await addBrand({ brand });
+      addBrand({ brand });
       toast({
         title: "Brand",
-        description: `${brand} add successfully`,
+        description: `"${brand}" add successfully`,
       });
       setOpen(false);
+      setBrand("");
     } catch (error: any) {
       if (error.response?.data?.brand) {
         setErrorMessage(error.response.data.brand[0]);
@@ -57,23 +59,23 @@ export function BrandBox({ trigger, onConfirm }: BrandProps) {
           <DialogTitle>Brand</DialogTitle>
         </DialogHeader>
         <DialogDescription>Add brand to database</DialogDescription>
-        <ProductForm
-          handleSubmit={submit}
-          error={errorMessage}
-          inputList={[
-            {
-              label: "Brand",
-              type: "text",
-              placeholder: "Adidas",
-              name: "brand",
-              value: brand,
-              onChange: (e) => setBrand(e.currentTarget.value),
-            },
-          ]}
-        />
-        <DialogFooter></DialogFooter>
+        <form onSubmit={submit}>
+          <div className="flex flex-col gap-2">
+            <Input
+              type="text"
+              placeholder="Brand"
+              name="brand"
+              value={brand}
+              required
+              onChange={(e) => setBrand(e.currentTarget.value)}
+            />
+            <small>{errorMessage}</small>
+            <DialogFooter>
+              <Button type="submit">Save</Button>
+            </DialogFooter>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );
 }
-  
