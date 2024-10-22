@@ -4,8 +4,6 @@ import { create } from "zustand";
 export type Sale = {
   id?: number;
   product_name: string;
-  brand?: string | number;
-  category?: string | number;
   brand_name?: string;
   category_name?: string;
   quantity: number | string;
