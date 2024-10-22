@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+import uuid
 
 
 class Category(models.Model):
@@ -44,14 +45,16 @@ class Product(models.Model):
 
     def update_price_to_latest_purchase_price(self):
         latest_purchase_record = self.purchaserecord_set.latest("purchase_date")
-        self.cost_price = latest_purchase_record.purchase_price
+        self.cost_price = latest_purchase_record.unit_price
         self.save()
+
+    @property
+    def cost_price(self):
+        return self.update_price_to_latest_purchase_price()
 
 
 class PurchaseRecord(models.Model):
-    products = models.ManyToManyField(
-        Product, through="PurchaseItem"
-    )
+    products = models.ManyToManyField(Product, through="PurchaseItem")
     total_amount = models.DecimalField(
         verbose_name=(_("Total Amount Spent")), max_digits=10, decimal_places=2
     )
@@ -66,21 +69,29 @@ class PurchaseItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
     purchase_order = models.ForeignKey(PurchaseRecord, on_delete=models.CASCADE)
-    unit_price = models.DecimalField(max_digits=10, decimal_places=2)
+    unit_price = models.BigIntegerField(help_text="Cost price")
 
     def __str__(self):
         return f"{self.quantity} of {self.product.product_name} in order {self.purchase_order.purchase_date}"
+
+    @property
+    def total_amount(self):
+        return self.quantity * self.unit_price
 
     class Meta:
         verbose_name = "Purchase Item"
 
 
 class SalesItem(models.Model):
+    sale_id = models.UUIDField(
+        default=uuid.uuid4, blank=True, unique=True, max_length=10
+    )
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity_sold = models.PositiveIntegerField()
     unit_price = models.DecimalField(
         verbose_name=(_("Sold at")), max_digits=10, decimal_places=2
     )
+    date_created = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.quantity_sold} of {self.product.product_name} in transaction {self.sales_transaction.transaction_number}"
