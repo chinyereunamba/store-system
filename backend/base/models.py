@@ -94,6 +94,10 @@ class SalesItem(models.Model):
     date_created = models.DateField(auto_now_add=True)
 
     @property
+    def cost_price(self):
+        return self.product.cost_price
+
+    @property
     def total_amount(self):
         return self.unit_price * self.quantity_sold
 
