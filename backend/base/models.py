@@ -38,19 +38,19 @@ class Product(models.Model):
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     stock_quantity = models.PositiveIntegerField(default=0, blank=True, null=True)
+    cost_price = models.BigIntegerField(null=True, blank=True)
     date_created = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return self.product_name
 
     def update_price_to_latest_purchase_price(self):
-        latest_purchase_record = self.purchaserecord_set.latest("purchase_date")
-        self.cost_price = latest_purchase_record.unit_price
-        self.save()
-
-    @property
-    def cost_price(self):
-        return self.update_price_to_latest_purchase_price()
+        latest_purchase_item = self.purchaseitem_set.order_by(
+            "-purchase_order__purchase_date"
+        ).first()
+        if latest_purchase_item:
+            self.cost_price = latest_purchase_item.unit_price
+            self.save()
 
 
 class PurchaseRecord(models.Model):
@@ -88,10 +88,14 @@ class SalesItem(models.Model):
     )
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity_sold = models.PositiveIntegerField()
-    unit_price = models.DecimalField(
-        verbose_name=(_("Sold at")), max_digits=10, decimal_places=2
+    unit_price = models.BigIntegerField(
+        verbose_name=(_("Sold at")), 
     )
     date_created = models.DateField(auto_now_add=True)
+
+    @property
+    def total_amount(self):
+        return self.unit_price * self.quantity_sold
 
     def __str__(self):
         return f"{self.quantity_sold} of {self.product.product_name} in transaction {self.sales_transaction.transaction_number}"

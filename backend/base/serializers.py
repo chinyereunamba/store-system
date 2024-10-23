@@ -80,6 +80,7 @@ class SalesItemSerializer(serializers.ModelSerializer):
             "category_name",
             "quantity_sold",
             "unit_price",
+            "total_amount"
         ]
 
 
