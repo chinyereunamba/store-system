@@ -17,30 +17,9 @@ import {
 import SelectComponent from "@/components/utils/SelectComponent";
 import useBrandStore from "@/store/brandContext";
 import useCategoryStore from "@/store/categoryContext";
+import { Sale } from "@/store/salesContext";
 
-export const columns: ColumnDef<Product>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+export const columns: ColumnDef<Sale>[] = [
   {
     accessorKey: "product_name",
     header: "Products",
@@ -49,9 +28,9 @@ export const columns: ColumnDef<Product>[] = [
     ),
   },
   {
-    accessorKey: "stock_quantity",
-    header: "Quantity",
-    cell: ({ row }) => <div>{row.getValue("stock_quantity")}</div>,
+    accessorKey: "quantity_sold",
+    header: "Quantity Sold",
+    cell: ({ row }) => <div>{row.getValue("quantity_sold")}</div>,
   },
   {
     accessorKey: "brand_name",
@@ -88,24 +67,34 @@ export const columns: ColumnDef<Product>[] = [
     ),
   },
   {
+    accessorKey: "cost_price",
+    header: "Cost Price",
+    cell: ({ row }) => <div>$ {row.getValue("cost_price")}</div>,
+  },
+  {
+    accessorKey: "unit_price",
+    header: "Selling Price",
+    cell: ({ row }) => <div>$ {Number(row.getValue("unit_price")).toLocaleString()}</div>,
+  },
+  {
     header: "Actions",
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const product = row.original;
+      const sale = row.original;
       const [open, setOpen] = useState(false);
       const { updateProduct, deleteProduct } = useProductStore();
-      const [editingProduct, setEditingProduct] = useState<Product>(product);
+      const [editingProduct, setEditingProduct] = useState<Sale>(sale);
       const { brands } = useBrandStore();
       const { categories } = useCategoryStore();
 
       const handleDelete = () => {
-        deleteProduct(product.id as number);
+        deleteProduct(sale.id as number);
         setOpen(false);
       };
 
       const handleEdit = () => {
-        updateProduct(product.id as number, editingProduct);
+        updateProduct(sale.id as number, editingProduct);
         // setEditingProduct(null);
       };
 
@@ -119,7 +108,7 @@ export const columns: ColumnDef<Product>[] = [
             </DialogTrigger>
             <DialogContent className="max-w-[500px] w-full">
               <div className="grid gap-4">
-                <DialogTitle>Edit Product</DialogTitle>
+                <DialogTitle>Edit Sale</DialogTitle>
                 <Input
                   placeholder="Name"
                   value={editingProduct?.product_name || ""}
@@ -134,7 +123,7 @@ export const columns: ColumnDef<Product>[] = [
                   placeholder="Select Brand"
                   value={String(editingProduct!.brand)} // If brand is nullable, handle null or undefined
                   onChange={
-                    (e) => setEditingProduct({ ...product, brand: e }) // Convert value to number if IDs are numbers
+                    (e) => setEditingProduct({ ...sale, brand: e }) // Convert value to number if IDs are numbers
                   }
                   options={brands.map((item) => ({
                     label: item.brand,
@@ -147,7 +136,7 @@ export const columns: ColumnDef<Product>[] = [
                   value={String(editingProduct!.category)}
                   onChange={(e) =>
                     setEditingProduct({
-                      ...product,
+                      ...sale,
                       category: e,
                     })
                   }
@@ -159,11 +148,11 @@ export const columns: ColumnDef<Product>[] = [
                 <Input
                   placeholder="Stock"
                   type="number"
-                  value={editingProduct?.stock_quantity || ""}
+                  value={editingProduct?.quantity_sold || ""}
                   onChange={(e) =>
                     setEditingProduct({
                       ...editingProduct!,
-                      stock_quantity: parseInt(e.target.value),
+                      quantity_sold: parseInt(e.target.value),
                     })
                   }
                 />
@@ -183,7 +172,7 @@ export const columns: ColumnDef<Product>[] = [
                 <DialogDescription>Product deletion</DialogDescription>
                 <p>
                   Are you sure you want to delete{" "}
-                  <strong>{product.product_name}</strong>?
+                  <strong>{sale.product_name}</strong>?
                 </p>
                 <div className="flex gap-4">
                   <Button variant="default" onClick={() => setOpen(false)}>

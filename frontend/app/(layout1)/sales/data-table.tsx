@@ -16,7 +16,9 @@ import {
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -107,6 +109,7 @@ export function DataTable<TData, TValue>({
       </div>
       <div className="rounded-md border px-2">
         <Table>
+          <TableCaption>A list of your recent invoices.</TableCaption>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -153,6 +156,50 @@ export function DataTable<TData, TValue>({
               </TableRow>
             )}
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell className="font-bold">Total</TableCell>
+              <TableCell className="font-bold" colSpan={3}>
+                {Number(table
+                  .getRowModel()
+                  .rows.reduce(
+                    (total, row) =>  {
+                      const unitPrice = row.getValue("quantity_sold");
+                      return (
+                        total + (typeof unitPrice === "number" ? unitPrice : 0)
+                      );
+                    },
+                    0
+                  )).toLocaleString()}
+              </TableCell>
+              <TableCell className="font-bold">
+                $ {Number(table
+                  .getRowModel()
+                  .rows.reduce(
+                    (total, row) =>  {
+                      const unitPrice = row.getValue("cost_price");
+                      return (
+                        total + (typeof unitPrice === "number" ? unitPrice : 0)
+                      );
+                    },
+                    0
+                  )).toLocaleString()}
+              </TableCell>
+              <TableCell className="font-bold" colSpan={2}>
+                $ {Number(table
+                  .getRowModel()
+                  .rows.reduce(
+                    (total, row) =>  {
+                      const unitPrice = row.getValue("unit_price");
+                      return (
+                        total + (typeof unitPrice === "number" ? unitPrice : 0)
+                      );
+                    },
+                    0
+                  )).toLocaleString()}
+              </TableCell>
+            </TableRow>
+          </TableFooter>
         </Table>
         <div className="flex items-center justify-end space-x-2 py-4">
           <div className="flex-1 text-sm text-muted-foreground">

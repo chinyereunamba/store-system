@@ -1,11 +1,15 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import useProductStore from "@/store/productContext";
+import useSaleStore from "@/store/salesContext";
 
 const SalesPage: React.FC = () => {
-  const { products } = useProductStore();
+  const { sales, fetchSales } = useSaleStore();
+  useEffect(() => {
+    fetchSales();
+  }, []);
   return (
     <main>
       <div className="flex justify-between items-center mb-2">
@@ -13,7 +17,7 @@ const SalesPage: React.FC = () => {
         <div className="flex items-center gap-4"></div>
       </div>
       <div>
-        <DataTable columns={columns} data={products} />
+        <DataTable columns={columns} data={sales} />
       </div>
     </main>
   );

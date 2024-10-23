@@ -5,9 +5,11 @@ export type Sale = {
   id?: number;
   product_name: string;
   brand_name?: string;
+  brand?: number;
   category_name?: string;
-  quantity: number | string;
-  price: number;
+  category?: number;
+  quantity_sold: number | string;
+  unit_price: number;
   cost_price: number;
   profitOrLoss: number;
   date_created?: string;

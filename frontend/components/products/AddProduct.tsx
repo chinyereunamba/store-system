@@ -35,7 +35,6 @@ export function AddUpdateBox({ trigger }: EditUpdateBoxProps) {
     product_name: "",
     category: "",
     brand: "",
-    stock_quantity: 0,
   });
   const [open, setOpen] = useState(false);
   const { brands } = useBrandStore();
@@ -49,7 +48,6 @@ export function AddUpdateBox({ trigger }: EditUpdateBoxProps) {
       product_name: product.product_name,
       category: Number(product.category),
       brand: Number(product.brand),
-      stock_quantity: product.stock_quantity,
     };
     addProducts(data);
     setOpen(false);
@@ -85,19 +83,6 @@ export function AddUpdateBox({ trigger }: EditUpdateBoxProps) {
               value={product.product_name}
               onChange={(e) =>
                 setProduct({ ...product, product_name: e.currentTarget.value })
-              }
-              required
-            />
-            <Input
-              type="number"
-              placeholder="Quantity"
-              name="stock_quantity"
-              value={product.stock_quantity}
-              onChange={(e) =>
-                setProduct({
-                  ...product,
-                  stock_quantity: Number(e.currentTarget.value),
-                })
               }
               required
             />

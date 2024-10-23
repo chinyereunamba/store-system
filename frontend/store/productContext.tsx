@@ -8,7 +8,9 @@ export type Product = {
   category?: string | number;
   brand_name?: string;
   category_name?: string;
-  stock_quantity: number | string;
+  stock_quantity?: number | string;
+  selling_price?: number
+  cost_price?: number
   date_created?: string;
 };
 
