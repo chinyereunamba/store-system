@@ -14,10 +14,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import SelectComponent from "@/components/utils/SelectComponent";
-import useBrandStore from "@/store/brandContext";
-import useCategoryStore from "@/store/categoryContext";
-import { Sale } from "@/store/salesContext";
+import useSaleStore, { Sale } from "@/store/salesContext";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
 export const columns: ColumnDef<Sale>[] = [
   {
@@ -71,11 +69,15 @@ export const columns: ColumnDef<Sale>[] = [
     header: "Cost Price",
     cell: ({ row }) => <div>$ {row.getValue("cost_price")}</div>,
   },
+
   {
     accessorKey: "unit_price",
     header: "Selling Price",
-    cell: ({ row }) => <div>$ {Number(row.getValue("unit_price")).toLocaleString()}</div>,
+    cell: ({ row }) => (
+      <div>$ {Number(row.getValue("unit_price")).toLocaleString()}</div>
+    ),
   },
+
   {
     header: "Actions",
     id: "actions",
@@ -83,19 +85,17 @@ export const columns: ColumnDef<Sale>[] = [
     cell: ({ row }) => {
       const sale = row.original;
       const [open, setOpen] = useState(false);
-      const { updateProduct, deleteProduct } = useProductStore();
-      const [editingProduct, setEditingProduct] = useState<Sale>(sale);
-      const { brands } = useBrandStore();
-      const { categories } = useCategoryStore();
+      const { updateSale, deleteSale } = useSaleStore();
+      const [editSale, setEditSale] = useState<Sale | null>(sale);
 
       const handleDelete = () => {
-        deleteProduct(sale.id as number);
+        deleteSale(sale.id as number);
         setOpen(false);
       };
 
       const handleEdit = () => {
-        updateProduct(sale.id as number, editingProduct);
-        // setEditingProduct(null);
+        updateSale(sale.id as number, editSale);
+        setEditSale(null);
       };
 
       return (
@@ -110,48 +110,33 @@ export const columns: ColumnDef<Sale>[] = [
               <div className="grid gap-4">
                 <DialogTitle>Edit Sale</DialogTitle>
                 <Input
-                  placeholder="Name"
-                  value={editingProduct?.product_name || ""}
+                  placeholder="Product"
+                  value={editSale?.product_name || ""}
                   onChange={(e) =>
-                    setEditingProduct({
-                      ...editingProduct!,
+                    setEditSale({
+                      ...editSale!,
                       product_name: e.target.value,
                     })
                   }
                 />
-                <SelectComponent
-                  placeholder="Select Brand"
-                  value={String(editingProduct!.brand)} // If brand is nullable, handle null or undefined
-                  onChange={
-                    (e) => setEditingProduct({ ...sale, brand: e }) // Convert value to number if IDs are numbers
-                  }
-                  options={brands.map((item) => ({
-                    label: item.brand,
-                    value: String(item.id) || "",
-                  }))}
-                />
-                {/* Category Select Component */}
-                <SelectComponent
-                  placeholder="Select Category"
-                  value={String(editingProduct!.category)}
+                <Input
+                  placeholder="Quantity sold"
+                  type="number"
+                  value={editSale?.quantity_sold || ""}
                   onChange={(e) =>
-                    setEditingProduct({
-                      ...sale,
-                      category: e,
+                    setEditSale({
+                      ...editSale!,
+                      quantity_sold: parseInt(e.target.value),
                     })
                   }
-                  options={categories.map((item) => ({
-                    label: item.category,
-                    value: String(item.id) || "",
-                  }))}
                 />
                 <Input
-                  placeholder="Stock"
+                  placeholder="Price"
                   type="number"
-                  value={editingProduct?.quantity_sold || ""}
+                  value={editSale?.unit_price || ""}
                   onChange={(e) =>
-                    setEditingProduct({
-                      ...editingProduct!,
+                    setEditSale({
+                      ...editSale!,
                       quantity_sold: parseInt(e.target.value),
                     })
                   }
@@ -160,33 +145,42 @@ export const columns: ColumnDef<Sale>[] = [
               </div>
             </DialogContent>
           </Dialog>
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
               <Button variant="outline" size="icon">
                 <Trash className="h-4 w-4" />
               </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-[500px]">
+            </PopoverTrigger>
+            <PopoverContent className="max-w-[500px] w-full">
               <div className="grid gap-4">
-                <DialogTitle>Confirm Deletion</DialogTitle>
-                <DialogDescription>Product deletion</DialogDescription>
+                <h3>Confirm Deletion</h3>
+                {/* <PopoverDescription>Product deletion</PopoverDescription> */}
                 <p>
                   Are you sure you want to delete{" "}
                   <strong>{sale.product_name}</strong>?
                 </p>
-                <div className="flex gap-4">
-                  <Button variant="default" onClick={() => setOpen(false)}>
-                    No
-                  </Button>
+                <div className="flex justify-end">
+                  
                   <Button onClick={() => handleDelete()} variant="destructive">
                     Yes
                   </Button>
                 </div>
               </div>
-            </DialogContent>
-          </Dialog>
+            </PopoverContent>
+          </Popover>
         </div>
       );
     },
+  },
+  {
+    accessorKey: "total_amount",
+    header: () => <div className="text-right">Total</div>,
+    cell: ({ row }) => (
+      <div className="text-right">
+        ${" "}
+        {Number(row.getValue("unit_price")) *
+          Number(row.getValue("quantity_sold"))}
+      </div>
+    ),
   },
 ];

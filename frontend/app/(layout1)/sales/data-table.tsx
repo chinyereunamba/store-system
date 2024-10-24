@@ -109,7 +109,7 @@ export function DataTable<TData, TValue>({
       </div>
       <div className="rounded-md border px-2">
         <Table>
-          <TableCaption>A list of your recent invoices.</TableCaption>
+          {/* <TableCaption>A list of your recent sales.</TableCaption> */}
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -172,27 +172,16 @@ export function DataTable<TData, TValue>({
                     0
                   )).toLocaleString()}
               </TableCell>
-              <TableCell className="font-bold">
+              
+              <TableCell className="font-bold text-right" colSpan={4}>
                 $ {Number(table
                   .getRowModel()
                   .rows.reduce(
                     (total, row) =>  {
-                      const unitPrice = row.getValue("cost_price");
+                      const totalPrice = row.getValue("total_amount");
                       return (
-                        total + (typeof unitPrice === "number" ? unitPrice : 0)
-                      );
-                    },
-                    0
-                  )).toLocaleString()}
-              </TableCell>
-              <TableCell className="font-bold" colSpan={2}>
-                $ {Number(table
-                  .getRowModel()
-                  .rows.reduce(
-                    (total, row) =>  {
-                      const unitPrice = row.getValue("unit_price");
-                      return (
-                        total + (typeof unitPrice === "number" ? unitPrice : 0)
+                        total +
+                        (typeof totalPrice === "number" ? totalPrice : 0)
                       );
                     },
                     0
@@ -201,30 +190,7 @@ export function DataTable<TData, TValue>({
             </TableRow>
           </TableFooter>
         </Table>
-        <div className="flex items-center justify-end space-x-2 py-4">
-          <div className="flex-1 text-sm text-muted-foreground">
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
-            {table.getFilteredRowModel().rows.length} row(s) selected.
-          </div>
-          <div className="space-x-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              Previous
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              Next
-            </Button>
-          </div>
-        </div>
+        
       </div>
     </>
   );

@@ -3,12 +3,14 @@ import React, { useEffect } from "react";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import useProductStore from "@/store/productContext";
-import useSaleStore from "@/store/salesContext";
+import useSaleStore, { useGroupedSaleStore } from "@/store/salesContext";
 
 const SalesPage: React.FC = () => {
   const { sales, fetchSales } = useSaleStore();
+  const { fetchGroupedSales } = useGroupedSaleStore()
   useEffect(() => {
     fetchSales();
+    // fetchGroupedSales()
   }, []);
   return (
     <main>

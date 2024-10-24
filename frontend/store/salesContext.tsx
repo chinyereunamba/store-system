@@ -15,6 +15,30 @@ export type Sale = {
   date_created?: string;
 };
 
+export type SalesGroup = {
+  date: string;
+  sales: Sale[];
+};
+
+type SalesState = {
+  groupedSales: SalesGroup[];
+  fetchGroupedSales: (days?: number) => void;
+  error: string | null;
+};
+
+const useGroupedSaleStore = create<SalesState>((set) => ({
+  groupedSales: [],
+  error: null,
+  fetchGroupedSales: async (days = 5) => {
+    try {
+      const sales = await axiosInstance.get(`/v1/sales-by-days?days=${days}`);
+      set({ groupedSales: sales.data, error: null });
+    } catch (error: any) {
+      set({ error: error.message });
+    }
+  },
+}));
+
 type SalesProps = {
   loading: boolean;
   error: null | string;
@@ -34,7 +58,7 @@ const useSaleStore = create<SalesProps>((set) => ({
   fetchSales: async () => {
     set({ loading: true, error: null });
     try {
-      const sales = await axiosInstance.get("/v1/sales/");
+      const sales = await axiosInstance.get("/v1/sales-by-days/");
       set({ sales: sales.data, loading: false });
     } catch (e) {
       set({ error: "Failed to fetch sales" });
@@ -87,3 +111,4 @@ const useSaleStore = create<SalesProps>((set) => ({
 }));
 
 export default useSaleStore;
+export { useGroupedSaleStore };

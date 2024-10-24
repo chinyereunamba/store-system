@@ -57,7 +57,7 @@ export function CategoryBox({ trigger, onConfirm }: categoryProps) {
         <DialogHeader>
           <DialogTitle>Category</DialogTitle>
         </DialogHeader>
-        <DialogDescription>Add Category to database</DialogDescription>
+        <DialogDescription>Add category to database</DialogDescription>
         <form onSubmit={submit}>
           <div className="flex flex-col gap-2">
             <Input
