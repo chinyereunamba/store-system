@@ -10,7 +10,12 @@ router.register(r"purchase-items", PurchaseItemAPIView, basename="purchase-items
 router.register(r"purchase-records", PurchaseRecordAPIView, basename="purchase-records")
 router.register(r"sales", SalesItemAPIView, basename="sales")
 router.register(r"supplier", SupplierAPIView, basename="supplier")
+router.register(
+    r"sales-by-last-days", SalesByLastDaysViewSet, basename="sales-by-last-days"
+)
 
 urlpatterns = [
     path("v1/", include(router.urls)),
+    path("v1/latest-sales/", get_latest_sales, name="latest-sales"),
+    path("v1/sales-by-days/", SalesByLastDaysAPIView.as_view()),
 ]
