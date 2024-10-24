@@ -37,11 +37,13 @@ import { Input } from "@/components/ui/input";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  date: string
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  date
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -66,20 +68,23 @@ export function DataTable<TData, TValue>({
       rowSelection,
     },
   });
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString); 
+    return date.toLocaleDateString("en-US", {
+      weekday: "long", // E.g., "Monday"
+      year: "numeric", // E.g., "2024"
+      month: "long", // E.g., "October"
+      day: "numeric", // E.g., "24"
+    });
+  };
+
+  const formattedDate = formatDate(date);
+  console.log(formattedDate); // Output: "Thursday, October 24, 2024"
 
   return (
     <>
       <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter products..."
-          value={
-            (table.getColumn("product_name")?.getFilterValue() as string) ?? ""
-          }
-          onChange={(event) =>
-            table.getColumn("product_name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+        <h3>{formattedDate}</h3>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -160,37 +165,30 @@ export function DataTable<TData, TValue>({
             <TableRow>
               <TableCell className="font-bold">Total</TableCell>
               <TableCell className="font-bold" colSpan={3}>
-                {Number(table
-                  .getRowModel()
-                  .rows.reduce(
-                    (total, row) =>  {
-                      const unitPrice = row.getValue("quantity_sold");
-                      return (
-                        total + (typeof unitPrice === "number" ? unitPrice : 0)
-                      );
-                    },
-                    0
-                  )).toLocaleString()}
+                {Number(
+                  table.getRowModel().rows.reduce((total, row) => {
+                    const unitPrice = row.getValue("quantity_sold");
+                    return (
+                      total + (typeof unitPrice === "number" ? unitPrice : 0)
+                    );
+                  }, 0)
+                ).toLocaleString()}
               </TableCell>
-              
+
               <TableCell className="font-bold text-right" colSpan={4}>
-                $ {Number(table
-                  .getRowModel()
-                  .rows.reduce(
-                    (total, row) =>  {
-                      const totalPrice = row.getValue("total_amount");
-                      return (
-                        total +
-                        (typeof totalPrice === "number" ? totalPrice : 0)
-                      );
-                    },
-                    0
-                  )).toLocaleString()}
+                ${" "}
+                {Number(
+                  table.getRowModel().rows.reduce((total, row) => {
+                    const totalPrice = row.getValue("total_amount");
+                    return (
+                      total + (typeof totalPrice === "number" ? totalPrice : 0)
+                    );
+                  }, 0)
+                ).toLocaleString()}
               </TableCell>
             </TableRow>
           </TableFooter>
         </Table>
-        
       </div>
     </>
   );

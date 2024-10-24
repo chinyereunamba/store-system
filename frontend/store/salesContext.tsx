@@ -29,9 +29,9 @@ type SalesState = {
 const useGroupedSaleStore = create<SalesState>((set) => ({
   groupedSales: [],
   error: null,
-  fetchGroupedSales: async (days = 5) => {
+  fetchGroupedSales: async () => {
     try {
-      const sales = await axiosInstance.get(`/v1/sales-by-days?days=${days}`);
+      const sales = await axiosInstance.get(`/v1/sales-by-days/`);
       set({ groupedSales: sales.data, error: null });
     } catch (error: any) {
       set({ error: error.message });
@@ -42,8 +42,11 @@ const useGroupedSaleStore = create<SalesState>((set) => ({
 type SalesProps = {
   loading: boolean;
   error: null | string;
+  groupedSales: SalesGroup[];
   sales: Sale[];
   setSales: (sales: Sale[]) => void;
+  setGroupedSales: (groupedSales: SalesGroup[]) => void;
+  fetchGroupedSales: () => void;
   addSales: (saleData: Sale) => void; // C
   fetchSales: () => void; // R
   updateSale: (saleId: number, updateData: Partial<Sale | null>) => void; // U
@@ -52,13 +55,23 @@ type SalesProps = {
 
 const useSaleStore = create<SalesProps>((set) => ({
   sales: [],
+  groupedSales: [],
   loading: false,
   error: null,
   setSales: (sales) => set({ sales }),
+  setGroupedSales: (groupedSales) => set({ groupedSales }),
+  fetchGroupedSales: async () => {
+    try {
+      const sales = await axiosInstance.get(`/v1/sales-by-days/`);
+      set({ groupedSales: sales.data, error: null });
+    } catch (error: any) {
+      set({ error: error.message });
+    }
+  },
   fetchSales: async () => {
     set({ loading: true, error: null });
     try {
-      const sales = await axiosInstance.get("/v1/sales-by-days/");
+      const sales = await axiosInstance.get("/v1/sales/");
       set({ sales: sales.data, loading: false });
     } catch (e) {
       set({ error: "Failed to fetch sales" });

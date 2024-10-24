@@ -6,10 +6,10 @@ import useProductStore from "@/store/productContext";
 import useSaleStore, { useGroupedSaleStore } from "@/store/salesContext";
 
 const SalesPage: React.FC = () => {
-  const { sales, fetchSales } = useSaleStore();
-  const { fetchGroupedSales } = useGroupedSaleStore()
+  const { groupedSales, fetchGroupedSales } = useSaleStore();
+  // const { fetchGroupedSales } = useGroupedSaleStore();
   useEffect(() => {
-    fetchSales();
+    fetchGroupedSales();
     // fetchGroupedSales()
   }, []);
   return (
@@ -19,7 +19,16 @@ const SalesPage: React.FC = () => {
         <div className="flex items-center gap-4"></div>
       </div>
       <div>
-        <DataTable columns={columns} data={sales} />
+        {groupedSales.map((sale) => (
+          <div className="mb-4">
+            <DataTable
+              key={sale.date}
+              date={sale.date}
+              columns={columns}
+              data={sale.sales}
+            />
+          </div>
+        ))}
       </div>
     </main>
   );
