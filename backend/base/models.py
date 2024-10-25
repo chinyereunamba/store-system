@@ -39,6 +39,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     stock_quantity = models.PositiveIntegerField(default=0, blank=True, null=True)
     cost_price = models.BigIntegerField(null=True, blank=True)
+    selling_price = models.BigIntegerField(null=True, blank=True)
     date_created = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -50,6 +51,12 @@ class Product(models.Model):
         ).first()
         if latest_purchase_item:
             self.cost_price = latest_purchase_item.unit_price
+            self.save()
+
+    def update_selling_price(self):
+        cost_price = self.cost_price
+        if cost_price:
+            self.selling_price = cost_price * 1.2
             self.save()
 
 
@@ -89,7 +96,7 @@ class SalesItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity_sold = models.PositiveIntegerField()
     unit_price = models.BigIntegerField(
-        verbose_name=(_("Sold at")), 
+        verbose_name=(_("Sold at")),
     )
     date_created = models.DateField(auto_now_add=True)
 

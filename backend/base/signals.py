@@ -26,3 +26,12 @@ def update_product_cost_price(sender, instance, **kwargs):
     """
     product = instance.product
     product.update_price_to_latest_purchase_price()
+
+
+@receiver(post_save, sender=PurchaseItem)
+def update_product_selling_price(sender, instance, **kwargs):
+    """
+    Signal to update product's selling price when a new PurchaseItem is saved.
+    """
+    product = instance.product
+    product.update_selling_price()

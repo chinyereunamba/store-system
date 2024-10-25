@@ -76,7 +76,7 @@ class SalesByLastDaysAPIView(ListAPIView):
     pagination_class = SalesPagination
 
     def get_queryset(self):
-        days_ago = self.request.query_params.get("days", 5)  
+        days_ago = self.request.query_params.get("days", 7)  
         start_date = now().date() - timedelta(days=int(days_ago))
         return SalesItem.objects.filter(date_created__gte=start_date)
 

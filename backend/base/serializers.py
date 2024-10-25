@@ -25,6 +25,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "brand_name",
             "category_name",
             "cost_price",
+            "selling_price",
             "date_created",
         ]
 
