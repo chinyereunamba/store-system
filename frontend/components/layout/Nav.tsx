@@ -7,7 +7,7 @@ import { NavMenu } from "./NavMenu";
 
 function Nav() {
   return (
-    <nav className="p-3 rounded-ss-md border flex justify-between items-center">
+    <nav className="p-3 px-8 rounded-ss-md border flex justify-between items-center">
       <NavMenu />
       <Search />
     </nav>

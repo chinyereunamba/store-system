@@ -88,6 +88,20 @@ export const columns: ColumnDef<Product>[] = [
     ),
   },
   {
+    accessorKey: "cost_price",
+    header: "Cost price",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("cost_price")}</div>
+    ),
+  },
+  {
+    accessorKey: "selling_price",
+    header: "Selling price",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("selling_price")}</div>
+    ),
+  },
+  {
     header: "Actions",
     id: "actions",
     enableHiding: false,
@@ -164,6 +178,17 @@ export const columns: ColumnDef<Product>[] = [
                     setEditingProduct({
                       ...editingProduct!,
                       stock_quantity: parseInt(e.target.value),
+                    })
+                  }
+                />
+                <Input
+                  placeholder="Selling price"
+                  type="string"
+                  value={editingProduct?.selling_price || ""}
+                  onChange={(e) =>
+                    setEditingProduct({
+                      ...editingProduct!,
+                      selling_price: parseInt(e.target.value),
                     })
                   }
                 />

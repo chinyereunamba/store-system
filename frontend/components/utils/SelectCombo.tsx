@@ -8,7 +8,14 @@ import {
 } from "@/components/ui/select"; // Assuming you're using the shadcn component path
 import { Input } from "@/components/ui/input"; // Input component from ShadCN for the search bar
 
-const SearchableSelect = ({ options }: { options: [] }) => {
+const SearchableSelect = ({
+  options,
+}: {
+  options: {
+    label: string;
+    value: string;
+  }[];
+}) => {
   const [searchValue, setSearchValue] = React.useState("");
 
   const filteredOptions = options.filter((option) =>
