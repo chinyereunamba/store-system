@@ -7,7 +7,7 @@ export default function Dashboard({
   children: React.ReactNode;
 }) {
   return (
-    <section className="p-3 border border-t-0 rounded-ee-md flex flex-col gap-4">
+    <section className="px-8 py-3 border border-t-0 rounded-ee-md flex flex-col gap-4">
       {children}
     </section>
   );

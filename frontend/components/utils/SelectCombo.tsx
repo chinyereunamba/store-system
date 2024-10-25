@@ -1,53 +1,48 @@
-import React from "react";
-import { Input } from "../ui/input"; // Assuming this is the path to Input
-import { Select, SelectTrigger, SelectContent, SelectItem } from "../ui/select"; // Assuming this is the path to Select
-import { Label } from "../ui/label";
+import * as React from "react";
+import {
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from "@/components/ui/select"; // Assuming you're using the shadcn component path
+import { Input } from "@/components/ui/input"; // Input component from ShadCN for the search bar
 
-type ComboInputSelectProps = {
-  inputValue: string;
-  onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  selectValue: string;
-  onSelectChange: (value: string) => void;
-  label: string;
-  selectOptions: { value: string; label: string }[];
-};
+const SearchableSelect = ({ options }: { options: [] }) => {
+  const [searchValue, setSearchValue] = React.useState("");
 
-const ComboInputSelect: React.FC<ComboInputSelectProps> = ({
-  inputValue,
-  onInputChange,
-  selectValue,
-  onSelectChange,
-  label,
-  selectOptions,
-}) => {
+  const filteredOptions = options.filter((option) =>
+    option.label.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
   return (
-    <div className="flex flex-col space-y-2">
-      <Label>{label}</Label>
-      <div className="flex space-x-2">
-        {/* Input Field */}
-        <Input
-          value={inputValue}
-          onChange={onInputChange}
-          className="w-full"
-          placeholder="Enter text"
-        />
-
-        {/* Select Dropdown */}
-        <Select onValueChange={onSelectChange} value={selectValue}>
-          <SelectTrigger className="w-32">
-            {selectValue || "Select"}
-          </SelectTrigger>
-          <SelectContent>
-            {selectOptions.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-    </div>
+    <Select>
+      <SelectTrigger className="w-full">
+        <SelectValue placeholder="Select a product" />
+      </SelectTrigger>
+      <SelectContent>
+        {/* Search Input */}
+        <div className="p-2">
+          <Input
+            placeholder="Search..."
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            className="w-full"
+          />
+        </div>
+        {/* Display Options */}
+        {filteredOptions.length > 0 ? (
+          filteredOptions.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))
+        ) : (
+          <div className="p-2 text-sm text-gray-500">No options found.</div>
+        )}
+      </SelectContent>
+    </Select>
   );
 };
 
-export default ComboInputSelect;
+export default SearchableSelect;

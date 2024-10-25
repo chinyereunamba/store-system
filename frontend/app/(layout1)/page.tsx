@@ -1,16 +1,24 @@
 "use client";
 import { DashboardTabs } from "@/components/utils/Tabs";
-import { DashCard } from "@/components/utils/DashboardCard";
-import Sales from "@/components/products/Sales";
+import { DashCard } from "@/components/dashboard/DashboardCard";
+import Sales from "@/components/dashboard/Sales";
 import { Button } from "@/components/ui/button";
 import { DatePickerWithRange } from "@/components/utils/DateRange";
 import { DashChart } from "@/components/utils/DashChart";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { ConfirmationBox } from "@/components/utils/Confirmation";
+import { AddSaleRecord } from "@/components/dashboard/AddSaleRecord";
+import useProductStore from "@/store/productContext";
+import { useEffect } from "react";
 
 export default function Home() {
   const { data: session } = useSession();
+  const { fetchProducts, products } = useProductStore();
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   if (!session) {
     redirect("/login");
@@ -23,7 +31,7 @@ export default function Home() {
         <div className="flex items-center gap-4">
           <DatePickerWithRange />
           <Button>Download</Button>
-          <Button variant={"outline"}>Record new sales</Button>
+          <AddSaleRecord btnName="Add sales record" products={products} />
         </div>
       </div>
       <DashboardTabs
@@ -38,7 +46,6 @@ export default function Home() {
                   <DashCard title="Total daily sale" value={3503} />
                   <DashCard title="Total weekly sales" value={45920} />
                   <DashCard title="Daily profit" value={3002} />
-                  
                 </div>
                 <div className="grid grid-cols-3 h-[calc(100vh-420px)] gap-6 ">
                   <div className="relative max-md:col-span-3 col-span-2 p-4 border h-full rounded-xl">

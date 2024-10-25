@@ -24,7 +24,7 @@ export default function Sales() {
       <p className="my-2">You made 255 sales this month</p>
       <ScrollArea className="mt-6 h-[460px]">
         {saleData.map((sale, index) => (
-          <Sale price={sale.selling_price} product={sale.product} />
+          <Sale key={index} price={sale.selling_price} product={sale.product} />
         ))}
       </ScrollArea>
     </section>
@@ -34,8 +34,8 @@ export default function Sales() {
 function Sale({ price, product }: { price: number; product: string }) {
   return (
     <div className="flex justify-between items-center p-4 bg-slate-200 rounded-lg mb-4">
-      <h3 className="font-normal text-lg">{product}</h3>
-      <p className="font-bold text-xl">+$ {(price).toLocaleString()}</p>
+      <h3 className="font-normal text-base">{product}</h3>
+      <p className="font-bold text-base">+$ {(price).toLocaleString()}</p>
     </div>
   );
 }

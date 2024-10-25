@@ -3,15 +3,16 @@ import { create } from "zustand";
 
 export type Sale = {
   id?: number;
-  product_name: string;
+  product_name?: string;
+  product?: number;
   brand_name?: string;
   brand?: number;
   category_name?: string;
   category?: number;
   quantity_sold: number | string;
   unit_price: number;
-  cost_price: number;
-  profitOrLoss: number;
+  cost_price?: number;
+  profitOrLoss?: number;
   date_created?: string;
 };
 
@@ -25,19 +26,6 @@ type SalesState = {
   fetchGroupedSales: (days?: number) => void;
   error: string | null;
 };
-
-const useGroupedSaleStore = create<SalesState>((set) => ({
-  groupedSales: [],
-  error: null,
-  fetchGroupedSales: async () => {
-    try {
-      const sales = await axiosInstance.get(`/v1/sales-by-days/`);
-      set({ groupedSales: sales.data, error: null });
-    } catch (error: any) {
-      set({ error: error.message });
-    }
-  },
-}));
 
 type SalesProps = {
   loading: boolean;
@@ -124,4 +112,3 @@ const useSaleStore = create<SalesProps>((set) => ({
 }));
 
 export default useSaleStore;
-export { useGroupedSaleStore };
