@@ -16,10 +16,10 @@ const SalesPage: React.FC = () => {
         <div className="flex items-center gap-4"></div>
       </div>
       <div>
-        {groupedSales.map((sale) => (
+        {groupedSales.map((sale, index) => (
           <div className="mb-4">
             <DataTable
-              key={sale.date}
+              key={`${sale.date}-${index}`}
               date={sale.date}
               columns={columns}
               data={sale.sales}

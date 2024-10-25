@@ -16,7 +16,7 @@ type SuppliersProps = {
   error: null | string;
   suppliers: Supplier[];
   addSupplier: (data: Supplier) => void;
-  setSuppliers: () => void;
+  fetchSupplier: () => void;
   deleteSupplier: (id: number) => void;
 };
 
@@ -24,7 +24,7 @@ const useSupplierContext = create<SuppliersProps>((set) => ({
   loading: false,
   error: null,
   suppliers: [],
-  setSuppliers: async () => {
+  fetchSupplier: async () => {
     try {
       const suppliers = (await axiosInstance.get("/v1/supplier/")).data;
       set({ suppliers: suppliers });

@@ -9,7 +9,7 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import SearchableSelect from "../utils/SelectCombo";
-import { Sale } from "@/store/salesContext";
+import useSaleStore, { Sale } from "@/store/salesContext";
 import { Product } from "@/store/productContext";
 
 export const AddSaleRecord = ({
@@ -19,13 +19,12 @@ export const AddSaleRecord = ({
   btnName: string;
   products: Product[];
 }) => {
-  const addSale = () => {};
-  const [saleDetails, setSaleDetails] = useState<Sale>({
-    product: 0,
+  const [saleDetails, setSaleDetails] = useState<Sale | null>({
+    product: undefined,
     unit_price: 0,
     quantity_sold: 0,
   });
-
+  const { addSales } = useSaleStore();
   const [productInput, setProductInput] = useState<string>("");
   const options = [];
   for (let index = 0; index < products.length; index++) {
@@ -34,6 +33,10 @@ export const AddSaleRecord = ({
     options.push({ label: label, value: String(value) });
   }
 
+  const handleAdd = () => {
+    addSales(saleDetails!);
+    setSaleDetails(null);
+  };
 
   return (
     <Dialog>
@@ -51,10 +54,9 @@ export const AddSaleRecord = ({
 
           <SearchableSelect
             options={options}
-            // label="name"
-            // id="id"
-            // selectedVal={productInput}
-            // handleChange={(val) => setProductInput(val)}
+            handleChange={(val) =>
+              setSaleDetails({ ...saleDetails!, product: val })
+            }
           />
 
           <Input
@@ -79,7 +81,7 @@ export const AddSaleRecord = ({
               })
             }
           />
-          <Button onClick={addSale}>Add Sale</Button>
+          <Button onClick={handleAdd}>Add Sale</Button>
         </div>
       </DialogContent>
     </Dialog>

@@ -79,8 +79,7 @@ export function DataTable<TData, TValue>({
   };
 
   const formattedDate = formatDate(date);
-  console.log(formattedDate); // Output: "Thursday, October 24, 2024"
-
+  
   return (
     <>
       <div className="flex items-center py-4">

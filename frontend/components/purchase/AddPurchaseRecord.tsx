@@ -1,5 +1,5 @@
-"use client"
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogTrigger,
@@ -9,23 +9,24 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { Sale } from "@/store/salesContext";
-import { Product } from "@/store/productContext";
+import SelectComponent from "../utils/SelectComponent";
+import useSupplierContext from "@/store/supplierContext";
+import usePurchaseStore, { PurchaseRecord } from "@/store/purchaseContext";
 
-export const AddPurchaseRecord = ({
-  btnName,
-  seller,
-}: {
-  btnName: string;
-  seller?: Product[];
-}) => {
-  const addPurchase = () => {};
-  const [saleDetails, setSaleDetails] = useState<Sale>({
-    product: 0,
-    unit_price: 0,
-    quantity_sold: 0,
-  }); 
-
+export const AddPurchaseRecord = ({ btnName }: { btnName: string }) => {
+  const { fetchSupplier, suppliers } = useSupplierContext();
+  const { addRecord } = usePurchaseStore();
+  const [purchaseRecord, setPurchaseRecord] = useState < PurchaseRecord|null>({
+    total_amount: 0,
+    supplier: "",
+  });
+  useEffect(() => {
+    fetchSupplier();
+  }, [fetchSupplier]);
+  const handleSubmit = () => {
+    addRecord(purchaseRecord!);
+    // setPurchaseRecord(null)
+  };
 
   return (
     <Dialog>
@@ -44,26 +45,26 @@ export const AddPurchaseRecord = ({
           <Input
             placeholder="Amount spent"
             type="number"
-            value={saleDetails?.quantity_sold || ""}
+            value={purchaseRecord!.total_amount || ""}
             onChange={(e) =>
-              setSaleDetails({
-                ...saleDetails!,
-                quantity_sold: parseInt(e.target.value),
+              setPurchaseRecord({
+                ...purchaseRecord!,
+                total_amount: parseInt(e.target.value),
               })
             }
           />
-          <Input
-            placeholder="Seller"
-            type="string"
-            value={saleDetails?.unit_price || ""}
+          <SelectComponent
+            value={purchaseRecord!.supplier as string}
+            placeholder="Select supplier"
+            options={suppliers.map((supplier, index) => ({
+              label: supplier.name,
+              value: String(supplier.id),
+            }))}
             onChange={(e) =>
-              setSaleDetails({
-                ...saleDetails!,
-                unit_price: parseInt(e.target.value),
-              })
+              setPurchaseRecord({ ...purchaseRecord!, supplier: e })
             }
           />
-          <Button onClick={addPurchase}>Add Purchase Record</Button>
+          <Button onClick={handleSubmit}>Add Purchase Record</Button>
         </div>
       </DialogContent>
     </Dialog>

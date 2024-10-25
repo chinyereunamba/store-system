@@ -10,11 +10,13 @@ import { Input } from "@/components/ui/input"; // Input component from ShadCN fo
 
 const SearchableSelect = ({
   options,
+  handleChange,
 }: {
   options: {
     label: string;
     value: string;
   }[];
+  handleChange: (e:any) => void;
 }) => {
   const [searchValue, setSearchValue] = React.useState("");
 
@@ -23,7 +25,7 @@ const SearchableSelect = ({
   );
 
   return (
-    <Select>
+    <Select onValueChange={handleChange}>
       <SelectTrigger className="w-full">
         <SelectValue placeholder="Select a product" />
       </SelectTrigger>
@@ -40,7 +42,10 @@ const SearchableSelect = ({
         {/* Display Options */}
         {filteredOptions.length > 0 ? (
           filteredOptions.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
+            <SelectItem
+              key={option.value}
+              value={option.value}
+            >
               {option.label}
             </SelectItem>
           ))
