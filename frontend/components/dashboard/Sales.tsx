@@ -13,8 +13,8 @@ export default function Sales() {
   const [saleData, setSaleData] = useState<LatestSale[]>([]);
   useEffect(() => {
     const getSale = async () => {
-      const response = (await axiosInstance.get("/v1/latest-sales/")).data;
-      setSaleData(response);
+      const response:[] = (await axiosInstance.get("/v1/latest-sales/")).data;
+      setSaleData(response.reverse());
     };
     getSale();
   }, []);
