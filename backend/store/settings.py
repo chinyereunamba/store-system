@@ -113,7 +113,7 @@ if DEBUG == False:
         'OPTIONS': {
             'sslmode': 'require',
             'sslrootcert': BASE_DIR / 'ca.pem'
-         
+         }
     }
 }
 else:
