@@ -103,19 +103,16 @@ WSGI_APPLICATION = "store.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 if DEBUG == False:
     DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT', default='3306'),
-        'OPTIONS': {
-            'sslmode': 'require',
-            'sslrootcert': BASE_DIR / 'ca.pem'
-         }
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": config("DB_NAME"),
+            "USER": config("DB_USER"),
+            "PASSWORD": config("DB_PASSWORD"),
+            "HOST": config("DB_HOST"),
+            "OPTIONS": {"sslmode": "require", "sslrootcert": BASE_DIR / "cert/ca.pem"},
+            "PORT": config("DB_PORT"),
+        }
     }
-}
 else:
     DATABASES = {
         "default": {
