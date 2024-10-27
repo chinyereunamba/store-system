@@ -104,12 +104,13 @@ WSGI_APPLICATION = "store.wsgi.application"
 if DEBUG == False:
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": "koyebdb",
-            "USER": "koyeb-adm",
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": config("DB_NAME"),
+            "USER": config("DB_USER"),
             "PASSWORD": config("DB_PASSWORD"),
             "HOST": config("DB_HOST"),
             "OPTIONS": {"sslmode": "require"},
+            "PORT": config("DB_PORT"),
         }
     }
 else:
