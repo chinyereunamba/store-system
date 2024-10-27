@@ -111,10 +111,9 @@ if DEBUG == False:
         'HOST': config('DB_HOST'),
         'PORT': config('DB_PORT', default='3306'),
         'OPTIONS': {
-            'ssl': {
-                'ca': config('DB_SSL_CA'),  # Path to the CA certificate
-            }
-        }
+            'sslmode': 'require',
+            'sslrootcert': BASE_DIR / 'ca.pem'
+         
     }
 }
 else:
