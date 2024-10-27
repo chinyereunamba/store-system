@@ -18,9 +18,9 @@ export type Purchase = {
 
 export type PurchaseRecord = {
   id?: number;
-  total_amount: string;
+  total_amount: number;
   purchase_date?: string;
-  supplier: number;
+  supplier: number | null;
   products?: number[];
 };
 

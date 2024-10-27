@@ -16,16 +16,16 @@ import usePurchaseStore, { PurchaseRecord } from "@/store/purchaseContext";
 export const AddPurchaseRecord = ({ btnName }: { btnName: string }) => {
   const { fetchSupplier, suppliers } = useSupplierContext();
   const { addRecord } = usePurchaseStore();
-  const [purchaseRecord, setPurchaseRecord] = useState < PurchaseRecord|null>({
+  const [purchaseRecord, setPurchaseRecord] = useState<PurchaseRecord | null>({
     total_amount: 0,
-    supplier: "",
+    supplier: null,
   });
   useEffect(() => {
     fetchSupplier();
   }, [fetchSupplier]);
   const handleSubmit = () => {
     addRecord(purchaseRecord!);
-    // setPurchaseRecord(null)
+    setPurchaseRecord(null);
   };
 
   return (
@@ -54,7 +54,7 @@ export const AddPurchaseRecord = ({ btnName }: { btnName: string }) => {
             }
           />
           <SelectComponent
-            value={purchaseRecord!.supplier as string}
+            value={String(purchaseRecord!.supplier)}
             placeholder="Select supplier"
             options={suppliers.map((supplier, index) => ({
               label: supplier.name,
