@@ -1,0 +1,23 @@
+# render.yaml
+
+services:
+  - type: web
+    name: django-web-service
+    env: python
+    plan: free # or change to a paid plan if needed
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py collectstatic --noinput
+      python manage.py migrate
+    startCommand: gunicorn store.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: "store.settings"
+      - key: SECRET_KEY
+        value: "{{ secret }}"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: my-db
+          property: connectionString
+      - key: DEBUG
+        value: "False" # Set to "True" only if in a development environment
