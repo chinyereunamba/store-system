@@ -1,6 +1,0 @@
-services:
-  - type: web
-    name: store
-    env: python
-    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate"
-    startCommand: "gunicorn store.wsgi --preload --bind 0.0.0.0:$PORT"
