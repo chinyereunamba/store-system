@@ -109,7 +109,7 @@ if DEBUG == False:
             "USER": config("DB_USER"),
             "PASSWORD": config("DB_PASSWORD"),
             "HOST": config("DB_HOST"),
-            "OPTIONS": {"sslmode": "require", "sslrootcert": BASE_DIR / "cert/ca.pem"},
+            # "OPTIONS": {"sslrootcert": BASE_DIR / "cert/ca.pem"},
             "PORT": config("DB_PORT"),
         }
     }
