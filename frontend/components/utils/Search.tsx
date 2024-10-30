@@ -11,7 +11,7 @@ export default function Search() {
   const { data: session } = useSession();
   const initial = String(session?.user?.account?.username)[0].toLocaleUpperCase();
   return (
-    <div className="w-96 flex gap-2 shadow-none">
+    <div className="max-sm:w-full w-2/4 flex gap-2 shadow-none">
       <Command className="rounded-lg border">
         <CommandInput placeholder="Search..." />
       </Command>

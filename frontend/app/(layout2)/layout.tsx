@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import "../globals.css";
 
 export const metadata = {
@@ -10,5 +11,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return <Fragment>{children}</Fragment>;
 }

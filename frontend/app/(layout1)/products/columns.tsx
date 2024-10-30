@@ -45,7 +45,7 @@ export const columns: ColumnDef<Product>[] = [
     accessorKey: "product_name",
     header: "Products",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("product_name")}</div>
+      <div className="capitalize text-left">{row.getValue("product_name")}</div>
     ),
   },
   {

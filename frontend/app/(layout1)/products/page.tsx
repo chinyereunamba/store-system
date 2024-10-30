@@ -27,9 +27,9 @@ const ProductPage = () => {
   }, [fetchProducts, fetchBrand, fetchCategory]);
   return (
     <main>
-      <div className="flex justify-between items-center mb-2">
+      <div className="flex justify-between items-center mb-4 max-sm:flex-col max-sm:items-start gap-4">
         <h1 className="text-3xl font-semibold">Products</h1>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 flex-wrap">
           <AddUpdateBox type="add" onConfirm={() => {}} trigger="Add Product" />
           <BrandBox type="add" onConfirm={() => {}} trigger="Add Brand" />
           <CategoryBox type="add" onConfirm={() => {}} trigger="Add Category" />

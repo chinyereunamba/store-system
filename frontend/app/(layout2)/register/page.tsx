@@ -109,7 +109,7 @@ function RegisterPage() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center h-screen">
+    <main className="flex flex-col items-center justify-center h-screen p-4">
       <div className="text-center mb-4">
         <h1>Register</h1>
         <p>Sign up with us</p>

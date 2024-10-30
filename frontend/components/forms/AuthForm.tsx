@@ -50,6 +50,7 @@ export default function AuthForm({
           )}
           <div className="relative">
             <Input
+              className={input.error&&'border-destructive'}
               role="input"
               aria-description="Gets input from user"
               type={

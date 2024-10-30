@@ -25,10 +25,12 @@ export default function Home() {
   }
 
   return (
-    <main>
-      <div className="flex justify-between items-center mb-2">
-        <h1 className="text-3xl font-semibold">Dashboard</h1>
-        <div className="flex items-center gap-4">
+    <section>
+      <div className="flex justify-between items-center max-md:flex-col max-md:items-start gap-4 mb-4">
+        <h1 className="text-3xl font-semibold text-left justify-self-end">
+          Dashboard
+        </h1>
+        <div className="flex items-center gap-4 flex-wrap">
           <DatePickerWithRange />
           <Button>Download</Button>
           <AddSaleRecord btnName="Add sales record" products={products} />
@@ -48,10 +50,11 @@ export default function Home() {
                   <DashCard title="Daily profit" value={3002} />
                 </div>
                 <div className="grid grid-cols-3 h-[calc(100vh-420px)] gap-6 ">
-                  <div className="relative max-md:col-span-3 col-span-2 p-4 border h-full rounded-xl">
+                  <div className="flex flex-col justify-between max-md:col-span-3 col-span-1 p-4 border h-full rounded-xl">
                     <h3>Weekly Overview</h3>
                     <DashChart />
                   </div>
+                  <div className="col-span-1 border rounded-xl"></div>
                   <div className="max-md:col-span-3 col-span-1 border rounded-xl">
                     <Sales />
                   </div>
@@ -72,6 +75,6 @@ export default function Home() {
           { name: "Notifications" },
         ]}
       />
-    </main>
+    </section>
   );
 }

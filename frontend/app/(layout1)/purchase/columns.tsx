@@ -15,9 +15,19 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import useSaleStore, { Sale } from "@/store/salesContext";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
+import { Purchase } from "@/store/purchaseContext";
 
-export const columns: ColumnDef<Sale>[] = [
+export const columns: ColumnDef<Purchase>[] = [
+  {
+    accessorKey: "sn",
+    header: "S/n",
+    cell: ({ row }) => <div className="capitalize">{Number(row.id) + 1}</div>,
+  },
   {
     accessorKey: "product_name",
     header: "Products",
@@ -26,9 +36,9 @@ export const columns: ColumnDef<Sale>[] = [
     ),
   },
   {
-    accessorKey: "quantity_sold",
-    header: "Quantity Sold",
-    cell: ({ row }) => <div>{row.getValue("quantity_sold")}</div>,
+    accessorKey: "quantity",
+    header: "Quantity Purchased",
+    cell: ({ row }) => <div>{row.getValue("quantity")}</div>,
   },
   {
     accessorKey: "brand_name",
@@ -64,15 +74,10 @@ export const columns: ColumnDef<Sale>[] = [
       <div className="capitalize">{row.getValue("category_name")}</div>
     ),
   },
-  {
-    accessorKey: "cost_price",
-    header: "Cost Price",
-    cell: ({ row }) => <div>$ {row.getValue("cost_price")}</div>,
-  },
 
   {
     accessorKey: "unit_price",
-    header: "Selling Price",
+    header: "Cost Price",
     cell: ({ row }) => (
       <div>$ {Number(row.getValue("unit_price")).toLocaleString()}</div>
     ),
@@ -83,18 +88,18 @@ export const columns: ColumnDef<Sale>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const sale = row.original;
+      const purchase = row.original;
       const [open, setOpen] = useState(false);
       const { updateSale, deleteSale } = useSaleStore();
-      const [editSale, setEditSale] = useState<Sale | null>(sale);
+      const [editSale, setEditSale] = useState<Purchase | null>(purchase!);
 
       const handleDelete = () => {
-        deleteSale(sale.id as number);
+        deleteSale(purchase!.id as number);
         setOpen(false);
       };
 
       const handleEdit = () => {
-        updateSale(sale.id as number, editSale);
+        updateSale(purchase!.id as number, editSale);
         setEditSale(null);
       };
 
@@ -122,11 +127,11 @@ export const columns: ColumnDef<Sale>[] = [
                 <Input
                   placeholder="Quantity sold"
                   type="number"
-                  value={editSale?.quantity_sold || ""}
+                  value={""}
                   onChange={(e) =>
                     setEditSale({
                       ...editSale!,
-                      quantity_sold: parseInt(e.target.value),
+                      // quantity_sold: parseInt(e.target.value),
                     })
                   }
                 />
@@ -137,7 +142,7 @@ export const columns: ColumnDef<Sale>[] = [
                   onChange={(e) =>
                     setEditSale({
                       ...editSale!,
-                      unit_price: parseInt(e.target.value),
+                      // quantity_sold: parseInt(e.target.value),
                     })
                   }
                 />
@@ -157,10 +162,9 @@ export const columns: ColumnDef<Sale>[] = [
                 {/* <PopoverDescription>Product deletion</PopoverDescription> */}
                 <p>
                   Are you sure you want to delete{" "}
-                  <strong>{sale.product_name}</strong>?
+                  {/* <strong>{purchase.supplier}</strong>? */}
                 </p>
                 <div className="flex justify-end">
-                  
                   <Button onClick={() => handleDelete()} variant="destructive">
                     Yes
                   </Button>
@@ -178,8 +182,7 @@ export const columns: ColumnDef<Sale>[] = [
     cell: ({ row }) => (
       <div className="text-right">
         ${" "}
-        {Number(row.getValue("unit_price")) *
-          Number(row.getValue("quantity_sold"))}
+        {Number(row.getValue("unit_price")) * Number(row.getValue("quantity"))}
       </div>
     ),
   },

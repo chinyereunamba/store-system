@@ -69,6 +69,16 @@ body {
   }
 }
 
+body{
+  @apply p-4;
+  min-height: 100vh;
+  height: 100%
+}
+
+main{
+  min-height: fit-content
+}
+
 h1 {
   @apply text-3xl font-bold;
 }

@@ -33,17 +33,23 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { PurchaseRecord } from "@/store/purchaseContext";
+import React from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  date: string
+  date: string | undefined;
+  supplier: string | undefined;
+  total: string | number;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  date
+  date,
+  supplier,
+  total,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -69,7 +75,7 @@ export function DataTable<TData, TValue>({
     },
   });
   const formatDate = (dateString: string): string => {
-    const date = new Date(dateString); 
+    const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
       weekday: "long", // E.g., "Monday"
       year: "numeric", // E.g., "2024"
@@ -78,42 +84,20 @@ export function DataTable<TData, TValue>({
     });
   };
 
-  const formattedDate = formatDate(date);
-  
+  const formattedDate = formatDate(date!);
+
+  // const totalSpent =
+
   return (
     <>
-      <div className="flex items-center py-4">
-        <h3>{formattedDate}</h3>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <div className="flex items-center py-4 mt-4 gap-4 justify-between max-sm:flex-col max-sm:items-start">
+        <h3>
+          {supplier} &mdash; {formattedDate}
+        </h3>
+        <h3>Total amount spent &mdash; $ {Number(total).toLocaleString()}</h3>
       </div>
       <div className="rounded-md border px-2">
         <Table>
-          {/* <TableCaption>A list of your recent sales.</TableCaption> */}
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -162,11 +146,12 @@ export function DataTable<TData, TValue>({
           </TableBody>
           <TableFooter>
             <TableRow>
+              <TableCell className="font-bold"></TableCell>
               <TableCell className="font-bold">Total</TableCell>
               <TableCell className="font-bold" colSpan={3}>
                 {Number(
                   table.getRowModel().rows.reduce((total, row) => {
-                    const unitPrice = row.getValue("quantity_sold");
+                    const unitPrice = row.getValue("quantity");
                     return (
                       total + (typeof unitPrice === "number" ? unitPrice : 0)
                     );

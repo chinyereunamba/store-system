@@ -34,8 +34,7 @@ function LoginPage() {
       if (validate.success) {
         setLoading(true);
         signIn("credentials", { redirect: true, email, password });
-      return redirect("/");
-
+        return redirect("/");
       } else {
         const fieldErrors = validate.error.flatten().fieldErrors;
         setError({
@@ -47,8 +46,37 @@ function LoginPage() {
       console.error(e);
     }
   };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLoginInfo((prev) => ({
+      ...prev,
+      [name]: e.target.value,
+    }));
+
+    const parsedData = formSchema.safeParse({
+      ...loginInfo,
+      [name]: value,
+    });
+    if (!parsedData.success) {
+      // Map Zod errors to the error state for the current field
+      const fieldErrors = parsedData.error.flatten().fieldErrors as Record<
+        string,
+        string[]
+      >;
+      setError((prevError) => ({
+        ...prevError,
+        [name]: fieldErrors[name]?.[0] || "",
+      }));
+    } else {
+      // Clear the error for the current field if validation passes
+      setError((prevError) => ({
+        ...prevError,
+        [name]: "",
+      }));
+    }
+  };
   return (
-    <main className="flex flex-col items-center justify-center h-screen">
+    <main className="flex flex-col items-center justify-center h-screen p-4">
       <>
         <div className="text-center mb-4">
           <h1>Login</h1>
@@ -67,11 +95,7 @@ function LoginPage() {
               value: loginInfo.email,
               required: true,
               error: error.email,
-              changeHandler(e) {
-                loginInfo.email == "" &&
-                  setError({ ...error, email: "This field is required" });
-                setLoginInfo({ ...loginInfo, email: e.currentTarget.value });
-              },
+              changeHandler: (e) => handleChange(e),
             },
             {
               type: "password",
@@ -81,9 +105,7 @@ function LoginPage() {
               value: loginInfo.password,
               required: true,
               error: error.passwordError,
-              changeHandler(e) {
-                setLoginInfo({ ...loginInfo, password: e.currentTarget.value });
-              },
+              changeHandler: (e) => handleChange(e),
             },
           ]}
         />

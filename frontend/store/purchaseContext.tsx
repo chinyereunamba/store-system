@@ -1,5 +1,6 @@
 import { axiosInstance } from "@/lib/utils";
 import { create } from "zustand";
+import { Product } from "./productContext";
 
 export type Purchase = {
   id?: number;
@@ -21,7 +22,8 @@ export type PurchaseRecord = {
   total_amount: number;
   purchase_date?: string;
   supplier: number | null;
-  products?: number[];
+  supplier_name?:string
+  products?: Purchase[];
 };
 
 type PurchaseState = {
