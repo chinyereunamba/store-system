@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 import uuid
+from django.utils.timezone import now
 
 
 class Category(models.Model):
@@ -66,7 +67,7 @@ class PurchaseRecord(models.Model):
         verbose_name=(_("Total Amount Spent")), max_digits=10, decimal_places=2
     )
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    purchase_date = models.DateField(auto_now_add=True)
+    purchase_date = models.DateField(default=now())
 
     def __str__(self):
         return f"{self.purchase_date} - {self.supplier.name}"

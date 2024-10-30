@@ -50,17 +50,50 @@ class PurchaseItemSerializer(serializers.ModelSerializer):
             "brand_name",
             "category_name",
             "order_detail",
-            "total_amount"
+            "total_amount",
         ]
 
     def get_order_detail(self, obj):
         pass
 
 
+class ProductInPurchase(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = "__all__"
+
+
+class ProductInRecord(serializers.ModelSerializer):
+    product_name = serializers.StringRelatedField(source="product")
+    brand_name = serializers.StringRelatedField(source="product.brand")
+    category_name = serializers.StringRelatedField(source="product.category")
+
+    class Meta:
+        model = PurchaseItem
+        fields = [
+            "product",
+            "quantity",
+            "product_name",
+            "unit_price",
+            "brand_name",
+            "category_name",
+        ]
+
+
 class PurchaseRecordSerializer(serializers.ModelSerializer):
+    products = ProductInRecord(many=True, source="purchaseitem_set")
+    supplier_name = serializers.StringRelatedField(source="supplier", read_only=True)
+
     class Meta:
         model = PurchaseRecord
-        fields = "__all__"
+        fields = [
+            "id",
+            "total_amount",
+            "purchase_date",
+            "supplier",
+            "supplier_name",
+            "products",
+        ]
 
 
 class SalesItemSerializer(serializers.ModelSerializer):
@@ -82,7 +115,7 @@ class SalesItemSerializer(serializers.ModelSerializer):
             "quantity_sold",
             "cost_price",
             "unit_price",
-            "total_amount"
+            "total_amount",
         ]
 
 

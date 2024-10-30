@@ -27,7 +27,7 @@ class PurchaseItemAPIView(ModelViewSet):
 
 
 class PurchaseRecordAPIView(ModelViewSet):
-    queryset = PurchaseRecord.objects.all()
+    queryset = PurchaseRecord.objects.all().order_by("-purchase_date")
     permission_classes = [AllowAny]
     serializer_class = PurchaseRecordSerializer
 
