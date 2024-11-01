@@ -70,7 +70,6 @@ body {
 }
 
 body{
-  @apply p-4;
   min-height: 100vh;
   height: 100%
 }
@@ -101,6 +100,10 @@ input{
 
 small {
   @apply text-sm !important;
+}
+
+*::placeholder{
+  @apply text-muted !important;
 }
 
 @layer base {

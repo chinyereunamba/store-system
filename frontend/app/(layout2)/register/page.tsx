@@ -4,8 +4,9 @@ import { axiosInstance } from "@/lib/utils";
 import Link from "next/link";
 import { z } from "zod";
 
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { redirect } from "next/navigation";
+import { useUsers } from "@/store/context";
 
 function RegisterPage() {
   const [signUp, setSignUp] = useState({
@@ -15,6 +16,23 @@ function RegisterPage() {
     rePassword: "",
   });
 
+  const { users, fetchUsers } = useUsers();
+
+  useEffect(() => {
+    fetchUsers();
+  }, [users]);
+
+  const userList = () => {
+    let list: string[] = [];
+    users.forEach((user) => {
+      list.push(user.username);
+    });
+    return list;
+  };
+  const findUsername = (username: string) => {
+    let list = userList()
+    if(list.find(user=>user===username)) return true
+  };
   const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState({
@@ -74,7 +92,7 @@ function RegisterPage() {
         });
       }
     } catch (e) {
-      throw new Error();
+      console.error(e);
     }
   };
 
@@ -89,6 +107,10 @@ function RegisterPage() {
       ...signUp,
       [name]: value,
     });
+    
+    // const usernameInput = if (name == 'username') return value
+    // findUsername(usernameInput)
+
     if (!parsedData.success) {
       // Map Zod errors to the error state for the current field
       const fieldErrors = parsedData.error.flatten().fieldErrors as Record<

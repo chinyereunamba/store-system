@@ -15,9 +15,13 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import PurchaseForm from "@/components/purchase/PurchaseForm";
+import useProductStore from "@/store/productContext";
+import useSupplierContext from "@/store/supplierContext";
 
 const PurchasePage = () => {
   const { record, fetchRecord } = usePurchaseStore();
+  const { products, fetchProducts } = useProductStore();
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 9;
@@ -28,6 +32,7 @@ const PurchasePage = () => {
   const paginatedData = record.slice(startIndex, endIndex);
 
   useEffect(() => {
+    fetchProducts();
     fetchRecord();
   }, []);
   return (
@@ -36,6 +41,11 @@ const PurchasePage = () => {
         <div className="flex justify-between items-center mb-2">
           <h1 className="text-3xl font-semibold">Purchase Records</h1>
           <div className="flex items-center gap-4">
+            <PurchaseForm
+              purchaseRecord={record}
+              products={products}
+              btn="Add Stock Items"
+            />
             <AddPurchaseRecord btnName="Add new record" />
             <AddSellerDetails btnName="Add seller" />
           </div>
@@ -55,10 +65,10 @@ const PurchasePage = () => {
       </div>
 
       <Pagination
-        // className="mt-4"
-        // currentPage={currentPage}
-        // totalPages={Math.ceil(record.length / itemsPerPage)}
-        // onPageChange={(page: number) => setCurrentPage(page)}
+      // className="mt-4"
+      // currentPage={currentPage}
+      // totalPages={Math.ceil(record.length / itemsPerPage)}
+      // onPageChange={(page: number) => setCurrentPage(page)}
       >
         <PaginationContent>
           <PaginationItem>
