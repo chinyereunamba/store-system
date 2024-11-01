@@ -4,7 +4,9 @@ from .serializers import *
 from rest_framework.permissions import AllowAny
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.generics import ListAPIView
+from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from django.http import JsonResponse
 from django.utils.timezone import now, timedelta
 from django.db.models import Q, Count, Sum
@@ -76,7 +78,7 @@ class SalesByLastDaysAPIView(ListAPIView):
     pagination_class = SalesPagination
 
     def get_queryset(self):
-        days_ago = self.request.query_params.get("days", 7)  
+        days_ago = self.request.query_params.get("days", 7)
         start_date = now().date() - timedelta(days=int(days_ago))
         return SalesItem.objects.filter(date_created__gte=start_date)
 
@@ -84,7 +86,7 @@ class SalesByLastDaysAPIView(ListAPIView):
         queryset = self.get_queryset()
         grouped_sales = {}
         for sale in queryset.order_by("-date_created"):
-            date_key = sale.date_created.strftime("%Y-%m-%d")  
+            date_key = sale.date_created.strftime("%Y-%m-%d")
             if date_key not in grouped_sales:
                 grouped_sales[date_key] = []
             grouped_sales[date_key].append(sale)
@@ -118,3 +120,19 @@ class SalesByLastDaysViewSet(ViewSet):
             return self.get_paginated_response(page)
 
         return Response(sales)
+
+
+class BulkUpload(APIView):
+    def post(self, request):
+        purchase_items_data = request.data
+        if isinstance(purchase_items_data, list):
+            serializer = PurchaseItemSerializer(data=purchase_items_data, many=True)
+        else:
+            serializer = PurchaseItemSerializer(data=purchase_items_data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+

@@ -28,3 +28,8 @@ class CustomRegisterSerializer(RegisterSerializer):
         )
 
         return user
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Account
+        fields = ['pk', 'email', 'username' ]

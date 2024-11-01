@@ -8,6 +8,9 @@ from rest_framework_simplejwt.views import (
 from dj_rest_auth.views import PasswordResetConfirmView, PasswordResetView, PasswordChangeView
 from dj_rest_auth.registration.views import VerifyEmailView, ResendEmailVerificationView
 
+from .views import UserList
+
+
 urlpatterns = [
     path("user/", include("dj_rest_auth.urls")),
     path("user/registration/", include("dj_rest_auth.registration.urls")),
@@ -39,6 +42,7 @@ urlpatterns = [
         PasswordChangeView.as_view(),
         name="password_change",
     ),
+    path("users/", UserList.as_view(), name='user-list')
 
 
 ]
