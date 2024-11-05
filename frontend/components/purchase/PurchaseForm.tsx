@@ -74,10 +74,12 @@ const PurchaseForm = ({
 
   const handleSubmit = () => {
     // Submit all purchases at once to the backend
-    const refinedPurchase = purchases.map((item) =>
-      Object.assign({}, item, { purchase_order: purchaseOrder })
-    );
-    addPurchase(refinedPurchase as Purchase[]);
+    const refinedPurchase = purchases.map((item) => ({
+      ...item,
+      product: Number(item.product), // Convert product to a number
+      purchase_order: Number(purchaseOrder),
+    }));
+    addPurchase(refinedPurchase);
   };
 
   return (

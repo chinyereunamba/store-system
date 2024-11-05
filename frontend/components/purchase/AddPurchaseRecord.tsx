@@ -45,7 +45,7 @@ export const AddPurchaseRecord = ({ btnName }: { btnName: string }) => {
           <Input
             placeholder="Amount spent"
             type="number"
-            value={purchaseRecord!.total_amount || ""}
+            value={purchaseRecord!.total_amount}
             onChange={(e) =>
               setPurchaseRecord({
                 ...purchaseRecord!,
