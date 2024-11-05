@@ -69,13 +69,13 @@ body {
   }
 }
 
-body{
+body {
   min-height: 100vh;
-  height: 100%
+  height: 100%;
 }
 
-main{
-  min-height: fit-content
+main {
+  min-height: fit-content;
 }
 
 h1 {
@@ -93,7 +93,7 @@ h4 {
 }
 p,
 label,
-input{
+input {
   font-size: 1rem !important;
   line-height: 1.5rem !important;
 }
@@ -102,8 +102,8 @@ small {
   @apply text-sm !important;
 }
 
-*::placeholder{
-  @apply text-muted !important;
+*::placeholder {
+  @apply text-slate-500 text-sm !important;
 }
 
 @layer base {

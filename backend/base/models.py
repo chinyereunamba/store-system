@@ -110,7 +110,7 @@ class SalesItem(models.Model):
         return self.unit_price * self.quantity_sold
 
     def __str__(self):
-        return f"{self.quantity_sold} of {self.product.product_name} in transaction {self.sales_transaction.transaction_number}"
+        return f"{self.quantity_sold} of {self.product.product_name} in transaction {self.sale_id}"
 
     class Meta:
         verbose_name = "Sales Item"

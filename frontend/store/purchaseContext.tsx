@@ -5,15 +5,15 @@ import { Product } from "./productContext";
 export type Purchase = {
   id?: number;
   product_name?: string;
-  product?: number | undefined;
+  product?: number | undefined | string;
   brand_name?: string;
   brand?: number;
   category_name?: string;
   category?: number;
   quantity: number;
-  unit_price?: number;
+  unit_price?: number | string;
   purchase_order: number;
-  order_detail: null;
+  order_detail?: null;
   total_amount?: number;
 };
 
@@ -21,8 +21,8 @@ export type PurchaseRecord = {
   id?: number;
   total_amount: number;
   purchase_date?: string;
-  supplier: number | null;
-  supplier_name?:string
+  supplier: number | string;
+  supplier_name?: string;
   products?: Purchase[];
 };
 
@@ -33,7 +33,7 @@ type PurchaseState = {
   record: PurchaseRecord[];
   addRecord: (data: PurchaseRecord) => void; // C
   fetchRecord: () => void;
-  addPurchase: (purchaseData: Purchase) => void; // C
+  addPurchase: (purchaseData: Purchase[]) => void; // C
   fetchPurchase: () => void;
   updatePurchase: (id: number, updateData: Partial<Purchase | null>) => void; // U
   deletePurchase: (id: number) => void; // D
@@ -75,7 +75,10 @@ const usePurchaseStore = create<PurchaseState>((set) => ({
   addPurchase: async (data) => {
     set({ loading: true, error: null });
     try {
-      const response = await axiosInstance.post("/v1/purchase-items/", data);
+      const response = await axiosInstance.post(
+        "/v1/bulk-purchase-upload/",
+        data
+      );
       set((state) => ({
         purchases: [response.data, ...state.purchases],
         loading: false,
@@ -108,6 +111,10 @@ const usePurchaseStore = create<PurchaseState>((set) => ({
       const response = await axiosInstance.delete(`/v1/purchase-items/${id}/`);
       set((state) => ({
         purchases: state.purchases.filter((purchase) => purchase.id !== id),
+        record: state.record.map((item) => ({
+          ...item,
+          products: item.products?.filter((p) => p.id !== id),
+        })),
         loading: false,
       }));
     } catch (e) {

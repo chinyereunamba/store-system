@@ -10,11 +10,13 @@ import { redirect } from "next/navigation";
 import { ConfirmationBox } from "@/components/utils/Confirmation";
 import { AddSaleRecord } from "@/components/dashboard/AddSaleRecord";
 import useProductStore from "@/store/productContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { axiosInstance } from "@/lib/utils";
 
 export default function Home() {
   const { data: session } = useSession();
   const { fetchProducts, products } = useProductStore();
+  const [daily, setDaily] = useState()
 
   useEffect(() => {
     fetchProducts();
@@ -22,6 +24,19 @@ export default function Home() {
 
   if (!session) {
     redirect("/login");
+  }
+
+  // i want to get the weekly sales total amount. I don't know how to go about it
+
+  const dailySale = async() => {
+    const date = new Date()
+    const getSalesList = await axiosInstance.get("/v1/sales-by-days?page=1/");
+    // getSalesList.forEach((item, i) => {
+    //   if (date - item.date <= 7) {
+        
+    //   }
+    // })
+    return ''
   }
 
   return (

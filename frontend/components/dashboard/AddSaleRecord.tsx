@@ -11,6 +11,7 @@ import { Button } from "../ui/button";
 import SearchableSelect from "../utils/SelectCombo";
 import useSaleStore, { Sale } from "@/store/salesContext";
 import { Product } from "@/store/productContext";
+import { useToast } from "@/hooks/use-toast";
 
 export const AddSaleRecord = ({
   btnName,
@@ -33,8 +34,14 @@ export const AddSaleRecord = ({
     options.push({ label: label, value: String(value) });
   }
 
+  const { toast } = useToast();
+
   const handleAdd = () => {
     addSales(saleDetails!);
+    toast({
+      title: "Sales",
+      description: `New sale add successfully`,
+    });
     setSaleDetails(null);
   };
 

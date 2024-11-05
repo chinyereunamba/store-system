@@ -1,10 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, Edit, Eye, MoreHorizontal, Trash } from "lucide-react";
-import useProductStore, { type Product } from "@/store/productContext";
+import { ArrowUpDown, Edit, Trash } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import {
@@ -14,13 +12,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import useSaleStore, { Sale } from "@/store/salesContext";
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/popover";
-import { Purchase } from "@/store/purchaseContext";
+import usePurchaseStore, { Purchase } from "@/store/purchaseContext";
+import SelectComponent, {
+  SelectProducts,
+} from "@/components/utils/SelectComponent";
 
 export const columns: ColumnDef<Purchase>[] = [
   {
@@ -90,17 +90,19 @@ export const columns: ColumnDef<Purchase>[] = [
     cell: ({ row }) => {
       const purchase = row.original;
       const [open, setOpen] = useState(false);
-      const { updateSale, deleteSale } = useSaleStore();
-      const [editSale, setEditSale] = useState<Purchase | null>(purchase!);
+      const { updatePurchase, deletePurchase } = usePurchaseStore();
+      const [editPurchase, setEditPurchase] = useState<Purchase | null>(
+        purchase!
+      );
 
       const handleDelete = () => {
-        deleteSale(purchase!.id as number);
+        deletePurchase(purchase!.id as number);
         setOpen(false);
       };
 
       const handleEdit = () => {
-        updateSale(purchase!.id as number, editSale);
-        setEditSale(null);
+        updatePurchase(purchase!.id as number, editPurchase);
+        setEditPurchase(null);
       };
 
       return (
@@ -116,21 +118,27 @@ export const columns: ColumnDef<Purchase>[] = [
                 <DialogTitle>Edit Sale</DialogTitle>
                 <Input
                   placeholder="Product"
-                  value={editSale?.product_name || ""}
+                  value={editPurchase?.product_name || ""}
                   onChange={(e) =>
-                    setEditSale({
-                      ...editSale!,
+                    setEditPurchase({
+                      ...editPurchase!,
                       product_name: e.target.value,
                     })
                   }
                 />
+                <SelectProducts
+                  value={editPurchase?.product as string || ""}
+                  onChange={(e) =>
+                    setEditPurchase({ ...editPurchase, product: e })
+                  }
+                />
                 <Input
-                  placeholder="Quantity sold"
+                  placeholder="Quantity bought"
                   type="number"
                   value={""}
                   onChange={(e) =>
-                    setEditSale({
-                      ...editSale!,
+                    setEditPurchase({
+                      ...editPurchase!,
                       // quantity_sold: parseInt(e.target.value),
                     })
                   }
@@ -138,10 +146,10 @@ export const columns: ColumnDef<Purchase>[] = [
                 <Input
                   placeholder="Price"
                   type="number"
-                  value={editSale?.unit_price || ""}
+                  value={editPurchase?.unit_price || ""}
                   onChange={(e) =>
-                    setEditSale({
-                      ...editSale!,
+                    setEditPurchase({
+                      ...editPurchase!,
                       // quantity_sold: parseInt(e.target.value),
                     })
                   }

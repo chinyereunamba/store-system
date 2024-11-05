@@ -18,6 +18,7 @@ urlpatterns = [
     path("v1/", include(router.urls)),
     path("v1/latest-sales/", get_latest_sales, name="latest-sales"),
     path("v1/sales-by-days/", SalesByLastDaysAPIView.as_view()),
-    path("v1/bulk-purchase-upload/", BulkUpload.as_view()),
-    # path("v1/bulk-products-upload/", BulkUploadProducts.as_view()),
+    path("v1/bulk-purchase-upload/", AddPurchaseItems.as_view()),
+    path("v1/bulk-products-upload/", AddProducts.as_view()),
+    path("v1/bulk-sales-upload/", AddSales.as_view()),
 ]

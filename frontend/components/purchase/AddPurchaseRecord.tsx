@@ -18,7 +18,7 @@ export const AddPurchaseRecord = ({ btnName }: { btnName: string }) => {
   const { addRecord } = usePurchaseStore();
   const [purchaseRecord, setPurchaseRecord] = useState<PurchaseRecord | null>({
     total_amount: 0,
-    supplier: null,
+    supplier: "",
   });
   useEffect(() => {
     fetchSupplier();

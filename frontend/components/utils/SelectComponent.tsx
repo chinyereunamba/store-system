@@ -1,4 +1,4 @@
-import React, { FormEvent, FormHTMLAttributes } from "react";
+import React, { FormEvent, FormHTMLAttributes, useEffect } from "react";
 import {
   Select,
   SelectContent,
@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import useProductStore from "@/store/productContext";
 
 type Option = {
   label: string;
@@ -34,8 +35,36 @@ export default function SelectComponent({
       <SelectContent>
         <SelectGroup>
           {options.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
+            <SelectItem key={option.value} value={option.value} aria-required>
               {option.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  );
+}
+
+type PSelectProps = {
+  value: string | number;
+  onChange: (e) => void;
+};
+export function SelectProducts({ value, onChange }: PSelectProps) {
+  const { products, fetchProducts } = useProductStore();
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+  return (
+    <Select onValueChange={onChange} value={value!} required>
+      <SelectTrigger>
+        <SelectValue placeholder={"Select Product"} />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          {products.map((option) => (
+            <SelectItem key={option.id} value={String(option.id)} aria-required>
+              {option.product_name}
             </SelectItem>
           ))}
         </SelectGroup>

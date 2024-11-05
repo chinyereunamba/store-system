@@ -65,7 +65,7 @@ const PurchasePage = () => {
       </div>
 
       <Pagination
-      // className="mt-4"
+      className="mt-4"
       // currentPage={currentPage}
       // totalPages={Math.ceil(record.length / itemsPerPage)}
       // onPageChange={(page: number) => setCurrentPage(page)}

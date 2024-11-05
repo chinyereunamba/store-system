@@ -71,6 +71,7 @@ class ProductInRecord(serializers.ModelSerializer):
     class Meta:
         model = PurchaseItem
         fields = [
+            "id",
             "product",
             "quantity",
             "product_name",

@@ -123,12 +123,14 @@ class SalesByLastDaysViewSet(ViewSet):
 
 
 class BulkUpload(APIView):
+    serializer_class = None
+
     def post(self, request):
         purchase_items_data = request.data
         if isinstance(purchase_items_data, list):
-            serializer = PurchaseItemSerializer(data=purchase_items_data, many=True)
+            serializer = self.serializer_class(data=purchase_items_data, many=True)
         else:
-            serializer = PurchaseItemSerializer(data=purchase_items_data)
+            serializer = self.serializer_class(data=purchase_items_data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=HTTP_201_CREATED)
@@ -136,3 +138,41 @@ class BulkUpload(APIView):
             return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
+# class BulkUpload(APIView):
+#     serializer_class = None
+
+#     model = None  # Specify the model in the view that inherits this
+
+#     def post(self, request):
+#         if not self.serializer_class or not self.model:
+#             return Response(
+#                 {"error": "serializer_class and model must be specified"},
+#                 status=HTTP_400_BAD_REQUEST,
+#             )
+
+#         # Get data from the request
+#         data = request.data
+
+#         # Check if data is a list to handle multiple objects
+#         is_multiple = isinstance(data, list)
+
+#         # Initialize serializer with `many=True` if handling multiple objects
+#         serializer = self.serializer_class(data=data, many=is_multiple)
+
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=HTTP_201_CREATED)
+
+#         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+
+
+class AddPurchaseItems(BulkUpload):
+    serializer_class = PurchaseItemSerializer
+
+
+class AddSales(BulkUpload):
+    serializer_class = SalesItemSerializer
+
+
+class AddProducts(BulkUpload):
+    serializer_class = ProductSerializer
