@@ -1,4 +1,4 @@
-import React, { FormEvent, FormHTMLAttributes, useEffect } from "react";
+import React, { ChangeEventHandler, FormEvent, FormHTMLAttributes, ReactHTMLElement, useEffect } from "react";
 import {
   Select,
   SelectContent,
@@ -46,8 +46,8 @@ export default function SelectComponent({
 }
 
 type PSelectProps = {
-  value: string | number;
-  onChange: (e) => void;
+  value: string;
+  onChange: (e:any) => void;
 };
 export function SelectProducts({ value, onChange }: PSelectProps) {
   const { products, fetchProducts } = useProductStore();
@@ -56,7 +56,7 @@ export function SelectProducts({ value, onChange }: PSelectProps) {
     fetchProducts();
   }, []);
   return (
-    <Select onValueChange={onChange} value={value!} required>
+    <Select onValueChange={onChange} value={value! as string} required>
       <SelectTrigger>
         <SelectValue placeholder={"Select Product"} />
       </SelectTrigger>

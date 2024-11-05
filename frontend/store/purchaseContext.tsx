@@ -5,14 +5,14 @@ import { Product } from "./productContext";
 export type Purchase = {
   id?: number;
   product_name?: string;
-  product?: number | undefined | string;
+  product?: number;
   brand_name?: string;
   brand?: number;
   category_name?: string;
   category?: number;
-  quantity: number;
+  quantity?: number;
   unit_price?: number | string;
-  purchase_order: number;
+  purchase_order?: number;
   order_detail?: null;
   total_amount?: number;
 };

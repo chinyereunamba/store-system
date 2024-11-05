@@ -127,9 +127,9 @@ export const columns: ColumnDef<Purchase>[] = [
                   }
                 />
                 <SelectProducts
-                  value={editPurchase?.product as string || ""}
+                  value={String(editPurchase?.product) || ""}
                   onChange={(e) =>
-                    setEditPurchase({ ...editPurchase, product: e })
+                    setEditPurchase((prev) => ({ ...prev, product: e || "" }))
                   }
                 />
                 <Input
@@ -139,7 +139,7 @@ export const columns: ColumnDef<Purchase>[] = [
                   onChange={(e) =>
                     setEditPurchase({
                       ...editPurchase!,
-                      // quantity_sold: parseInt(e.target.value),
+                      quantity: parseInt(e.target.value),
                     })
                   }
                 />
@@ -150,7 +150,7 @@ export const columns: ColumnDef<Purchase>[] = [
                   onChange={(e) =>
                     setEditPurchase({
                       ...editPurchase!,
-                      // quantity_sold: parseInt(e.target.value),
+                      unit_price: parseInt(e.target.value),
                     })
                   }
                 />
