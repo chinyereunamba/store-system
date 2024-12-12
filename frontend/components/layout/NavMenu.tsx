@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/drawer";
 
 import { PanelLeft, PanelLeftClose } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const links: { title: string; link: string }[] = [
   { title: "Overview", link: "/" },
@@ -35,6 +36,8 @@ const links: { title: string; link: string }[] = [
 
 export function NavMenu() {
   const [drawer, setDrawer] = React.useState(false);
+  const path = usePathname().split("/")[1];
+
   return (
     <NavigationMenu>
       <Drawer direction="left">
@@ -49,7 +52,12 @@ export function NavMenu() {
             </DrawerTitle>
             <div className="p-4 pb-0">
               {links.map((link, index) => (
-                <NavigationMenuItem key={index + 1} className="list-none mb-2">
+                <NavigationMenuItem
+                  key={index + 1}
+                  className={`list-none mb-2 
+                    ${path == link.link && "data-[state=open]:bg-accent/50"}
+                  `}
+                >
                   <Link href={link.link} legacyBehavior passHref>
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}

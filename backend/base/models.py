@@ -72,6 +72,9 @@ class PurchaseRecord(models.Model):
     def __str__(self):
         return f"{self.purchase_date} - {self.supplier.name}"
 
+    class Meta:
+        verbose_name_plural = "Purchase Records"
+
 
 class PurchaseItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)

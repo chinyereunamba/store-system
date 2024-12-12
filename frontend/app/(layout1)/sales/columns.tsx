@@ -99,7 +99,7 @@ export const columns: ColumnDef<Sale>[] = [
       };
 
       return (
-        <div className="flex space-x-2">
+        <div className="flex space-x-2" >
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="outline" size="icon">

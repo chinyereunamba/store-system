@@ -11,6 +11,7 @@ export type Sale = {
   category?: number;
   quantity_sold: number | string;
   unit_price: number;
+  total_amount?: number;
   cost_price?: number;
   profitOrLoss?: number;
   date_created?: string;
@@ -51,6 +52,7 @@ const useSaleStore = create<SalesProps>((set) => ({
   fetchGroupedSales: async () => {
     try {
       const sales = await axiosInstance.get(`/v1/sales-by-days/`);
+      console.log(sales.data)
       set({ groupedSales: sales.data, error: null });
     } catch (error: any) {
       set({ error: error.message });

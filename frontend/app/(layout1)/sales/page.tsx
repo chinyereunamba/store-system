@@ -25,7 +25,7 @@ const SalesPage: React.FC = () => {
         {groupedSales.map((sale, index) => (
           <div className="mb-4">
             <DataTable
-              key={`${sale.date}-${index}`}
+              key={`${sale.date}-${index + 1}`}
               date={sale.date}
               columns={columns}
               data={sale.sales}

@@ -12,6 +12,7 @@ import SearchableSelect from "../utils/SelectCombo";
 import useSaleStore, { Sale } from "@/store/salesContext";
 import { Product } from "@/store/productContext";
 import { useToast } from "@/hooks/use-toast";
+import { Label } from "../ui/label";
 
 export const AddSaleRecord = ({
   btnName,
@@ -45,6 +46,10 @@ export const AddSaleRecord = ({
     setSaleDetails(null);
   };
 
+  const selectProduct = (val: any) => {
+    setSaleDetails({ ...saleDetails!, product: val, unit_price: products[val].selling_price as number });
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -59,35 +64,35 @@ export const AddSaleRecord = ({
             This records daily sales to the database
           </DialogDescription>
 
-          <SearchableSelect
-            options={options}
-            handleChange={(val) =>
-              setSaleDetails({ ...saleDetails!, product: val })
-            }
-          />
+          <SearchableSelect options={options} handleChange={selectProduct} />
+          <div className="flex flex-col gap-2">
+            <Label className="!text-sm">Quantity Sold</Label>
+            <Input
+              aria-label="quantity"
+              type="string"
+              value={saleDetails?.quantity_sold || 1}
+              onChange={(e) =>
+                setSaleDetails({
+                  ...saleDetails!,
+                  quantity_sold: parseInt(e.target.value),
+                })
+              }
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <Label className="!text-sm pb-2">Selling Price</Label>
 
-          <Input
-            placeholder="Quantity sold"
-            type="number"
-            value={saleDetails?.quantity_sold || ""}
-            onChange={(e) =>
-              setSaleDetails({
-                ...saleDetails!,
-                quantity_sold: parseInt(e.target.value),
-              })
-            }
-          />
-          <Input
-            placeholder="Selling price"
-            type="string"
-            value={saleDetails?.unit_price || ""}
-            onChange={(e) =>
-              setSaleDetails({
-                ...saleDetails!,
-                unit_price: parseInt(e.target.value),
-              })
-            }
-          />
+            <Input
+              type="string"
+              value={saleDetails?.unit_price || ""}
+              onChange={(e) =>
+                setSaleDetails({
+                  ...saleDetails!,
+                  unit_price: parseInt(e.target.value),
+                })
+              }
+            />
+          </div>
           <Button onClick={handleAdd}>Add Sale</Button>
         </div>
       </DialogContent>

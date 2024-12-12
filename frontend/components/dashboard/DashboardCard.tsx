@@ -10,8 +10,8 @@ type Card = {
 
 export function DashCard({ title, value }: Card) {
   return (
-    <Card className="w-[320px] max-md:w-full shadow-none">
-      <CardHeader>
+    <Card className="w-[320px] max-md:w-full shadow-none p-4">
+      <CardHeader className="p-0 pb-3">
         <CardTitle className="flex justify-between items-center">
           <p className="font-normal text-primary">{title}</p>
           <span>
@@ -19,7 +19,7 @@ export function DashCard({ title, value }: Card) {
           </span>
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-0">
         <h1 className="text-3xl font-semibold">$ {value.toLocaleString()}</h1>
       </CardContent>
     </Card>

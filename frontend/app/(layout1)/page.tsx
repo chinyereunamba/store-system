@@ -12,14 +12,17 @@ import { AddSaleRecord } from "@/components/dashboard/AddSaleRecord";
 import useProductStore from "@/store/productContext";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "@/lib/utils";
+import useStatStore from "@/store/stats";
 
 export default function Home() {
   const { data: session } = useSession();
   const { fetchProducts, products } = useProductStore();
-  const [daily, setDaily] = useState()
+  const { daily, profit, weekly, fetchStats } = useStatStore();
 
   useEffect(() => {
     fetchProducts();
+    fetchStats()
+    
   }, []);
 
   if (!session) {
@@ -28,16 +31,16 @@ export default function Home() {
 
   // i want to get the weekly sales total amount. I don't know how to go about it
 
-  const dailySale = async() => {
-    const date = new Date()
+  const dailySale = async () => {
+    const date = new Date();
     const getSalesList = await axiosInstance.get("/v1/sales-by-days?page=1/");
     // getSalesList.forEach((item, i) => {
     //   if (date - item.date <= 7) {
-        
+
     //   }
     // })
-    return ''
-  }
+    return "";
+  };
 
   return (
     <section>
@@ -47,7 +50,7 @@ export default function Home() {
         </h1>
         <div className="flex items-center gap-4 flex-wrap">
           <DatePickerWithRange />
-          <Button>Download</Button>
+          <Button >Download</Button>
           <AddSaleRecord btnName="Add sales record" products={products} />
         </div>
       </div>
@@ -60,9 +63,9 @@ export default function Home() {
               <section className="flex flex-col gap-6 mt-5">
                 <div className="flex gap-6 flex-wrap">
                   <DashCard title="Total revenue" value={23403} />
-                  <DashCard title="Total daily sale" value={3503} />
-                  <DashCard title="Total weekly sales" value={45920} />
-                  <DashCard title="Daily profit" value={3002} />
+                  <DashCard title="Total daily sale" value={daily} />
+                  <DashCard title="Total weekly sales" value={weekly} />
+                  <DashCard title="Daily profit" value={profit} />
                 </div>
                 <div className="grid grid-cols-3 h-[calc(100vh-420px)] gap-6 ">
                   <div className="flex flex-col justify-between max-md:col-span-3 col-span-1 p-4 border h-full rounded-xl">
