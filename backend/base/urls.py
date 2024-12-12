@@ -17,6 +17,7 @@ router.register(
 urlpatterns = [
     path("v1/", include(router.urls)),
     path("v1/latest-sales/", get_latest_sales, name="latest-sales"),
+    path('v1/monthly-revenue/', MonthlyRevenueAPIView.as_view(), name='monthly-revenue'),
     path("v1/sales-by-days/", SalesByLastDaysAPIView.as_view()),
     path("v1/bulk-purchase-upload/", AddPurchaseItems.as_view()),
     path("v1/bulk-products-upload/", AddProducts.as_view()),

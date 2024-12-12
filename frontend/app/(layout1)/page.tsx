@@ -17,7 +17,7 @@ import useStatStore from "@/store/stats";
 export default function Home() {
   const { data: session } = useSession();
   const { fetchProducts, products } = useProductStore();
-  const { daily, profit, weekly, fetchStats } = useStatStore();
+  const { daily, profit, weekly, revenue, fetchStats } = useStatStore();
 
   useEffect(() => {
     fetchProducts();
@@ -50,8 +50,8 @@ export default function Home() {
         </h1>
         <div className="flex items-center gap-4 flex-wrap">
           <DatePickerWithRange />
-          <Button >Download</Button>
-          <AddSaleRecord btnName="Add sales record" products={products} />
+          <Button>Download</Button>
+          <AddSaleRecord btnName="Add sales recor23403d" products={products} />
         </div>
       </div>
       <DashboardTabs
@@ -62,7 +62,7 @@ export default function Home() {
             content: (
               <section className="flex flex-col gap-6 mt-5">
                 <div className="flex gap-6 flex-wrap">
-                  <DashCard title="Total revenue" value={23403} />
+                  <DashCard title="Monthly revenue" value={revenue} />
                   <DashCard title="Total daily sale" value={daily} />
                   <DashCard title="Total weekly sales" value={weekly} />
                   <DashCard title="Daily profit" value={profit} />

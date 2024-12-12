@@ -51,7 +51,7 @@ function Sale({
         <h3 className="font-normal text-base">{product}</h3>
         <p className="text-sm">{quantity}</p>
       </div>
-      <p className="font-bold text-base">+$ {price.toLocaleString()}</p>
+      <p className="font-bold text-base">+&#8358; {price.toLocaleString()}</p>
     </div>
   );
 }

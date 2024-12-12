@@ -1,3 +1,6 @@
+from datetime import datetime
+from django.db.models import Sum, F
+from rest_framework import status
 from rest_framework.viewsets import ModelViewSet, ViewSet
 from .models import *
 from .serializers import *
@@ -14,6 +17,7 @@ from django.db.models import Q, Count, Sum
 
 class SalesPagination(PageNumberPagination):
     page_size = 10
+    max_page_size = 5
 
 
 class ProductAPIView(ModelViewSet):
@@ -71,6 +75,56 @@ def get_latest_sales(request):
         for sale in last_sales
     ]
     return JsonResponse(sales_data, safe=False)
+
+
+class MonthlyRevenueAPIView(APIView):
+    """
+    API View to calculate revenue by month.
+    """
+
+    def get(self, request):
+        try:
+            # Get query parameters
+            year = request.query_params.get("year", datetime.now().year)
+
+            # Validate year
+            if not str(year).isdigit() or int(year) < 0:
+                return Response(
+                    {"error": "Invalid year provided."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            year = int(year)
+
+            # Query the database to calculate monthly revenue
+            monthly_revenue = (
+                SalesItem.objects.filter(date_created__year=year)
+                .annotate(month=F("date_created__month"))  # Extract the month
+                .values("month")
+                # Calculate revenue
+                .annotate(revenue=Sum(F("quantity_sold") * F("unit_price")))
+                .order_by("month")
+            )
+
+            # Format the response
+            revenue_by_month = {
+                entry["month"]: entry["revenue"] for entry in monthly_revenue
+            }
+
+            # Ensure all months are present
+            full_revenue = {
+                month: revenue_by_month.get(month, 0) for month in range(1, 13)
+            }
+
+            return Response(
+                {"year": year, "monthly_revenue": full_revenue},
+                status=status.HTTP_200_OK,
+            )
+
+        except Exception as e:
+            return Response(
+                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 class SalesByLastDaysAPIView(ListAPIView):

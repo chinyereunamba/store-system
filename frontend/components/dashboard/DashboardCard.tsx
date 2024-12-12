@@ -20,7 +20,9 @@ export function DashCard({ title, value }: Card) {
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        <h1 className="text-3xl font-semibold">$ {value.toLocaleString()}</h1>
+        <h1 className="text-3xl font-semibold">
+          &#8358; {value.toLocaleString()}
+        </h1>
       </CardContent>
     </Card>
   );
