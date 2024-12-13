@@ -40,7 +40,7 @@ const PurchasePage = () => {
       <div>
         <div className="flex justify-between items-center mb-2">
           <h1 className="text-3xl font-semibold">Purchase Records</h1>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <PurchaseForm
               purchaseRecord={record}
               products={products}

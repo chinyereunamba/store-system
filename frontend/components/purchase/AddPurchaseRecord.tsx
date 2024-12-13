@@ -31,7 +31,7 @@ export const AddPurchaseRecord = ({ btnName }: { btnName: string }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size="default">
+        <Button variant="outline" size="default" className="capitalize">
           {btnName}
         </Button>
       </DialogTrigger>

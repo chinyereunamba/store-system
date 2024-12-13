@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ScrollArea } from "../ui/scroll-area";
 import { axiosInstance } from "@/lib/utils";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 
 type LatestSale = {
   product: string;
@@ -19,20 +20,24 @@ export default function Sales() {
     getSale();
   }, []);
   return (
-    <section className={`p-4`}>
-      <h3>Recent Sales</h3>
-      <p className="my-2">You made 255 sales this month</p>
-      <ScrollArea className="mt-6 h-fit">
-        {saleData.map((sale, index) => (
-          <Sale
-            key={index}
-            price={sale.selling_price}
-            quantity={sale.quantity_sold}
-            product={sale.product}
-          />
-        ))}
-      </ScrollArea>
-    </section>
+    <Card className="shadow-none rounded-xl">
+      <CardHeader>
+        <CardTitle>Recent Sales</CardTitle>
+        <CardDescription>You made 255 sales this month</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <ScrollArea className="h-fit">
+          {saleData.map((sale, index) => (
+            <Sale
+              key={index}
+              price={sale.selling_price}
+              quantity={sale.quantity_sold}
+              product={sale.product}
+            />
+          ))}
+        </ScrollArea>
+      </CardContent>
+    </Card>
   );
 }
 

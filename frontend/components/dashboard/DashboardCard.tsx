@@ -13,7 +13,7 @@ export function DashCard({ title, value }: Card) {
     <Card className="w-[320px] max-md:w-full shadow-none p-4">
       <CardHeader className="p-0 pb-3">
         <CardTitle className="flex justify-between items-center">
-          <p className="font-normal text-primary">{title}</p>
+          <p className="font-bold text-primary capitalize">{title}</p>
           <span>
             <DollarSignIcon size={18} color="grey" />
           </span>

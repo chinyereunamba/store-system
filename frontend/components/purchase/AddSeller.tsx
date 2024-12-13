@@ -42,7 +42,7 @@ export const AddSellerDetails = ({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="default" size="default">
+        <Button variant="default" size="default" className="capitalize">
           {btnName}
         </Button>
       </DialogTrigger>

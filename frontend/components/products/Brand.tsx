@@ -52,7 +52,7 @@ export function BrandBox({ trigger, onConfirm }: BrandProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>{trigger}</Button>
+        <Button className="capitalize">{trigger}</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>

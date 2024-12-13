@@ -85,7 +85,7 @@ const PurchaseForm = ({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>{btn}</Button>
+        <Button className="capitalize">{btn}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogTitle>Add Purchase Items</DialogTitle>

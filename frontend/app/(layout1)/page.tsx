@@ -4,7 +4,7 @@ import { DashCard } from "@/components/dashboard/DashboardCard";
 import Sales from "@/components/dashboard/Sales";
 import { Button } from "@/components/ui/button";
 import { DatePickerWithRange } from "@/components/utils/DateRange";
-import { DashChart } from "@/components/utils/DashChart";
+import { DashChart } from "@/components/dashboard/DashChart";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { ConfirmationBox } from "@/components/utils/Confirmation";
@@ -13,6 +13,7 @@ import useProductStore from "@/store/productContext";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "@/lib/utils";
 import useStatStore from "@/store/stats";
+import { Monthly } from "@/components/dashboard/StatsByMonth";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -21,8 +22,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchProducts();
-    fetchStats()
-    
+    fetchStats();
   }, []);
 
   if (!session) {
@@ -48,10 +48,10 @@ export default function Home() {
         <h1 className="text-3xl font-semibold text-left justify-self-end">
           Dashboard
         </h1>
-        <div className="flex items-center gap-4 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap">
           <DatePickerWithRange />
           <Button>Download</Button>
-          <AddSaleRecord btnName="Add sales recor23403d" products={products} />
+          <AddSaleRecord btnName="Add sales record" products={products} />
         </div>
       </div>
       <DashboardTabs
@@ -64,16 +64,17 @@ export default function Home() {
                 <div className="flex gap-6 flex-wrap">
                   <DashCard title="Monthly revenue" value={revenue} />
                   <DashCard title="Total weekly sales" value={weekly} />
-                  <DashCard title="Total days sale" value={daily} />
+                  <DashCard title="Daily revenue" value={daily} />
                   <DashCard title="Days profit" value={profit} />
                 </div>
-                <div className="grid grid-cols-3 h-[calc(100vh-420px)] gap-6 ">
-                  <div className="flex flex-col justify-between max-md:col-span-3 col-span-1 p-4 border h-full rounded-xl">
-                    <h3>Weekly Overview</h3>
+                <div className="grid grid-cols-3 gap-6 items-stretch auto-rows-[minmax(150px,_auto)]">
+                  <div className="max-md:col-span-3 col-span-1">
                     <DashChart />
                   </div>
-                  <div className="col-span-1 border rounded-xl"></div>
-                  <div className="max-md:col-span-3 col-span-1 border rounded-xl">
+                  <div className="col-span-1">
+                    <Monthly />
+                  </div>
+                  <div className="max-md:col-span-3 col-span-1">
                     <Sales />
                   </div>
                 </div>
