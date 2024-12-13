@@ -67,14 +67,14 @@ export const columns: ColumnDef<Sale>[] = [
   {
     accessorKey: "cost_price",
     header: "Cost Price",
-    cell: ({ row }) => <div>$ {row.getValue("cost_price")}</div>,
+    cell: ({ row }) => <div>&#8358; {row.getValue("cost_price")}</div>,
   },
 
   {
     accessorKey: "unit_price",
     header: "Selling Price",
     cell: ({ row }) => (
-      <div>$ {Number(row.getValue("unit_price")).toLocaleString()}</div>
+      <div>&#8358; {Number(row.getValue("unit_price")).toLocaleString()}</div>
     ),
   },
 
@@ -99,7 +99,7 @@ export const columns: ColumnDef<Sale>[] = [
       };
 
       return (
-        <div className="flex space-x-2" >
+        <div className="flex space-x-2">
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="outline" size="icon">
@@ -160,7 +160,6 @@ export const columns: ColumnDef<Sale>[] = [
                   <strong>{sale.product_name}</strong>?
                 </p>
                 <div className="flex justify-end">
-                  
                   <Button onClick={() => handleDelete()} variant="destructive">
                     Yes
                   </Button>
@@ -177,7 +176,7 @@ export const columns: ColumnDef<Sale>[] = [
     header: () => <div className="text-right">Total</div>,
     cell: ({ row }) => (
       <div className="text-right">
-        ${" "}
+        &#8358;{" "}
         {Number(row.getValue("unit_price")) *
           Number(row.getValue("quantity_sold"))}
       </div>

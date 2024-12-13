@@ -37,13 +37,13 @@ import { Input } from "@/components/ui/input";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  date: string
+  date: string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  date
+  date,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -69,7 +69,7 @@ export function DataTable<TData, TValue>({
     },
   });
   const formatDate = (dateString: string): string => {
-    const date = new Date(dateString); 
+    const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
       weekday: "short", // E.g., "Monday"
       year: "numeric", // E.g., "2024"
@@ -79,7 +79,7 @@ export function DataTable<TData, TValue>({
   };
 
   const formattedDate = formatDate(date);
-  
+
   return (
     <>
       <div className="flex items-center py-4">
@@ -136,11 +136,11 @@ export function DataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  key={row.id}
+                  key={row.id + date}
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className="w-fit text-nowrap">
+                    <TableCell key={cell.id + date} className="w-fit text-nowrap">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -175,7 +175,7 @@ export function DataTable<TData, TValue>({
               </TableCell>
 
               <TableCell className="font-bold text-right" colSpan={4}>
-                ${" "}
+                &#8358;{" "}
                 {Number(
                   table.getRowModel().rows.reduce((total, row) => {
                     const totalPrice = row.getValue("total_amount");

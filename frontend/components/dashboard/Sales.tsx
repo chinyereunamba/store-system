@@ -51,9 +51,9 @@ function Sale({
   quantity: number;
 }) {
   return (
-    <div className="flex justify-between items-center p-4 bg-slate-200 rounded-lg mb-4">
+    <div className="flex justify-between items-center p-4 bg-chart-1 text-background rounded-lg mb-4">
       <div className="flex gap-4">
-        <h3 className="font-normal text-base">{product}</h3>
+        <h3 className="font-medium text-base">{product}</h3>
         <p className="text-sm">{quantity}</p>
       </div>
       <p className="font-bold text-base">+&#8358; {price.toLocaleString()}</p>

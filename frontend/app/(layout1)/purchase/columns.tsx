@@ -79,7 +79,7 @@ export const columns: ColumnDef<Purchase>[] = [
     accessorKey: "unit_price",
     header: "Cost Price",
     cell: ({ row }) => (
-      <div>$ {Number(row.getValue("unit_price")).toLocaleString()}</div>
+      <div>&#8358; {Number(row.getValue("unit_price")).toLocaleString()}</div>
     ),
   },
 
@@ -189,8 +189,8 @@ export const columns: ColumnDef<Purchase>[] = [
     header: () => <div className="text-right">Total</div>,
     cell: ({ row }) => (
       <div className="text-right">
-        ${" "}
-        {Number(row.getValue("unit_price")) * Number(row.getValue("quantity"))}
+        &#8358;{" "}
+        {(Number(row.getValue("unit_price")) * Number(row.getValue("quantity"))).toLocaleString()}
       </div>
     ),
   },

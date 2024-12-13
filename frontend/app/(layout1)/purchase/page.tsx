@@ -36,11 +36,11 @@ const PurchasePage = () => {
     fetchRecord();
   }, []);
   return (
-    <main className="min-h-[90vh] flex flex-col justify-between">
+    <main className="">
       <div>
-        <div className="flex justify-between items-center mb-2">
+        <div className="flex justify-between items-center mb-2 max-md:flex-col max-md:items-start gap-4">
           <h1 className="text-3xl font-semibold">Purchase Records</h1>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <PurchaseForm
               purchaseRecord={record}
               products={products}

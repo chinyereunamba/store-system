@@ -60,7 +60,7 @@ const authOptions = {
         token["ref"] = getCurrentEpochTime() + BACKEND_ACCESS_TOKEN_LIFETIME;
         return token;
       }
-      if (getCurrentEpochTime() > token["ref"]) {
+      else if (getCurrentEpochTime() > token["ref"]) {
         try {
           const response = await fetch(
             `${process.env.NEXT_BACKEND_URL}/user/token/refresh/`,
@@ -84,6 +84,7 @@ const authOptions = {
           }
         } catch (error) {
           console.error("Error during token refresh:", error);
+          return {}
         }
       }
       return token;

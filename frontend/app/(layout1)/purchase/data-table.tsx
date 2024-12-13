@@ -90,11 +90,13 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="flex items-center py-4 mt-4 gap-4 justify-between max-md:flex-col max-sm:items-start">
+      <div className="flex items-center py-4 mt-2 gap-2 justify-between max-md:flex-col max-sm:items-start">
         <h3>
           {supplier} &mdash; {formattedDate}
         </h3>
-        <h3>Total amount spent &mdash; $ {Number(total).toLocaleString()}</h3>
+        <h4 className="font-bold">
+          Total amount spent &mdash; &#8358; {Number(total).toLocaleString()}
+        </h4>
       </div>
       <div className="rounded-md border px-2">
         <Table>
@@ -160,10 +162,11 @@ export function DataTable<TData, TValue>({
               </TableCell>
 
               <TableCell className="font-bold text-right" colSpan={4}>
-                ${" "}
+                &#8358;{" "}
                 {Number(
                   table.getRowModel().rows.reduce((total, row) => {
-                    const totalPrice = row.getValue("total_amount");
+                    const totalPrice = row.getValue("total_amount") ;
+                    console.log(totalPrice, total)
                     return (
                       total + (typeof totalPrice === "number" ? totalPrice : 0)
                     );

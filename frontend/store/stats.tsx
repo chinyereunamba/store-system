@@ -2,17 +2,16 @@ import { axiosInstance } from "@/lib/utils";
 import { create } from "zustand";
 import { Sale, SalesGroup } from "./salesContext";
 
-const d = new Date()
+const d = new Date();
 
 const date = d.toJSON().split("T")[0];
 const year = d.getFullYear();
-const month = d.getMonth() + 1
+const month = d.getMonth() + 1;
+
 
 type MonthlyRevenue = {
   year: number;
-  monthly_revenue: {
-    [month: number]: number;
-  };
+  monthly_revenue: []
 };
 
 type Stats = {
@@ -20,6 +19,7 @@ type Stats = {
   profit: number;
   revenue: number;
   weekly: number;
+  months: [];
   fetchStats: () => void;
 };
 
@@ -28,7 +28,7 @@ const useStatStore = create<Stats>((set) => ({
   weekly: 0,
   revenue: 0,
   profit: 0,
-
+  months: [],
   fetchStats: async () => {
     try {
       const salesData: SalesGroup[] = (
@@ -58,21 +58,10 @@ const useStatStore = create<Stats>((set) => ({
         0
       );
 
-      // const weeklyProfit = salesData.reduce(
-      //   (weekSum, group) =>
-      //     weekSum +
-      //     group.sales.reduce(
-      //       (sum, sale) =>
-      //         sum +
-      //         ((sale.unit_price - sale.cost_price) * sale.quantity_sold || 0),
-      //       0
-      //     ),
-      //   0
-      // );
-
-      const revenueData:MonthlyRevenue = (
+      const revenueData: MonthlyRevenue = (
         await axiosInstance.get(`/v1/monthly-revenue/?year=${year}`)
       ).data;
+      const monthly = revenueData.monthly_revenue;
       const revenue = revenueData.monthly_revenue[month];
 
       // Update the store with the computed values
@@ -80,6 +69,7 @@ const useStatStore = create<Stats>((set) => ({
         daily: dailyTotal,
         profit: dailyProfit,
         revenue: revenue,
+        months: monthly,
         weekly: weeklyTotal,
       });
 

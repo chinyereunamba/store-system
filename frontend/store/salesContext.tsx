@@ -52,7 +52,6 @@ const useSaleStore = create<SalesProps>((set) => ({
   fetchGroupedSales: async () => {
     try {
       const sales = await axiosInstance.get(`/v1/sales-by-days/`);
-      console.log(sales.data)
       set({ groupedSales: sales.data, error: null });
     } catch (error: any) {
       set({ error: error.message });
