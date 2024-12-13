@@ -77,10 +77,10 @@ export function DataTable<TData, TValue>({
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
-      weekday: "long", // E.g., "Monday"
-      year: "numeric", // E.g., "2024"
-      month: "long", // E.g., "October"
-      day: "numeric", // E.g., "24"
+      weekday: "short",
+      year: "numeric", 
+      month: "short",
+      day: "numeric",
     });
   };
 
@@ -90,7 +90,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="flex items-center py-4 mt-4 gap-4 justify-between max-sm:flex-col max-sm:items-start">
+      <div className="flex items-center py-4 mt-4 gap-4 justify-between max-md:flex-col max-sm:items-start">
         <h3>
           {supplier} &mdash; {formattedDate}
         </h3>

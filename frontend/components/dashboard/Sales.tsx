@@ -30,7 +30,7 @@ export default function Sales() {
           {saleData.map((sale, index) => (
             <Sale
               key={index}
-              price={sale.selling_price}
+              price={sale.selling_price * sale.quantity_sold}
               quantity={sale.quantity_sold}
               product={sale.product}
             />

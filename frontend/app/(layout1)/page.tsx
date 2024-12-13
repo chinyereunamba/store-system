@@ -14,33 +14,24 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "@/lib/utils";
 import useStatStore from "@/store/stats";
 import { Monthly } from "@/components/dashboard/StatsByMonth";
+import useSaleStore from "@/store/salesContext";
 
 export default function Home() {
   const { data: session } = useSession();
   const { fetchProducts, products } = useProductStore();
   const { daily, profit, weekly, revenue, fetchStats } = useStatStore();
+  const {sales} = useSaleStore()
 
   useEffect(() => {
     fetchProducts();
     fetchStats();
-  }, []);
+  }, [sales]);
 
   if (!session) {
     redirect("/login");
   }
 
-  // i want to get the weekly sales total amount. I don't know how to go about it
 
-  const dailySale = async () => {
-    const date = new Date();
-    const getSalesList = await axiosInstance.get("/v1/sales-by-days?page=1/");
-    // getSalesList.forEach((item, i) => {
-    //   if (date - item.date <= 7) {
-
-    //   }
-    // })
-    return "";
-  };
 
   return (
     <section>
@@ -68,13 +59,13 @@ export default function Home() {
                   <DashCard title="Days profit" value={profit} />
                 </div>
                 <div className="grid grid-cols-3 gap-6 items-stretch auto-rows-[minmax(150px,_auto)]">
-                  <div className="max-md:col-span-3 col-span-1">
+                  <div className="max-lg:col-span-3 col-span-1">
                     <DashChart />
                   </div>
-                  <div className="col-span-1">
+                  <div className="max-lg:col-span-3 col-span-1">
                     <Monthly />
                   </div>
-                  <div className="max-md:col-span-3 col-span-1">
+                  <div className="max-lg:col-span-3 col-span-1">
                     <Sales />
                   </div>
                 </div>

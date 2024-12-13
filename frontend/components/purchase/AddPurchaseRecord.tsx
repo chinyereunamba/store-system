@@ -45,7 +45,7 @@ export const AddPurchaseRecord = ({ btnName }: { btnName: string }) => {
           <Input
             placeholder="Amount spent"
             type="number"
-            value={purchaseRecord!.total_amount}
+            value={purchaseRecord?.total_amount}
             onChange={(e) =>
               setPurchaseRecord({
                 ...purchaseRecord!,
@@ -54,7 +54,7 @@ export const AddPurchaseRecord = ({ btnName }: { btnName: string }) => {
             }
           />
           <SelectComponent
-            value={String(purchaseRecord!.supplier)}
+            value={String(purchaseRecord?.supplier)}
             placeholder="Select supplier"
             options={suppliers.map((supplier, index) => ({
               label: supplier.name,

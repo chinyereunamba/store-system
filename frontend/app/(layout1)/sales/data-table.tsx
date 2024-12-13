@@ -71,9 +71,9 @@ export function DataTable<TData, TValue>({
   const formatDate = (dateString: string): string => {
     const date = new Date(dateString); 
     return date.toLocaleDateString("en-US", {
-      weekday: "long", // E.g., "Monday"
+      weekday: "short", // E.g., "Monday"
       year: "numeric", // E.g., "2024"
-      month: "long", // E.g., "October"
+      month: "short", // E.g., "October"
       day: "numeric", // E.g., "24"
     });
   };
