@@ -9,7 +9,7 @@ export type Sale = {
   brand?: number;
   category_name?: string;
   category?: number;
-  quantity_sold: number | string;
+  quantity_sold: number;
   unit_price: number;
   total_amount?: number;
   cost_price?: number;

@@ -45,7 +45,8 @@ const useStatStore = create<Stats>((set) => ({
       const dailyProfit = todaySales.reduce(
         (sum, sale) =>
           sum +
-          ((sale.unit_price - sale.cost_price) * sale?.quantity_sold || 0),
+          ((sale.unit_price || 0) - (sale.cost_price || 0)) *
+            (sale.quantity_sold || 0),
         0
       );
 
@@ -57,17 +58,17 @@ const useStatStore = create<Stats>((set) => ({
         0
       );
 
-      const weeklyProfit = salesData.reduce(
-        (weekSum, group) =>
-          weekSum +
-          group.sales.reduce(
-            (sum, sale) =>
-              sum +
-              ((sale.unit_price - sale.cost_price) * sale.quantity_sold || 0),
-            0
-          ),
-        0
-      );
+      // const weeklyProfit = salesData.reduce(
+      //   (weekSum, group) =>
+      //     weekSum +
+      //     group.sales.reduce(
+      //       (sum, sale) =>
+      //         sum +
+      //         ((sale.unit_price - sale.cost_price) * sale.quantity_sold || 0),
+      //       0
+      //     ),
+      //   0
+      // );
 
       const revenueData:MonthlyRevenue = (
         await axiosInstance.get(`/v1/monthly-revenue/?year=${year}`)

@@ -63,9 +63,9 @@ export default function Home() {
               <section className="flex flex-col gap-6 mt-5">
                 <div className="flex gap-6 flex-wrap">
                   <DashCard title="Monthly revenue" value={revenue} />
-                  <DashCard title="Total daily sale" value={daily} />
                   <DashCard title="Total weekly sales" value={weekly} />
-                  <DashCard title="Daily profit" value={profit} />
+                  <DashCard title="Total days sale" value={daily} />
+                  <DashCard title="Days profit" value={profit} />
                 </div>
                 <div className="grid grid-cols-3 h-[calc(100vh-420px)] gap-6 ">
                   <div className="flex flex-col justify-between max-md:col-span-3 col-span-1 p-4 border h-full rounded-xl">

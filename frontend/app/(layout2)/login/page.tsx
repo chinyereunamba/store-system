@@ -3,10 +3,14 @@ import AuthForm from "@/components/forms/AuthForm";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import React, { FormEvent, useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { z } from "zod";
 
 function LoginPage() {
+  const { data: session } = useSession()
+  if (session) {
+    return redirect('/')
+  }
   const [loginInfo, setLoginInfo] = useState({
     email: "",
     password: "",
