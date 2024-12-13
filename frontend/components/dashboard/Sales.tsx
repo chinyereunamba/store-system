@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { ScrollArea } from "../ui/scroll-area";
 import { axiosInstance } from "@/lib/utils";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 
 type LatestSale = {
   product: string;
@@ -51,7 +57,7 @@ function Sale({
   quantity: number;
 }) {
   return (
-    <div className="flex justify-between items-center p-4 bg-chart-1 text-background rounded-lg mb-4">
+    <div className="flex justify-between items-center p-4 bg-chart-1 rounded-lg mb-4">
       <div className="flex gap-4">
         <h3 className="font-medium text-base">{product}</h3>
         <p className="text-sm">{quantity}</p>
