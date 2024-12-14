@@ -47,7 +47,7 @@ export const AddSaleRecord = ({
   };
 
   const selectProduct = (val: any) => {
-    setSaleDetails({ ...saleDetails!, product: val, unit_price: products[val].selling_price as number });
+    setSaleDetails({ ...saleDetails!, product: val, unit_price: products[val].selling_price as number ?? 0 });
   };
 
   return (

@@ -78,7 +78,7 @@ export function DataTable<TData, TValue>({
     const date = new Date(dateString);
     return date.toLocaleDateString("en-US", {
       weekday: "short",
-      year: "numeric", 
+      year: "numeric",
       month: "short",
       day: "numeric",
     });
@@ -98,7 +98,7 @@ export function DataTable<TData, TValue>({
           Total amount spent &mdash; &#8358; {Number(total).toLocaleString()}
         </h4>
       </div>
-      <div className="rounded-md border px-2">
+      <div className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -165,8 +165,8 @@ export function DataTable<TData, TValue>({
                 &#8358;{" "}
                 {Number(
                   table.getRowModel().rows.reduce((total, row) => {
-                    const totalPrice = row.getValue("total_amount") ;
-                    console.log(totalPrice, total)
+                    const totalPrice = row.getValue("total_amount");
+                    // console.log(totalPrice, total);
                     return (
                       total + (typeof totalPrice === "number" ? totalPrice : 0)
                     );

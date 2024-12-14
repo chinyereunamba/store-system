@@ -64,7 +64,7 @@ export function SelectProducts({ value, onChange }: PSelectProps) {
         <SelectGroup>
           {products.map((option) => (
             <SelectItem key={option.id} value={String(option.id)} aria-required>
-              {option.product_name}
+              {option.product_name}—{option.brand_name}
             </SelectItem>
           ))}
         </SelectGroup>

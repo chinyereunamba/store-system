@@ -12,11 +12,12 @@ import { Button } from "../ui/button";
 import SelectComponent from "../utils/SelectComponent";
 import useSupplierContext from "@/store/supplierContext";
 import usePurchaseStore, { PurchaseRecord } from "@/store/purchaseContext";
+import { Label } from "../ui/label";
 
 export const AddPurchaseRecord = ({ btnName }: { btnName: string }) => {
   const { fetchSupplier, suppliers } = useSupplierContext();
   const { addRecord } = usePurchaseStore();
-  const [purchaseRecord, setPurchaseRecord] = useState<PurchaseRecord | null>({
+  const [purchaseRecord, setPurchaseRecord] = useState<PurchaseRecord>({
     total_amount: 0,
     supplier: "",
   });
@@ -25,7 +26,7 @@ export const AddPurchaseRecord = ({ btnName }: { btnName: string }) => {
   }, [fetchSupplier]);
   const handleSubmit = () => {
     addRecord(purchaseRecord!);
-    setPurchaseRecord(null);
+    // setPurchaseRecord(null);
   };
 
   return (
@@ -41,30 +42,46 @@ export const AddPurchaseRecord = ({ btnName }: { btnName: string }) => {
           <DialogDescription>
             This records stock purchases to the database
           </DialogDescription>
-
-          <Input
-            placeholder="Amount spent"
-            type="number"
-            value={purchaseRecord?.total_amount}
-            onChange={(e) =>
-              setPurchaseRecord({
-                ...purchaseRecord!,
-                total_amount: parseInt(e.target.value),
-              })
-            }
-          />
-          <SelectComponent
-            value={String(purchaseRecord?.supplier)}
-            placeholder="Select supplier"
-            options={suppliers.map((supplier, index) => ({
-              label: supplier.name,
-              value: String(supplier.id),
-            }))}
-            onChange={(e) =>
-              setPurchaseRecord({ ...purchaseRecord!, supplier: e })
-            }
-          />
-          <Button onClick={handleSubmit}>Add Purchase Record</Button>
+          <div className="flex flex-col gap-1">
+            <Label>Amount Spent</Label>
+            <Input
+              placeholder="Amount spent"
+              type="string"
+              value={purchaseRecord!.total_amount}
+              onChange={(e) =>
+                setPurchaseRecord({
+                  ...purchaseRecord!,
+                  total_amount: parseInt(e.target.value),
+                })
+              }
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <Label>Supplier</Label>
+            <SelectComponent
+              value={String(purchaseRecord?.supplier)}
+              placeholder="Select supplier"
+              options={suppliers.map((supplier, index) => ({
+                label: supplier.name,
+                value: String(supplier.id),
+              }))}
+              onChange={(e) =>
+                setPurchaseRecord({ ...purchaseRecord!, supplier: e })
+              }
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <Label>Purchase Date</Label>
+            <Input type="date" placeholder="Purchase Date" />
+          </div>
+          <Button
+            onClick={() => {
+              handleSubmit();
+              setPurchaseRecord({ total_amount: 0, supplier: "" });
+            }}
+          >
+            Add Purchase Record
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

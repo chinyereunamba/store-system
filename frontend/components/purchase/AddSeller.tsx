@@ -97,6 +97,7 @@ export const AddSellerDetails = ({
               })
             }
           />
+          
           <textarea
             className="border rounded-md p-2 text-sm placeholder:text-primary active:outline-primary resize-none"
             placeholder="Address"

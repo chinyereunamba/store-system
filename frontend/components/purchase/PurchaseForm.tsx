@@ -73,13 +73,13 @@ const PurchaseForm = ({
   };
 
   const handleSubmit = () => {
-    // Submit all purchases at once to the backend
     const refinedPurchase = purchases.map((item) => ({
       ...item,
-      product: Number(item.product), // Convert product to a number
+      product: Number(item.product),
       purchase_order: Number(purchaseOrder),
     }));
     addPurchase(refinedPurchase);
+    setPurchases([{ product: "", quantity: 0, unit_price: "" }]);
   };
 
   return (
@@ -111,17 +111,17 @@ const PurchaseForm = ({
                   value={purchase.product}
                   onChange={(e) => handleChange(index, "product", e)}
                   options={products.map((product, index) => ({
-                    label: product.product_name,
+                    label: product.product_name + "—" + product.brand_name,
                     value: String(product.id),
                   }))}
                 />
                 <Input
-                  type="number"
-                  min={1}
+                  type="string"
+                  // min={1}
                   placeholder="Quantity"
-                  value={purchase.quantity}
+                  value={purchase.quantity || ""}
                   onChange={(e) =>
-                    handleChange(index, "quantity", e.target.value)
+                    handleChange(index, "quantity", parseInt(e.target.value))
                   }
                   required
                 />

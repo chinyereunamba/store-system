@@ -74,8 +74,7 @@ export function Monthly() {
 
   const combinedData = combineMonthsAndData(months);
   const chartData = combinedData;
-  console.log(combinedData);
-  // console.log(chartData)
+  
   const chartConfig = {
     revenue: {
       label: "Revenue",
@@ -86,7 +85,7 @@ export function Monthly() {
   return (
     <Card className="shadow-none rounded-xl">
       <CardHeader>
-        <CardTitle>Line Chart - Dots</CardTitle>
+        <CardTitle>Monthly Overview</CardTitle>
         <CardDescription>{getStartAndCurrentMonth()}</CardDescription>
       </CardHeader>
       <CardContent>

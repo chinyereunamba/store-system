@@ -16,6 +16,7 @@ type SuppliersProps = {
   error: null | string;
   suppliers: Supplier[];
   addSupplier: (data: Supplier) => void;
+  updateSupplier: (data: Supplier, id: number) => void;
   fetchSupplier: () => void;
   deleteSupplier: (id: number) => void;
 };
@@ -32,14 +33,25 @@ const useSupplierContext = create<SuppliersProps>((set) => ({
   },
   addSupplier: async (supplierData) => {
     try {
-      const supplier = (
-        await axiosInstance.post("/v1/supplier/", supplierData)
-      ).data;
+      const supplier = (await axiosInstance.post("/v1/supplier/", supplierData))
+        .data;
       set((state) => ({ suppliers: [...state.suppliers, supplier] }));
     } catch (error) {}
   },
+  updateSupplier: async (supplierData, id) => {
+    try {
+      const response = (
+        await axiosInstance.put(`/v1/supplier/${id}/`, supplierData)
+      ).data;
+      set((state) => ({
+        suppliers: state.suppliers.map((supplier) =>
+          supplier.id === id ? response.data : supplier
+        ),
+      }));
+    } catch (error) {}
+  },
   deleteSupplier: async (id) => {
-    const supplier = (await axiosInstance.delete(`/v1/supplier/${id}`)).data;
+    const supplier = (await axiosInstance.delete(`/v1/supplier/${id}/`)).data;
     set((state) => ({
       suppliers: state.suppliers.filter((supplier) => supplier.id !== id),
     }));

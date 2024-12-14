@@ -111,7 +111,7 @@ export function DataTable<TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="rounded-md border px-2">
+      <div className="rounded-md border">
         <Table>
           {/* <TableCaption>A list of your recent sales.</TableCaption> */}
           <TableHeader>

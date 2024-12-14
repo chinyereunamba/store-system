@@ -17,70 +17,60 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/popover";
-import usePurchaseStore, { Purchase } from "@/store/purchaseContext";
-import SelectComponent, {
-  SelectProducts,
-} from "@/components/utils/SelectComponent";
 
-export const columns: ColumnDef<Purchase>[] = [
+import useSupplierContext, { Supplier } from "@/store/supplierContext";
+
+export const columns: ColumnDef<Supplier>[] = [
   {
     accessorKey: "sn",
     header: "S/n",
     cell: ({ row }) => <div className="capitalize">{Number(row.id) + 1}</div>,
   },
   {
-    accessorKey: "product_name",
-    header: "Products",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("product_name")}</div>
-    ),
-  },
-  {
-    accessorKey: "quantity",
-    header: "Quantity Purchased",
-    cell: ({ row }) => <div>{row.getValue("quantity")}</div>,
-  },
-  {
-    accessorKey: "brand_name",
+    accessorKey: "name",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Brand
+          Supplier
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("brand_name")}</div>
-    ),
+    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
   },
   {
-    accessorKey: "category_name",
+    accessorKey: "contact_person",
+    header: "Contact Person",
+    cell: ({ row }) => <div>{row.getValue("contact_person")}</div>,
+  },
+  {
+    accessorKey: "email",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Category
+          Email
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("category_name")}</div>
-    ),
+    cell: ({ row }) => <div>{row.getValue("email")}</div>,
   },
 
   {
-    accessorKey: "unit_price",
-    header: "Cost Price",
-    cell: ({ row }) => (
-      <div>&#8358; {Number(row.getValue("unit_price")).toLocaleString()}</div>
-    ),
+    accessorKey: "phone_number",
+    header: "Phone Number",
+    cell: ({ row }) => <div>{row.getValue("phone_number")}</div>,
+  },
+  {
+    accessorKey: "address",
+    header: "Address",
+    cell: ({ row }) => <div>{row.getValue("address")}</div>,
   },
 
   {
@@ -88,21 +78,21 @@ export const columns: ColumnDef<Purchase>[] = [
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const purchase = row.original;
+      const supplier = row.original;
       const [open, setOpen] = useState(false);
-      const { updatePurchase, deletePurchase } = usePurchaseStore();
-      const [editPurchase, setEditPurchase] = useState<Purchase | null>(
-        purchase!
+      const { updateSupplier, deleteSupplier } = useSupplierContext();
+      const [editSupplier, setEditSupplier] = useState<Supplier | null>(
+        supplier!
       );
 
       const handleDelete = () => {
-        deletePurchase(purchase!.id as number);
+        deleteSupplier(supplier!.id as number);
         setOpen(false);
       };
 
       const handleEdit = () => {
-        updatePurchase(purchase!.id as number, editPurchase);
-        setEditPurchase(null);
+        updateSupplier(editSupplier!, supplier!.id as number);
+        setEditSupplier(null);
       };
 
       return (
@@ -115,34 +105,48 @@ export const columns: ColumnDef<Purchase>[] = [
             </DialogTrigger>
             <DialogContent className="max-w-[500px] w-full">
               <div className="grid gap-4">
-                <DialogTitle>Edit Sale</DialogTitle>
-                <SelectProducts
-                  value={String(editPurchase?.product) || ""}
-                  onChange={(e) =>
-                    setEditPurchase((prev) => ({ ...prev, product: e || "" }))
-                  }
-                />
+                <DialogTitle>Edit Supplier</DialogTitle>
                 <Input
-                  placeholder="Quantity bought"
+                  placeholder="Supplier"
                   type="string"
-                  min={1}
-                  value={editPurchase?.quantity||""}
+                  value={editSupplier?.name || ""}
                   onChange={(e) =>
-                    setEditPurchase({
-                      ...editPurchase!,
-                      quantity: parseInt(e.target.value),
+                    setEditSupplier({
+                      ...editSupplier!,
+                      name: e.target.value,
                     })
                   }
                 />
                 <Input
-                  placeholder="Price"
+                  placeholder="Contact Person"
                   type="string"
-                  min={1}
-                  value={editPurchase?.unit_price || ""}
+                  value={editSupplier?.contact_person || ""}
                   onChange={(e) =>
-                    setEditPurchase({
-                      ...editPurchase!,
-                      unit_price: parseInt(e.target.value),
+                    setEditSupplier({
+                      ...editSupplier!,
+                      contact_person: e.target.value,
+                    })
+                  }
+                />
+                <Input
+                  placeholder="Email"
+                  type="string"
+                  value={editSupplier?.email || ""}
+                  onChange={(e) =>
+                    setEditSupplier({
+                      ...editSupplier!,
+                      email: e.target.value,
+                    })
+                  }
+                />
+                <Input
+                  placeholder="Phone number"
+                  type="tel"
+                  value={editSupplier?.phone_number || ""}
+                  onChange={(e) =>
+                    setEditSupplier({
+                      ...editSupplier!,
+                      phone_number: e.target.value,
                     })
                   }
                 />
@@ -175,15 +179,5 @@ export const columns: ColumnDef<Purchase>[] = [
         </div>
       );
     },
-  },
-  {
-    accessorKey: "total_amount",
-    header: () => <div className="text-right">Total</div>,
-    cell: ({ row }) => (
-      <div className="text-right">
-        &#8358;{" "}
-        {(Number(row.getValue("unit_price")) * Number(row.getValue("quantity"))).toLocaleString()}
-      </div>
-    ),
   },
 ];

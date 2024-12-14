@@ -18,6 +18,7 @@ import {
 import PurchaseForm from "@/components/purchase/PurchaseForm";
 import useProductStore from "@/store/productContext";
 import useSupplierContext from "@/store/supplierContext";
+import Link from "next/link";
 
 const PurchasePage = () => {
   const { record, fetchRecord } = usePurchaseStore();
@@ -51,6 +52,11 @@ const PurchasePage = () => {
           </div>
         </div>
         <div>
+          <Button variant={'secondary'}>
+            <Link href={"/purchase/suppliers"}>Show Suppliers</Link>
+          </Button>
+        </div>
+        <div>
           {paginatedData.map((purchase) => (
             <DataTable
               key={purchase.id}
@@ -65,10 +71,10 @@ const PurchasePage = () => {
       </div>
 
       <Pagination
-      className="mt-4"
-      // currentPage={currentPage}
-      // totalPages={Math.ceil(record.length / itemsPerPage)}
-      // onPageChange={(page: number) => setCurrentPage(page)}
+        className="mt-4"
+        // currentPage={currentPage}
+        // totalPages={Math.ceil(record.length / itemsPerPage)}
+        // onPageChange={(page: number) => setCurrentPage(page)}
       >
         <PaginationContent>
           <PaginationItem>

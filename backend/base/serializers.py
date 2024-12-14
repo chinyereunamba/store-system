@@ -82,7 +82,7 @@ class ProductInRecord(serializers.ModelSerializer):
 
 
 class PurchaseRecordSerializer(serializers.ModelSerializer):
-    products = ProductInRecord(many=True, source="purchaseitem_set")
+    products = ProductInRecord(many=True, source="purchaseitem_set", required=False)
     supplier_name = serializers.StringRelatedField(source="supplier", read_only=True)
 
     class Meta:
