@@ -5,8 +5,8 @@ import {
   SelectContent,
   SelectItem,
   SelectValue,
-} from "@/components/ui/select"; // Assuming you're using the shadcn component path
-import { Input } from "@/components/ui/input"; // Input component from ShadCN for the search bar
+} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 const SearchableSelect = ({
   options,

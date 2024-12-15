@@ -9,9 +9,13 @@ import { Input, InputProps } from "../ui/input";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons";
+import {
+  CircleCheck,
+  CircleXIcon,
+} from "lucide-react";
 
 interface CustomInputProps extends InputProps {
-  type: HTMLInputTypeAttribute;
+  type?: HTMLInputTypeAttribute;
   placeholder: string;
   name: string;
   value: string;
@@ -50,7 +54,7 @@ export default function AuthForm({
           )}
           <div className="relative">
             <Input
-              className={input.error&&'border-destructive'}
+              className={input.error && "border-destructive"}
               role="input"
               aria-description="Gets input from user"
               type={
@@ -64,7 +68,7 @@ export default function AuthForm({
             />
             {input.type === "password" && (
               <span
-                className="absolute right-5 top-1/2 -translate-y-1/2 cursor-pointer transition-all"
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer transition-all"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {!showPassword ? (
@@ -74,11 +78,22 @@ export default function AuthForm({
                 )}
               </span>
             )}
+            {(input.name === "username" || input.name === "email") && (
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer transition-all">
+                {input.error == undefined ? (
+                  ""
+                ) : input.error === "" ? (
+                  <CircleCheck className="text-primary" size={20} />
+                ) : (
+                  <CircleXIcon className="text-destructive" size={20} />
+                )}
+              </span>
+            )}
           </div>
-            <span className="error text-sm text-red-500">{input.error}</span>
+          <span className="error text-sm text-red-500">{input.error}</span>
         </div>
       ))}
-      <Button className={`w-full`} type="submit">
+      <Button className={`w-full`} type="submit" disabled={loading}>
         {loading && (
           <svg
             aria-hidden="true"

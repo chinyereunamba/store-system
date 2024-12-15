@@ -30,7 +30,9 @@ export const AddSaleRecord = ({
   const [productInput, setProductInput] = useState<string>("");
   const options = [];
   for (let index = 0; index < products.length; index++) {
-    const label = products[index].product_name;
+    const brand_name = products[index].brand_name;
+    const product_name = products[index].product_name;
+    const label = product_name + "—" + brand_name;
     const value = products[index].id;
     options.push({ label: label, value: String(value) });
   }

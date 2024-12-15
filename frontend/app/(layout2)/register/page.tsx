@@ -5,7 +5,7 @@ import Link from "next/link";
 import { z } from "zod";
 
 import React, { FormEvent, useEffect, useState } from "react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useUsers } from "@/store/context";
 
 function RegisterPage() {
@@ -20,7 +20,7 @@ function RegisterPage() {
 
   useEffect(() => {
     fetchUsers();
-  }, [users]);
+  }, []);
 
   const userList = () => {
     let list: string[] = [];
@@ -29,17 +29,27 @@ function RegisterPage() {
     });
     return list;
   };
-  const findUsername = (username: string) => {
-    let list = userList()
-    if(list.find(user=>user===username)) return true
+  const emailList = () => {
+    let list: string[] = [];
+    users.forEach((user) => {
+      list.push(user.email);
+    });
+    return list;
   };
-  const [loading, setLoading] = useState(false);
 
-  const [error, setError] = useState({
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const [error, setError] = useState<{
+    passwordError: string;
+    rePasswordError: string;
+    username: string | undefined;
+    email: string | undefined;
+  }>({
     passwordError: "",
     rePasswordError: "",
-    username: "",
-    email: "",
+    username: undefined,
+    email: undefined,
   });
 
   // Define the schema for form validation
@@ -58,6 +68,14 @@ function RegisterPage() {
     .refine((data) => data.password === data.rePassword, {
       path: ["rePassword"],
       message: "Passwords do not match",
+    })
+    .refine((data) => !userList().find((user) => user == data.username), {
+      path: ["username"],
+      message: "Username already exists",
+    })
+    .refine((data) => !emailList().find((user) => user == data.email), {
+      path: ["email"],
+      message: "Email already exists",
     });
 
   const submitHandler = (e: FormEvent) => {
@@ -80,8 +98,9 @@ function RegisterPage() {
           password2: signUp.rePassword,
         };
 
-        axiosInstance.post("/user/registration/", data);
-        return redirect("/login");
+        axiosInstance
+          .post("/user/registration/", data)
+          .then((res) => router.push("/login"));
       } else {
         const fieldErrors = parsedData.error.flatten().fieldErrors;
         setError({
@@ -95,7 +114,6 @@ function RegisterPage() {
       console.error(e);
     }
   };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setSignUp((prev) => ({
@@ -107,9 +125,6 @@ function RegisterPage() {
       ...signUp,
       [name]: value,
     });
-    
-    // const usernameInput = if (name == 'username') return value
-    // findUsername(usernameInput)
 
     if (!parsedData.success) {
       // Map Zod errors to the error state for the current field
@@ -151,7 +166,7 @@ function RegisterPage() {
             error: error.email,
           },
           {
-            type: "text",
+            // type: "text",
             placeholder: "johndoe",
             name: "username",
             label: "Username",
